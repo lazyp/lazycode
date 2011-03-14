@@ -1,12 +1,16 @@
-package cdu.computer.hxl;
+package cdu.computer.hxl.ui;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
+import cdu.computer.hxl.util.Constants;
 
 /**
  * 家庭财务管理系统主显示窗体
@@ -76,8 +80,8 @@ public class CashManagerMainFrame extends JFrame {
 	 * 
 	 * @return this
 	 */
-	public CashManagerMainFrame setFrameResizable() {
-		this.setResizable(false);
+	public CashManagerMainFrame setFrameResizable(boolean b) {
+		this.setResizable(b);
 		return this;
 	}
 
@@ -103,8 +107,15 @@ public class CashManagerMainFrame extends JFrame {
 		Image image = ImageIO.read(CashManagerMainFrame.class
 				.getResourceAsStream("/icon.jpg"));
 
+		Image loginImg = ImageIO.read(new File(Constants.BASE_PATH
+				+ "/login.jpg"));
+
 		CashManagerMainFrame mainFrame = new CashManagerMainFrame()
-				.setFrameCenter();
+				.setFrameTitle("懒人家庭财务管理系统").setFrameResizable(false)
+				.setFrameCenter().setFrameIconImage(image);
+		LoginPanel login = new LoginPanel(mainFrame).setTopImage(loginImg);
+	
+
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
 	}

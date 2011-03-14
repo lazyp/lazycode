@@ -7,6 +7,6 @@ package cdu.computer.hxl.util;
  * 
  */
 public interface Constants {
-	public static final String DATABASE_PATH = Constants.class.getResource("/")
+	public static final String BASE_PATH = Constants.class.getResource("/")
 			.getPath();
 }
