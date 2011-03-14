@@ -112,9 +112,8 @@ public class CashManagerMainFrame extends JFrame {
 
 		CashManagerMainFrame mainFrame = new CashManagerMainFrame()
 				.setFrameTitle("懒人家庭财务管理系统").setFrameResizable(false)
-				.setFrameCenter().setFrameIconImage(image);
+				.setFrameCenter();// .setFrameIconImage(image);
 		LoginPanel login = new LoginPanel(mainFrame).setTopImage(loginImg);
-	
 
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
