@@ -1,11 +1,11 @@
 package cdu.computer.hxl.ui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -46,10 +46,28 @@ public abstract class BaseJPanel extends JPanel {
 		}
 	}
 
-	protected BaseJPanel setPanelSize(int width, int height) {
+	/**
+	 * 设置panel的大小
+	 * 
+	 * @param width
+	 * @param height
+	 * @return this
+	 */
+	public BaseJPanel setPanelSize(int width, int height) {
 		// System.out.println(width + "," + height);
 		// this.setSize(width, height);
 		this.setPreferredSize(new Dimension(width, height));
+		return this;
+	}
+
+	/**
+	 * 设置panel的前景色
+	 * 
+	 * @param color
+	 * @return this
+	 */
+	public BaseJPanel setPanelForeground(Color color) {
+		this.setForeground(color);
 		return this;
 	}
 

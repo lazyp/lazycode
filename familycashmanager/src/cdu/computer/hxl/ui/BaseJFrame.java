@@ -1,6 +1,5 @@
 package cdu.computer.hxl.ui;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -18,7 +17,7 @@ import cdu.computer.hxl.util.Constants;
  * @author hxl
  * @date 2011-03-06
  */
-public class CashManagerMainFrame extends JFrame {
+public class BaseJFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,9 +25,9 @@ public class CashManagerMainFrame extends JFrame {
 			.getScreenSize();// 获得屏幕的大小
 
 	private int width = 300;// 窗体默认的宽度
-	private int height = 200;// 窗体默认的高度
+	private int height = 210;// 窗体默认的高度
 
-	public CashManagerMainFrame() {
+	public BaseJFrame() {
 		// this.getContentPane().setSize(new Dimension(width, height));
 		this.setSize(width, height);
 	}
@@ -36,7 +35,7 @@ public class CashManagerMainFrame extends JFrame {
 	/**
 	 * 设置财务管理系统框体的标题
 	 */
-	public CashManagerMainFrame setFrameTitle(String title) {
+	public BaseJFrame setFrameTitle(String title) {
 		this.setTitle(title);
 		return this;
 	}
@@ -48,7 +47,7 @@ public class CashManagerMainFrame extends JFrame {
 	 * @param height
 	 * @return this
 	 */
-	public CashManagerMainFrame setFrameSize(double width, double height) {
+	public BaseJFrame setFrameSize(double width, double height) {
 
 		/*
 		 * 如果哦传入的宽度或者高度小于等于了0，那么就把窗口设置为默认高度、宽度
@@ -70,7 +69,7 @@ public class CashManagerMainFrame extends JFrame {
 	 * @param image
 	 * @return this
 	 */
-	public CashManagerMainFrame setFrameIconImage(Image image) {
+	public BaseJFrame setFrameIconImage(Image image) {
 		this.setIconImage(image);
 		return this;
 	}
@@ -80,7 +79,7 @@ public class CashManagerMainFrame extends JFrame {
 	 * 
 	 * @return this
 	 */
-	public CashManagerMainFrame setFrameResizable(boolean b) {
+	public BaseJFrame setFrameResizable(boolean b) {
 		this.setResizable(b);
 		return this;
 	}
@@ -90,7 +89,7 @@ public class CashManagerMainFrame extends JFrame {
 	 * 
 	 * @return this object
 	 */
-	public CashManagerMainFrame setFrameCenter() {
+	public BaseJFrame setFrameCenter() {
 		double cashManagerWidth = this.getSize().getWidth();
 		double cashManagerHeight = this.getSize().getHeight();
 		double screenWidth = screen.getWidth();
@@ -104,16 +103,18 @@ public class CashManagerMainFrame extends JFrame {
 
 	public static void main(String[] args) throws IOException {
 
-		Image image = ImageIO.read(CashManagerMainFrame.class
+		Image image = ImageIO.read(BaseJFrame.class
 				.getResourceAsStream("/icon.jpg"));
 
 		Image loginImg = ImageIO.read(new File(Constants.BASE_PATH
 				+ "/login.jpg"));
 
-		CashManagerMainFrame mainFrame = new CashManagerMainFrame()
+		BaseJFrame mainFrame = new BaseJFrame()
 				.setFrameTitle("懒人家庭财务管理系统").setFrameResizable(false)
 				.setFrameCenter();// .setFrameIconImage(image);
-		LoginPanel login = new LoginPanel(mainFrame).setTopImage(loginImg);
+
+		LoginUI login = LoginUI.instance().mainFrame(mainFrame).topImage(
+				loginImg).build();
 
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
