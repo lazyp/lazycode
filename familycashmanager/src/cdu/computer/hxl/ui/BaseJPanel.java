@@ -41,7 +41,8 @@ public abstract class BaseJPanel extends JPanel {
 			Graphics g2 = g.create();
 			// System.out.println(img.getWidth(null) + "," +
 			// img.getHeight(null));
-			g2.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
+			g2.drawImage(img, 0, 0, this.getWidth(), this.getHeight(),
+					null);
 			g2.dispose();
 		}
 	}

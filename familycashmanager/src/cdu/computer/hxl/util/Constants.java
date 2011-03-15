@@ -4,6 +4,7 @@ package cdu.computer.hxl.util;
  * 定义系统的常量
  * 
  * @author hxl
+ * @date 2011-03-15
  * 
  */
 public interface Constants {

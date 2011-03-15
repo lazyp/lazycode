@@ -1,8 +1,10 @@
 package cdu.computer.hxl.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -43,7 +45,8 @@ public class LoginUI {
 		lgBgPanel = new JPanel();
 	}
 
-	private BaseJPanel top = null;
+	// private BaseJPanel top = null;
+	private JLabel top = null;
 
 	private BaseJPanel bottom = null;
 
@@ -53,12 +56,23 @@ public class LoginUI {
 
 	@SuppressWarnings("serial")
 	private void init() {
-		top = new BaseJPanel(topImage, lgBgPanel) {
+
+		lgBgPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+
+		top = new JLabel() {
+
 			@Override
-			protected void init() {
-				this.setPreferredSize(new Dimension(mainFrame.getWidth(), 80));
+			public void paint(Graphics g) {
+				super.paint(g);
+				Graphics g2 = g.create();
+				g2.drawImage(topImage, 0, 0, mainFrame.getWidth(), 80, null);
+				g2.dispose();
 			}
+
 		};
+		top.setPreferredSize(new Dimension(mainFrame.getWidth(), 80));
+		
+		lgBgPanel.add(top);
 
 		bottom = new BaseJPanel(lgBgPanel) {
 
@@ -80,7 +94,7 @@ public class LoginUI {
 						// mainFrame.getContentPane().validate();
 					}
 				});
-
+				
 				this.add(loginNameLabel);
 				this.add(loginNameField);
 				this.add(loginPassLabel);
@@ -91,6 +105,7 @@ public class LoginUI {
 			}
 		};
 
+		// mainFrame.add(top, BorderLayout.NORTH);
 		mainFrame.add(lgBgPanel);
 	}
 
