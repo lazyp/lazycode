@@ -1,24 +1,16 @@
 package cdu.computer.hxl.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
+
 
 /**
  * µÇÂ¼PanelµÄÊµÏÖ
@@ -33,8 +25,8 @@ public class LoginUI {
 	private JLabel loginPassLabel = null;
 	private JTextField loginNameField = null;
 	private JPasswordField passField = null;
-	private JButton resetButton = null;
-	private JButton submitButton = null;
+	private BaseJButton resetButton = null;
+	private BaseJButton submitButton = null;
 	private static JPanel lgBgPanel = null;
 
 	private BaseJFrame mainFrame = null;
@@ -71,7 +63,7 @@ public class LoginUI {
 
 		};
 		top.setPreferredSize(new Dimension(mainFrame.getWidth(), 80));
-		
+
 		lgBgPanel.add(top);
 
 		bottom = new BaseJPanel(lgBgPanel) {
@@ -82,19 +74,9 @@ public class LoginUI {
 				loginPassLabel = new JLabel("ÃÜ    Âë£º");
 				loginNameField = new JTextField(18);
 				passField = new JPasswordField(18);
-				resetButton = new JButton("ÖØÖÃ");
-				submitButton = new JButton("µÇÂ¼");
+				resetButton = new BaseJButton("ÖØÖÃ");
+				submitButton = new BaseJButton("µÇÂ¼");
 
-				submitButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						mainFrame = mainFrame.setFrameSize(680, 580)
-								.setFrameCenter().setFrameResizable(true);
-						mainFrame.getContentPane().removeAll();
-						// mainFrame.getContentPane().repaint();
-						// mainFrame.getContentPane().validate();
-					}
-				});
-				
 				this.add(loginNameLabel);
 				this.add(loginNameField);
 				this.add(loginPassLabel);
@@ -107,6 +89,14 @@ public class LoginUI {
 
 		// mainFrame.add(top, BorderLayout.NORTH);
 		mainFrame.add(lgBgPanel);
+	}
+
+	public JButton getResetButton() {
+		return resetButton;
+	}
+
+	public JButton getSubmitButton() {
+		return submitButton;
 	}
 
 	protected LoginUI getInstance() {

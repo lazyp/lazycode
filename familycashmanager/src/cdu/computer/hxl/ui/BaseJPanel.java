@@ -18,19 +18,19 @@ public abstract class BaseJPanel extends JPanel {
 	private Image img = null;
 
 	public BaseJPanel() {
-		this.init();
+		this(null, null);
 	}
 
 	public BaseJPanel(Container container) {
-		this();
+		this(null, container);
+
+	}
+	public BaseJPanel(Image img, Container container) {
+		this.img = img;
 		this.container = container;
 		if (container != null)
 			container.add(this);
-	}
-
-	public BaseJPanel(Image img, Container container) {
-		this(container);
-		this.img = img;
+		this.init();
 	}
 
 	@Override
@@ -41,8 +41,7 @@ public abstract class BaseJPanel extends JPanel {
 			Graphics g2 = g.create();
 			// System.out.println(img.getWidth(null) + "," +
 			// img.getHeight(null));
-			g2.drawImage(img, 0, 0, this.getWidth(), this.getHeight(),
-					null);
+			g2.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 			g2.dispose();
 		}
 	}

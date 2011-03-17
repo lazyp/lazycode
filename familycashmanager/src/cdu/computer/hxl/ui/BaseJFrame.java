@@ -104,32 +104,6 @@ public class BaseJFrame extends JFrame {
 	}
 
 	public static void main(String[] args) throws IOException {
-		try {
-			UIManager
-					.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-
-		Image image = ImageIO.read(BaseJFrame.class
-				.getResourceAsStream("/icon.jpg"));
-
-		Image loginImg = ImageIO.read(new File(Constants.BASE_PATH
-				+ "/login.jpg"));
-
-		BaseJFrame mainFrame = new BaseJFrame().setFrameTitle("懒人家庭财务管理系统")
-				.setFrameResizable(false).setFrameCenter();// .setFrameIconImage(image);
-
-		LoginUI login = LoginUI.instance().mainFrame(mainFrame).topImage(
-				loginImg).build();
-
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setVisible(true);
+	
 	}
 }
