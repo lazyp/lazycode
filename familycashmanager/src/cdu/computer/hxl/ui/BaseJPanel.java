@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  * @date 2011-03-14
  */
 public abstract class BaseJPanel extends JPanel {
-	private Container container = null;
+	protected Container container = null;
 	private Image img = null;
 
 	public BaseJPanel() {
@@ -25,6 +25,7 @@ public abstract class BaseJPanel extends JPanel {
 		this(null, container);
 
 	}
+
 	public BaseJPanel(Image img, Container container) {
 		this.img = img;
 		this.container = container;

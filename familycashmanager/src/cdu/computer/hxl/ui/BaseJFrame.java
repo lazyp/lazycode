@@ -3,6 +3,7 @@ package cdu.computer.hxl.ui;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -104,6 +105,6 @@ public class BaseJFrame extends JFrame {
 	}
 
 	public static void main(String[] args) throws IOException {
-	
+
 	}
 }

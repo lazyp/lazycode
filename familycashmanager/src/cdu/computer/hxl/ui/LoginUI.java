@@ -1,16 +1,23 @@
 package cdu.computer.hxl.ui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.sun.java.swing.plaf.motif.MotifBorders.BevelBorder;
 
 /**
  * µÇÂ¼PanelµÄÊµÏÖ
@@ -23,7 +30,8 @@ public class LoginUI {
 	private static final long serialVersionUID = -5986434162400009724L;
 	private JLabel loginNameLabel = null;
 	private JLabel loginPassLabel = null;
-	private JTextField loginNameField = null;
+	// private JTextField loginNameField = null;
+	final JTextField loginNameField = new JTextField(18);
 	private JPasswordField passField = null;
 	private BaseJButton resetButton = null;
 	private BaseJButton submitButton = null;
@@ -70,12 +78,76 @@ public class LoginUI {
 
 			@Override
 			protected void init() {
+
 				loginNameLabel = new JLabel("µÇÂ¼Ãû£º");
 				loginPassLabel = new JLabel("ÃÜ    Âë£º");
-				loginNameField = new JTextField(18);
+
 				passField = new JPasswordField(18);
 				resetButton = new BaseJButton("ÖØÖÃ");
 				submitButton = new BaseJButton("µÇÂ¼");
+				// if(mainFrame != null){
+
+				mainFrame.addMouseListener(new MouseAdapter() {
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						loginNameField.setFocusable(false);
+						passField.setFocusable(false);
+					}
+
+				});
+				// }
+
+				loginNameField.setFocusable(false);
+				passField.setFocusable(false);
+
+				loginNameField.addMouseListener(new MouseAdapter() {
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						loginNameField.setFocusable(true);
+						loginNameField.requestFocus();
+					}
+
+				});
+				loginNameField.addFocusListener(new FocusListener() {
+
+					public void focusGained(FocusEvent e) {
+						loginNameField.setBorder(BorderFactory
+								.createLineBorder(Color.GREEN));
+					}
+
+					public void focusLost(FocusEvent e) {
+						loginNameField.setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+
+					}
+
+				});
+
+				passField.addMouseListener(new MouseAdapter() {
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						passField.setFocusable(true);
+						passField.requestFocus();
+					}
+
+				});
+				passField.addFocusListener(new FocusListener() {
+
+					public void focusGained(FocusEvent e) {
+						passField.setBorder(BorderFactory
+								.createLineBorder(Color.GREEN));
+					}
+
+					public void focusLost(FocusEvent e) {
+						passField.setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+
+					}
+
+				});
 
 				this.add(loginNameLabel);
 				this.add(loginNameField);

@@ -29,6 +29,18 @@ public class FamilyCashManagerSystem {
 		Properties props = new Properties();
 		props.put("logoString", "");// 菜单栏左边的文字
 		props.put("menuSelectionBackgroundColor", "150 160 160");// 菜单栏左边的背景色
+		// props.put("buttonColor", "0 0 0");
+		// props.put("buttonColorLight", "0 0 0");
+		// props.put("buttonColorDark", "0 0 0");
+		// props.put("rolloverColor", "0 0 0");
+		// props.put("rolloverColorLight", "0 0 0");
+		// props.put("rolloverColorDark", "0 0 0");
+		props.put("windowTitleForegroundColor", "0 200 0");// 设置窗体title的颜色
+		// props.put("windowTitleBackgroundColor", "0 255 0");
+		// props.put("windowTitleColorLight", "0 255 0");
+		// props.put("windowTitleColorDark", "0 255 0");
+		// props.put("windowBorderColor", "0 0 0");
+
 		NoireLookAndFeel.setCurrentTheme(props);
 
 		try {
@@ -47,7 +59,7 @@ public class FamilyCashManagerSystem {
 				.getResourceAsStream("/icon.jpg"));
 
 		Image loginImg = ImageIO.read(new File(Constants.BASE_PATH
-				+ "/login.jpg"));
+				+ "/images/login.jpg"));
 
 		final BaseJFrame mainFrame = new BaseJFrame().setFrameTitle(
 				"懒人家庭财务管理系统").setFrameSize(Constants.LOGIN_WIDTH,
