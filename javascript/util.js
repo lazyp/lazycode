@@ -54,5 +54,13 @@ if (typeof window['HXL'] == 'undefined')
         _addAttribute: function(obj, attributeName, attributeValue){
             obj.setAttribute(attributeName, attributeValue);
         }
+		/**
+		 *将一个number数据强制转化为int
+		 */
+		_caseInt : function(v){
+			if(typeof v != "number")
+			   return v;
+			return v >> 0;
+		}
     }
 })();
