@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Untitled Document</title>
+        <style type="text/css">
+            #slideContainer {
+                position: relative;
+                border: 1px #ccc solid;
+                width: 300px;
+                height: 300px;
+            } #slideContainer #selectDiv {
+                position: absolute;
+                top: 270px;
+                left: 135px;
+            } #slideContainer div ul {
+                display: block;
+                list-style-type: none;
+                width: 150px;
+                height: 30px;
+                margin: 0;
+                padding: 0;
+            } #slideContainer #selectDiv ul li {
+                float: left;
+                background-color: #ccc;
+                width: 18px;
+                height: 18px;
+                border: 1px #cac solid;
+                text-align: center;
+                margin-right: 5px;
+                cursor: default;
+            } #slideContainer #selectDiv ul li:hover {
+                color: #000;
+                background-color: #aae;
+            } #slideContainer #selectDiv #cur {
+                background-color: #acfecd;
+            } #slideContainer #imgDiv {
+                position: relative;
+                top: 0;
+                left: 0;
+                overflow: hidden;
+            }
+        </style>
+        <script type="text/javascript">
+            var images = ['images/01.jpg', 'images/02.jpg', 'images/03.jpg', 'images/04.jpg'];
+            var index = 1;//ÏÔÊ¾Í¼Æ¬µÄË÷Òý
+            var flag = 1;//1±íÊ¾Ë®Æ½´Ó×óÏòÓÒ»¬¶¯£¬2±íÊ¾´ÓÉÏ¶øÏÂ»¬¶¯½øÈë
+            function slideHandler(){
+                var image = document.getElementById("slideImage");
+                var lis = document.getElementsByTagName("li");
+                document.getElementById("cur").id = "";
+                lis[index].id = "cur";
+                var imgDiv = document.getElementById("imgDiv");
+                if (index % 2 == 0) 
+                    flag = 2;
+                else 
+                    flag = 1;
+                
+                if (flag == 1) 
+                    imgDiv.style.width = "10px";
+                else 
+                    if (flag == 2) 
+                        imgDiv.style.height = "10px";
+                image.src = images[index++];
+                
+                if (index > 3) 
+                    index = 0;
+                // alert(image.width);
+                
+                setTimeout("change()", 15);
+                
+            }
+            
+            /**
+             * ²Ù×÷»¬¶¯
+             */
+            function change(){
+                var imgDiv = document.getElementById("imgDiv");
+                var image = document.getElementById("slideImage");
+                if (flag == 1) {
+                    var w = parseInt(imgDiv.style.width);
+                    //  alert(w);
+                    if (w + 10 > parseInt(image.width)) {
+                        w = parseInt(image.width);
+                        imgDiv.style.width = w + "px";
+                        //  alert("ddd");
+                        flag = true;
+                        setTimeout("slideHandler()", 1500);
+                    }
+                    else {
+                        w += 10;
+                        imgDiv.style.width = w + "px"
+                        setTimeout("change()", 15);
+                    }
+                }
+                else 
+                    if (flag == 2) {
+                        var h = parseInt(imgDiv.style.height);
+                        //  alert(w);
+                        if (h + 10 > parseInt(image.height)) {
+                            h = parseInt(image.height);
+                            imgDiv.style.height = h + "px";
+                            //  alert("ddd");
+                            //  flag = true;
+                            setTimeout("slideHandler()", 1500);
+                        }
+                        else {
+                            h += 10;
+                            imgDiv.style.height = h + "px"
+                            setTimeout("change()", 15);
+                        }
+                    }
+                
+            }
+            
+            window.setTimeout("slideHandler()", 1500);
+        </script>
+    </head>
+    <body>
+        <div id="slideContainer">
+            <div id="imgDiv">
+                <img id="slideImage" src="images/01.jpg" width="299" height="299" />
+            </div>
+            <div id="selectDiv">
+                <ul>
+                    <li id="cur">
+                        1
+                    </li>
+                    <li>
+                        2
+                    </li>
+                    <li>
+                        3
+                    </li>
+                    <li>
+                        4
+                    </li>
+                    <li>
+                        5
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
