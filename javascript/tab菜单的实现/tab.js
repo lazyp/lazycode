@@ -1,10 +1,12 @@
-// JavaScript Document
+   /**
+    *required  /å·¥å…·åŒ…/util.js
+    */
     if (typeof window['HXL'] == 'undefined') 
                 HXL = {};
             (function(){
                 HXL.tab = {};
-                HXL.tab._encodeHtml = false;/*ÊÇ·ñ¸ñÊ½»¯html±êÇ©*/
-                HXL.tab._contentId = '';/*´«ÏÔÊ¾Ö÷ÄÚÈİÔªËØµÄidÖµ*/
+                HXL.tab._encodeHtml = false;/*ÃŠÃ‡Â·Ã±Â¸Ã±ÃŠÂ½Â»Â¯htmlÂ±ÃªÃ‡Â©*/
+                HXL.tab._contentId = '';/*Â´Â«ÃÃ”ÃŠÂ¾Ã–Ã·Ã„ÃšÃˆÃÃ”ÂªÃ‹Ã˜ÂµÃ„idÃ–Âµ*/
                 HXL.tab.setEncodeHtml = function(b){
                     HXL.tab._encodeHtml = b;
                 };
@@ -12,10 +14,10 @@
                     HXL.tab._contentId = id;
                 };
 				/**
-				 *¸Ä±äÏÔÊ¾ÄÚÈİ
-				 *@contentId ÏÔÊ¾ÄÚÈİÔªËØµÄidÖµ
-				 *@content ¿ÉÒÔËµ×Ö·û´®»òÕßº¯Êı
-				 *   ËµÃ÷£ºÒ»°ãÊÇÔÚcontentº¯ÊıÀïÃæÔÙµ÷ÓÃchange£¬´ËÊ±´«contentÎª×Ö·û´®
+				 *Â¸Ã„Â±Ã¤ÃÃ”ÃŠÂ¾Ã„ÃšÃˆÃ
+				 *@contentId ÃÃ”ÃŠÂ¾Ã„ÃšÃˆÃÃ”ÂªÃ‹Ã˜ÂµÃ„idÃ–Âµ
+				 *@content Â¿Ã‰Ã’Ã”Ã‹ÂµÃ—Ã–Â·Ã»Â´Â®Â»Ã²Ã•ÃŸÂºÂ¯ÃŠÃ½
+				 *   Ã‹ÂµÃƒÃ·Â£ÂºÃ’Â»Â°Ã£ÃŠÃ‡Ã”ÃšcontentÂºÂ¯ÃŠÃ½Ã€Ã¯ÃƒÃ¦Ã”Ã™ÂµÃ·Ã“ÃƒchangeÂ£Â¬Â´Ã‹ÃŠÂ±Â´Â«contentÃÂªÃ—Ã–Â·Ã»Â´Â®
 				 */
                 HXL.tab.change = function(contentId, content, encodeHtml){
                     var contentStr = '';
@@ -45,16 +47,16 @@
                 HXL.tab.event = function(ulId, contentId, cssId, content, encodeHtml){
                 
                     HXL.util._$(ulId).onmouseover = function(e){
-                        var obj = HXL.util._$(cssId);//»ñµÃÄ¿Ç°ÏÔÊ¾²Ëµ¥¶ÔÏó
+                        var obj = HXL.util._$(cssId);//Â»Ã±ÂµÃƒÃ„Â¿Ã‡Â°ÃÃ”ÃŠÂ¾Â²Ã‹ÂµÂ¥Â¶Ã”ÃÃ³
                         e = e || window.event;
                         var target = e.srcElement || e.target;
                         
                         if (typeof target.nodeName != 'undefined' && (target.nodeName.toLowerCase() == 'li' || target.nodeName.toLowerCase() == 'ol')) {
-                            HXL.util._removeAttribute(obj, 'id');//ÒÆ³ıÄ¿Ç°ÏÔÊ¾²Ëµ¥¶ÔÏóµÄcssid
-                            HXL.util._addAttribute(target, 'id', cssId);//¸øµ±Ç°Êó±êÍ£ÁôµÄ²Ëµ¥Ìí¼Ócssid
+                            HXL.util._removeAttribute(obj, 'id');//Ã’Ã†Â³Ã½Ã„Â¿Ã‡Â°ÃÃ”ÃŠÂ¾Â²Ã‹ÂµÂ¥Â¶Ã”ÃÃ³ÂµÃ„cssid
+                            HXL.util._addAttribute(target, 'id', cssId);//Â¸Ã¸ÂµÂ±Ã‡Â°ÃŠÃ³Â±ÃªÃÂ£ÃÃ´ÂµÃ„Â²Ã‹ÂµÂ¥ÃŒÃ­Â¼Ã“cssid
                             // alert(typeof content);
                             //if (content != null || typeof content != 'undefined') 
-                            HXL.tab.change(contentId, content, encodeHtml);//¸Ä±äÏÔÊ¾µÄÄÚÈİ
+                            HXL.tab.change(contentId, content, encodeHtml);//Â¸Ã„Â±Ã¤ÃÃ”ÃŠÂ¾ÂµÃ„Ã„ÃšÃˆÃ
                             //  else 
                             //    if (typeof content == 'function') 
                             //     content();
