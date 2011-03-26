@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 
 import com.jtattoo.plaf.noire.NoireLookAndFeel;
 import com.jtattoo.plaf.smart.SmartLookAndFeel;
@@ -28,7 +29,7 @@ public class FamilyCashManagerSystem {
 	public static void main(String[] args) throws IOException {
 		Properties props = new Properties();
 		props.put("logoString", "");// 菜单栏左边的文字
-		props.put("menuSelectionBackgroundColor", "150 160 160");// 菜单栏左边的背景色
+		// props.put("menuSelectionBackgroundColor", "150 160 160");// 菜单栏左边的背景色
 		// props.put("buttonColor", "0 0 0");
 		// props.put("buttonColorLight", "0 0 0");
 		// props.put("buttonColorDark", "0 0 0");
@@ -65,6 +66,7 @@ public class FamilyCashManagerSystem {
 				"懒人家庭财务管理系统").setFrameSize(Constants.LOGIN_WIDTH,
 				Constants.LOGIN_HEIGHT).setFrameIconImage(image)
 				.setFrameResizable(false).setFrameCenter();// .setFrameIconImage(image);
+		// mainFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
 		LoginUI login = LoginUI.instance().mainFrame(mainFrame).topImage(
 				loginImg).build();

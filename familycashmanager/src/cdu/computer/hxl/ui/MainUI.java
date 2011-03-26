@@ -14,6 +14,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Paint;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -36,6 +37,7 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
 
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
@@ -49,8 +51,6 @@ import cdu.computer.hxl.util.Constants;
 public class MainUI {
 	private BaseJFrame mainFrame = null;
 
-	private JSplitPane splitPane = null;
-
 	private BaseJPanel top = new TopPanel();
 
 	private BaseJPanel left = new LeftPanel();
@@ -60,13 +60,26 @@ public class MainUI {
 	private JMenuBar bar = new JMenuBar();
 
 	private JMenu startMenu = MenuFactory.createMenu("开始", new String[] { "保存",
-			"退出" });
+			"退出" }, new ActionListener[] { null, null });
 
 	private JMenu editMenu = MenuFactory.createMenu("编辑", new String[] { "添加",
-			"修改", "删除" });
+			"修改", "删除" }, new ActionListener[] { null, null,null });
 
 	private JMenu helpMenu = MenuFactory.createMenu("帮助", new String[] { "说明",
-			"作者" });
+			"作者" }, new ActionListener[] { new ActionListener() {
+
+		public void actionPerformed(ActionEvent e) {
+			new BaseJWindow(null) {
+				protected void init() {
+					super.init();
+					this.setWindowSize(300, 200);
+					
+					this.setVisible(true);
+				}
+			};
+		}
+
+	}, null });
 
 	public MainUI() {
 
@@ -78,7 +91,10 @@ public class MainUI {
 
 	public void initUI() {
 
-		JPanel l = new JPanel() {
+		/*
+		 * 垂直横条
+		 */
+		JPanel vertical = new JPanel() {
 
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -93,7 +109,11 @@ public class MainUI {
 			}
 
 		};
-		JPanel ll = new JPanel() {
+
+		/*
+		 * 水平横条
+		 */
+		JPanel horizontal = new JPanel() {
 
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -128,19 +148,18 @@ public class MainUI {
 
 		gbc.weightx = 1.0;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		// gbc.gridheight = 3;
 		gbl.setConstraints(top, gbc);
-		ll.setPreferredSize(new Dimension(100, 3));
-		gbl.setConstraints(ll, gbc);
+		horizontal.setPreferredSize(new Dimension(100, 3));
+		gbl.setConstraints(horizontal, gbc);
 
 		gbc.weightx = 0;
 		gbc.weighty = 1.0;
 		gbc.gridheight = GridBagConstraints.REMAINDER;
 		gbc.gridwidth = 1;
 
-		l.setPreferredSize(new Dimension(3, 100));
+		vertical.setPreferredSize(new Dimension(3, 100));
 		gbl.setConstraints(left, gbc);
-		gbl.setConstraints(l, gbc);
+		gbl.setConstraints(vertical, gbc);
 
 		gbc.weightx = 1.0;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -149,9 +168,9 @@ public class MainUI {
 		// left.setPreferredSize(new Dimension(200, 0));
 		// left.setBorder(BorderFactory.createLineBorder(Color.RED));
 		mainFrame.add(top);
-		mainFrame.add(ll);
+		mainFrame.add(horizontal);
 		mainFrame.add(left);
-		mainFrame.add(l);
+		mainFrame.add(vertical);
 		mainFrame.add(center);
 	}
 
