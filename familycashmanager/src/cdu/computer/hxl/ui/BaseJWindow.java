@@ -40,7 +40,7 @@ public class BaseJWindow extends JWindow {
 	}
 
 	@Override
-	public void paintComponents(Graphics g) {
+	public void paint(Graphics g) {
 
 		g.setColor(Color.GREEN);
 		g.drawRect(0, 0, this.getWidth(), this.getHeight());

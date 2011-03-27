@@ -57,7 +57,7 @@ public class FamilyCashManagerSystem {
 		}
 
 		Image image = ImageIO.read(BaseJFrame.class
-				.getResourceAsStream("/icon.jpg"));
+				.getResourceAsStream("/images/trayIcon.jpg"));
 
 		Image loginImg = ImageIO.read(new File(Constants.BASE_PATH
 				+ "/images/login.jpg"));

@@ -25,6 +25,9 @@ public class BaseJButton extends JButton {
 	private Container container = null;
 	private Icon icon = null;
 
+	public BaseJButton() {
+	}
+
 	public BaseJButton(String title) {
 		this(title, null);
 

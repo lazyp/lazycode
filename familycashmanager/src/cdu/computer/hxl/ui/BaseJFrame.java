@@ -74,7 +74,7 @@ public class BaseJFrame extends JFrame {
 
 		// this.getContentPane().setSize(new Dimension(width, height));
 		this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
 		trayIcon.setPopupMenu(trayMenu);
 		addWindowListener(new WindowAdapter() {
 

@@ -55,7 +55,7 @@ public class MainUI {
 
 	private BaseJPanel left = new LeftPanel();
 
-	private JPanel center = new JPanel();
+	private CenterPanel center = new CenterPanel();
 
 	private JMenuBar bar = new JMenuBar();
 
@@ -63,7 +63,7 @@ public class MainUI {
 			"退出" }, new ActionListener[] { null, null });
 
 	private JMenu editMenu = MenuFactory.createMenu("编辑", new String[] { "添加",
-			"修改", "删除" }, new ActionListener[] { null, null,null });
+			"修改", "删除" }, new ActionListener[] { null, null, null });
 
 	private JMenu helpMenu = MenuFactory.createMenu("帮助", new String[] { "说明",
 			"作者" }, new ActionListener[] { new ActionListener() {
@@ -73,7 +73,7 @@ public class MainUI {
 				protected void init() {
 					super.init();
 					this.setWindowSize(300, 200);
-					
+
 					this.setVisible(true);
 				}
 			};
@@ -356,10 +356,29 @@ public class MainUI {
 	}
 
 	private class CenterPanel extends BaseJPanel {
+		private BaseJTabbedPane tab = null;
 
 		@Override
 		protected void init() {
+			setLayout(new BorderLayout());
+			tab = new BaseJTabbedPane(this);
+			tab.addTabComponent("tab1", new JLabel("dadsadsa"));
+			tab.addTabComponent("tab2", new JLabel("dadsadsa"));
+			tab.addTabComponent("tab3", new JLabel("dadsadsa"));
+		}
 
+		/**
+		 * @return the tab
+		 */
+		public BaseJTabbedPane getTab() {
+			return tab;
+		}
+
+		/**
+		 * @param BaseJTabbedPane
+		 */
+		public void setTab(BaseJTabbedPane tab) {
+			this.tab = tab;
 		}
 
 	}
