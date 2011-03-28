@@ -74,18 +74,25 @@ public class BaseJFrame extends JFrame {
 
 		// this.getContentPane().setSize(new Dimension(width, height));
 		this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		trayIcon.addActionListener(new ActionListener() {
 
+			public void actionPerformed(ActionEvent e) {
+				setVisible(true);
+				sTray.remove(trayIcon);
+			}
+
+		});
 		trayIcon.setPopupMenu(trayMenu);
 		addWindowListener(new WindowAdapter() {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-//				setVisible(false);
-//				try {
-//					sTray.add(trayIcon);// 添加系统托盘
-//				} catch (AWTException e1) {
-//					e1.printStackTrace();
-//				}
+				setVisible(false);
+				try {
+					sTray.add(trayIcon);// 添加系统托盘
+				} catch (AWTException e1) {
+					e1.printStackTrace();
+				}
 			}
 
 			@Override

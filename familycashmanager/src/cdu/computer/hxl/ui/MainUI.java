@@ -69,11 +69,11 @@ public class MainUI {
 			"作者" }, new ActionListener[] { new ActionListener() {
 
 		public void actionPerformed(ActionEvent e) {
-			new BaseJWindow(null) {
+			new BaseJWindow(mainFrame) {
 				protected void init() {
 					super.init();
 					this.setWindowSize(300, 200);
-
+                    
 					this.setVisible(true);
 				}
 			};
@@ -317,11 +317,13 @@ public class MainUI {
 					{ "新增支出记录", "/listselect.png" },
 					{ "管理支出记录", "/listselect.png" },
 					{ "添加支出类别", "/listselect.png" },
-					{ "支出类别管理", "/listselect.png" }, { "//资金收入管理", "/" },
+					{ "支出类别管理", "/listselect.png" },
+					{ "支出分布图", "/listselect.png" }, { "//资金收入管理", "/" },
 					{ "新增收入记录", "/listselect.png" },
 					{ "收入记录管理", "/listselect.png" },
 					{ "添加收入类别", "/listselect.png" },
-					{ "收入类别管理", "/listselect.png" }, { "//资金收支统计", "/" },
+					{ "收入类别管理", "/listselect.png" },
+					{ "收入分布图", "/listselect.png" }, { "//资金收支统计", "/" },
 					{ "收支平衡图表", "/listselect.png" } };
 
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -352,7 +354,6 @@ public class MainUI {
 
 			this.add(leftList);
 		}
-
 	}
 
 	private class CenterPanel extends BaseJPanel {

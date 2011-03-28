@@ -28,13 +28,14 @@ import com.sun.java.swing.plaf.motif.MotifBorders.BevelBorder;
 public class LoginUI {
 
 	private static final long serialVersionUID = -5986434162400009724L;
-	private JLabel loginNameLabel = null;
-	private JLabel loginPassLabel = null;
+	private JLabel loginNameLabel = new JLabel("µÇÂ¼Ãû£º");
+	private JLabel loginPassLabel = new JLabel("ÃÜ    Âë£º");
 	// private JTextField loginNameField = null;
 	final JTextField loginNameField = new JTextField(18);
-	private JPasswordField passField = null;
-	private BaseJButton resetButton = null;
-	private BaseJButton submitButton = null;
+	private JPasswordField passField = new JPasswordField(18);
+	private BaseJButton resetButton = new BaseJButton("ÖØÖÃ");
+	private BaseJButton submitButton = new BaseJButton("µÇÂ¼");
+
 	private static JPanel lgBgPanel = null;
 
 	private BaseJFrame mainFrame = null;
@@ -79,12 +80,6 @@ public class LoginUI {
 			@Override
 			protected void init() {
 
-				loginNameLabel = new JLabel("µÇÂ¼Ãû£º");
-				loginPassLabel = new JLabel("ÃÜ    Âë£º");
-
-				passField = new JPasswordField(18);
-				resetButton = new BaseJButton("ÖØÖÃ");
-				submitButton = new BaseJButton("µÇÂ¼");
 				// if(mainFrame != null){
 
 				mainFrame.addMouseListener(new MouseAdapter() {
