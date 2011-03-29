@@ -1,5 +1,7 @@
 package cdu.computer.hxl.util;
 
+import test.MyPath;
+
 /**
  * 定义系统的常量
  * 
@@ -8,12 +10,6 @@ package cdu.computer.hxl.util;
  * 
  */
 public interface Constants {
-	public static final String BASE_PATH = Constants.class.getResource("/")
-			.getPath();
-	public static final String DATABASE_PATH = BASE_PATH + "/database/";
-	public static final String DATABASE_NAME = "cash";
-
-	public static final String BASE_IMAGE_PATH = BASE_PATH + "/images";
 
 	public static final int LOGIN_WIDTH = 300;
 

@@ -42,6 +42,7 @@ import java.awt.event.ActionListener;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import cdu.computer.hxl.util.Constants;
+import cdu.computer.hxl.util.Resource;
 
 /**
  * 
@@ -73,7 +74,7 @@ public class MainUI {
 				protected void init() {
 					super.init();
 					this.setWindowSize(300, 200);
-                    
+
 					this.setVisible(true);
 				}
 			};
@@ -216,26 +217,26 @@ public class MainUI {
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			// this.setBackground(Color.BLACK);
 
-			newCreateBtn = new ToolButton("新建", new ImageIcon(
-					Constants.BASE_IMAGE_PATH + "/tbnew.png"), this);
+			newCreateBtn = new ToolButton("新建", new ImageIcon(Resource
+					.getResourceURL("images/tbnew.png")), this);
 
-			saveBtn = new ToolButton("保存", new ImageIcon(
-					Constants.BASE_IMAGE_PATH + "/tbsave.png"), this);
+			saveBtn = new ToolButton("保存", new ImageIcon(Resource
+					.getResourceURL("images/tbsave.png")), this);
 
-			modifyBtn = new ToolButton("修改", new ImageIcon(
-					Constants.BASE_IMAGE_PATH + "/tbmodify.png"), this);
+			modifyBtn = new ToolButton("修改", new ImageIcon(Resource
+					.getResourceURL("images/tbmodify.png")), this);
 
-			delBtn = new ToolButton("删除", new ImageIcon(
-					Constants.BASE_IMAGE_PATH + "/tbdel.png"), this);
+			delBtn = new ToolButton("删除", new ImageIcon(Resource
+					.getResourceURL("images/tbdel.png")), this);
 
-			copyBtn = new ToolButton("复制", new ImageIcon(
-					Constants.BASE_IMAGE_PATH + "/tbcopy.png"), this);
+			copyBtn = new ToolButton("复制", new ImageIcon(Resource
+					.getResourceURL("images/tbcopy.png")), this);
 
-			cutBtn = new ToolButton("剪贴", new ImageIcon(
-					Constants.BASE_IMAGE_PATH + "/tbcut.png"), this);
+			cutBtn = new ToolButton("剪贴", new ImageIcon(Resource
+					.getResourceURL("images/tbcut.png")), this);
 
-			pasteBtn = new ToolButton("粘贴", new ImageIcon(
-					Constants.BASE_IMAGE_PATH + "/tbpaste.png"), this);
+			pasteBtn = new ToolButton("粘贴", new ImageIcon(Resource
+					.getResourceURL("images/tbpaste.png")), this);
 
 		}
 
@@ -314,17 +315,17 @@ public class MainUI {
 		protected void init() {
 
 			String[][] leftMenu = new String[][] { { "//资金支出管理", "/" },
-					{ "新增支出记录", "/listselect.png" },
-					{ "管理支出记录", "/listselect.png" },
-					{ "添加支出类别", "/listselect.png" },
-					{ "支出类别管理", "/listselect.png" },
-					{ "支出分布图", "/listselect.png" }, { "//资金收入管理", "/" },
-					{ "新增收入记录", "/listselect.png" },
-					{ "收入记录管理", "/listselect.png" },
-					{ "添加收入类别", "/listselect.png" },
-					{ "收入类别管理", "/listselect.png" },
-					{ "收入分布图", "/listselect.png" }, { "//资金收支统计", "/" },
-					{ "收支平衡图表", "/listselect.png" } };
+					{ "新增支出记录", "images/listselect.png" },
+					{ "管理支出记录", "images/listselect.png" },
+					{ "添加支出类别", "images/listselect.png" },
+					{ "支出类别管理", "images/listselect.png" },
+					{ "支出分布图", "images/listselect.png" }, { "//资金收入管理", "/" },
+					{ "新增收入记录", "images/listselect.png" },
+					{ "收入记录管理", "images/listselect.png" },
+					{ "添加收入类别", "images/listselect.png" },
+					{ "收入类别管理", "images/listselect.png" },
+					{ "收入分布图", "images/listselect.png" }, { "//资金收支统计", "/" },
+					{ "收支平衡图表", "images/listselect.png" } };
 
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			this.setPreferredSize(new Dimension(210, 0));
@@ -343,12 +344,13 @@ public class MainUI {
 				if (s[0].indexOf("//") != -1) {
 
 					model.addElement((new BaseJList.ListData(s[0].substring(2),
-							new ImageIcon(Constants.BASE_IMAGE_PATH + s[1]),
-							true)));
+							null, true)));
 				} else {
-					model.addElement((new BaseJList.ListData(s[0],
-							new ImageIcon(Constants.BASE_IMAGE_PATH + s[1]),
-							false)));
+					model
+							.addElement((new BaseJList.ListData(
+									s[0],
+									new ImageIcon(Resource.getResourceURL(s[1])),
+									false)));
 				}
 			}
 
