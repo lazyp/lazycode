@@ -1,6 +1,5 @@
 package cdu.computer.hxl.ui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -15,6 +14,13 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @date 2010-03-26
  */
 public class BaseJWindow extends JWindow {
+
+	private static final long serialVersionUID = 1L;
+
+	public BaseJWindow() {
+		this(null);
+	}
+
 	public BaseJWindow(JFrame frame) {
 		super(frame);
 		init();
@@ -26,7 +32,7 @@ public class BaseJWindow extends JWindow {
 	protected void init() {
 		this.setLocationRelativeTo(null);
 		this.setAlwaysOnTop(true);
-		this.setBackground(Color.WHITE);
+		this.setVisible(true);
 	}
 
 	/**
@@ -41,10 +47,7 @@ public class BaseJWindow extends JWindow {
 
 	@Override
 	public void paint(Graphics g) {
-
-		g.setColor(Color.GREEN);
-		g.drawRect(0, 0, this.getWidth(), this.getHeight());
-		this.setBounds(0, 0, this.getWidth(), this.getHeight());
+		super.paint(g);
 	}
 
 	public static void main(String[] args) {
@@ -61,8 +64,8 @@ public class BaseJWindow extends JWindow {
 		}
 
 		BaseJWindow bjw = new BaseJWindow(null);
-		bjw.setBackground(Color.WHITE);
-		bjw.setSize(new Dimension(200, 300));
+
+		bjw.setWindowSize(300, 200);
 
 		bjw.setVisible(true);
 	}
