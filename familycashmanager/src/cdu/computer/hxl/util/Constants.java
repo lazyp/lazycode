@@ -1,7 +1,5 @@
 package cdu.computer.hxl.util;
 
-import test.MyPath;
-
 /**
  * 定义系统的常量
  * 
