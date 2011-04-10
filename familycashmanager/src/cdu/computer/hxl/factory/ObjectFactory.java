@@ -1,4 +1,4 @@
-package cdu.computer.hxl.ui;
+package cdu.computer.hxl.factory;
 
 import java.io.File;
 import java.net.URISyntaxException;

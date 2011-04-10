@@ -31,6 +31,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
+import cdu.computer.hxl.factory.MenuFactory;
 import cdu.computer.hxl.util.Constants;
 
 /**

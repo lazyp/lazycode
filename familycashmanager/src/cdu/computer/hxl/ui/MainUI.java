@@ -41,6 +41,7 @@ import java.awt.event.ActionListener;
 
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
+import cdu.computer.hxl.factory.MenuFactory;
 import cdu.computer.hxl.util.Constants;
 import cdu.computer.hxl.util.Resource;
 

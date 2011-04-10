@@ -9,6 +9,12 @@ package cdu.computer.hxl.util;
  */
 public interface Constants {
 
+	public static final String DEFALUT_PROPERTIES_NAME = "defaultDBConfig.properties";
+
+	public static final String DB_PATH = "db/";
+
+	public static final String DB_NAME = "fcms.db";
+
 	public static final int LOGIN_WIDTH = 300;
 
 	public static final int LOGIN_HEIGHT = 210;

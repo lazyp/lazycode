@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Tue Mar 29 23:38:52 CST 2011
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=C\:\\fat.jar
+manifest.mergeall=true
+manifest.mainclass=FamilyCashManagerSystem
+manifest.file=<createnew>
+jarname.isextern=true
+onejar.expand=
+excludes=
+includes=

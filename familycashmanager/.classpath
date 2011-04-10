@@ -4,5 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JTattoo"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/spring"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SQLite"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SQLiteJDBC"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

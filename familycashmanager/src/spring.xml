@@ -5,4 +5,10 @@
 	<bean name="tabDemo" class="test.TabComponentsDemo">
 		<constructor-arg value="test"></constructor-arg>
 	</bean>
+	<bean name="dbConnection"
+		class="cdu.computer.hxl.db.impl.DefaultDBConnectionImpl">
+	</bean>
+	<bean name="dbCURDHandler"
+		class="cdu.computer.hxl.db.impl.DefaultDBCRUDHandler">
+	</bean>
 </beans>
