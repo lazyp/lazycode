@@ -37,6 +37,9 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.event.ActionListener;
 
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
@@ -304,14 +307,6 @@ public class MainUI {
 
 	private class LeftPanel extends BaseJPanel {
 
-		// @Override
-		// protected void paintComponent(Graphics g) {
-		// System.out.println(this.getWidth() + ";" + this.getHeight());
-		// g.setColor(Color.RED);
-		// g.drawRect(0, 0, this.getWidth(), this.getHeight());
-		//
-		// }
-
 		@Override
 		protected void init() {
 
@@ -354,7 +349,14 @@ public class MainUI {
 									false)));
 				}
 			}
+			leftList.addListSelectionListener(new ListSelectionListener() {
 
+				public void valueChanged(ListSelectionEvent e) {
+				
+                     System.out.println(((BaseJList)e.getSource()).getSelectedIndex());
+				}
+
+			});
 			this.add(leftList);
 		}
 	}
@@ -368,7 +370,7 @@ public class MainUI {
 			tab = new BaseJTabbedPane(this);
 			tab.addTabComponent("tab1", new JLabel("dadsadsa"));
 			tab.addTabComponent("tab2", new JLabel("dadsadsa"));
-			tab.addTabComponent("tab3", new JLabel("dadsadsa"));
+			tab.addTabComponent("tab3", new JLabel("dad´ïµ½Èöµ©Èöµ©sadsa"));
 		}
 
 		/**

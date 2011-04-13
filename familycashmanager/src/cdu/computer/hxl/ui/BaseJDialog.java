@@ -1,34 +1,30 @@
 package cdu.computer.hxl.ui;
 
+import java.awt.Dialog;
+import java.awt.Frame;
+
 import javax.swing.JDialog;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  * 
  * @author hxl
  * @date 2010-03-26
  */
-public class BaseJDialog extends JDialog {
+public abstract class BaseJDialog extends JDialog {
+
+	public BaseJDialog(Frame owner, String title, boolean modal) {
+		super(owner, title, modal);
+		initUI();
+	}
+
+	abstract protected void initUI();
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		BaseJDialog bjd = new BaseJDialog();
-		bjd.setTitle("зїеп");
-		bjd.setSize(200, 100);
-		bjd.setVisible(true);
 
 	}
 

@@ -44,7 +44,7 @@ public interface DBCRUDHandler {
 	 * @param table
 	 * @return map
 	 */
-	public Map<String, Object> readOne(Integer id, String table);
+	public Map<String, Object> readOne(String[] field, Integer id, String table);
 
 	/**
 	 * ²éÑ¯Êı¾İ
@@ -53,7 +53,7 @@ public interface DBCRUDHandler {
 	 * @param table
 	 * @return list of map
 	 */
-	public List<Map<String, Object>> search(Map<String, Object> whereDataMap,
-			String table);
+	public List<Map<String, Object>> search(String[] field,
+			Map<String, Object> whereDataMap, String table);
 
 }

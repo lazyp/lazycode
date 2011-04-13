@@ -125,6 +125,56 @@ public class SQLHandler {
 		return sql;
 	}
 
+	public static String createUpdateSqlForStatement(
+			Map<String, Object> dataMap, Map<String, Object> whereDataMap,
+			String table) {
+		String sql = "update set ";
+		int size = dataMap.size();
+		List<Map.Entry<String, Object>> lst = mapToList(dataMap);
+		for (int i = 0; i < size; i++) {
+			Map.Entry<String, Object> entry = lst.get(i);
+			sql += entry.getKey() + "=" + buildParam(entry.getValue());
+			if (i != size - 1)
+				sql += " , ";
+		}
+
+		sql += " where ";
+		size = whereDataMap.size();
+		lst = mapToList(whereDataMap);
+		for (int i = 0; i < size; i++) {
+			Map.Entry<String, Object> entry = lst.get(i);
+			sql += entry.getKey() + "=" + buildParam(entry.getValue());
+			if (i != size - 1)
+				sql += " and ";
+		}
+		return sql;
+	}
+
+	public static String createUpdateSqlForPrepareStatement(
+			Map<String, Object> dataMap, Map<String, Object> whereDataMap,
+			String table) {
+		String sql = "update set ";
+		int size = dataMap.size();
+		List<Map.Entry<String, Object>> lst = mapToList(dataMap);
+		for (int i = 0; i < size; i++) {
+			Map.Entry<String, Object> entry = lst.get(i);
+			sql += entry.getKey() + "=?";
+			if (i != size - 1)
+				sql += " , ";
+		}
+
+		sql += " where ";
+		size = whereDataMap.size();
+		lst = mapToList(whereDataMap);
+		for (int i = 0; i < size; i++) {
+			Map.Entry<String, Object> entry = lst.get(i);
+			sql += entry.getKey() + "=?";
+			if (i != size - 1)
+				sql += " and ";
+		}
+		return sql;
+	}
+
 	private static List<Map.Entry<String, Object>> mapToList(
 			Map<String, Object> map) {
 		Set<Map.Entry<String, Object>> set = map.entrySet();

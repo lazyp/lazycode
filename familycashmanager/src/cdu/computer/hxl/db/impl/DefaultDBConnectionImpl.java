@@ -17,13 +17,21 @@ import cdu.computer.hxl.exception.DBConnectionException;
  */
 public class DefaultDBConnectionImpl implements DBConnection {
 	private DefaultPropertiesConfigure defaultConfig = new DefaultPropertiesConfigure();
+	private static DBConnection instance = null;
 
-	public DefaultDBConnectionImpl() {
+	private DefaultDBConnectionImpl() {
 		try {
 			Class.forName(defaultConfig.getDriver());// ¼ÓÔØÇý¶¯
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public synchronized static DBConnection getInstance() {
+		if (instance == null)
+			return new DefaultDBConnectionImpl();
+		else
+			return instance;
 	}
 
 	/**
@@ -48,9 +56,10 @@ public class DefaultDBConnectionImpl implements DBConnection {
 			Connection con = db.connection();
 			Statement stm = con.createStatement();
 			stm.executeUpdate("delete from income");
-			//stm.executeUpdate("CREATE TABLE cost (amount REAL, reason TEXT, bankid INTEGER, date TEXT);");
-			//ResultSet rs = stm.executeQuery("select * from test");
-			//System.out.println(rs.getString(1));
+			// stm.executeUpdate("CREATE TABLE cost (amount REAL, reason TEXT,
+			// bankid INTEGER, date TEXT);");
+			// ResultSet rs = stm.executeQuery("select * from test");
+			// System.out.println(rs.getString(1));
 
 		} catch (Exception e) {
 			e.printStackTrace();
