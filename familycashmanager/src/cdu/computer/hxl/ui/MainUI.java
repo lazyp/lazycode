@@ -2,6 +2,7 @@ package cdu.computer.hxl.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Event;
@@ -20,6 +21,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -170,8 +173,6 @@ public class MainUI {
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbl.setConstraints(center, gbc);
 
-		// left.setPreferredSize(new Dimension(200, 0));
-		// left.setBorder(BorderFactory.createLineBorder(Color.RED));
 		mainFrame.add(top);
 		mainFrame.add(horizontal);
 		mainFrame.add(left);
@@ -221,26 +222,26 @@ public class MainUI {
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			// this.setBackground(Color.BLACK);
 
-			newCreateBtn = new ToolButton("ÐÂ½¨", new ImageIcon(Resource
-					.getResourceURL("images/tbnew.png")), this);
+			newCreateBtn = new ToolButton("ÐÂ½¨", new ImageIcon(
+					Resource.getResourceURL("images/tbnew.png")), this);
 
-			saveBtn = new ToolButton("±£´æ", new ImageIcon(Resource
-					.getResourceURL("images/tbsave.png")), this);
+			saveBtn = new ToolButton("±£´æ", new ImageIcon(
+					Resource.getResourceURL("images/tbsave.png")), this);
 
-			modifyBtn = new ToolButton("ÐÞ¸Ä", new ImageIcon(Resource
-					.getResourceURL("images/tbmodify.png")), this);
+			modifyBtn = new ToolButton("ÐÞ¸Ä", new ImageIcon(
+					Resource.getResourceURL("images/tbmodify.png")), this);
 
-			delBtn = new ToolButton("É¾³ý", new ImageIcon(Resource
-					.getResourceURL("images/tbdel.png")), this);
+			delBtn = new ToolButton("É¾³ý", new ImageIcon(
+					Resource.getResourceURL("images/tbdel.png")), this);
 
-			copyBtn = new ToolButton("¸´ÖÆ", new ImageIcon(Resource
-					.getResourceURL("images/tbcopy.png")), this);
+			copyBtn = new ToolButton("¸´ÖÆ", new ImageIcon(
+					Resource.getResourceURL("images/tbcopy.png")), this);
 
-			cutBtn = new ToolButton("¼ôÌù", new ImageIcon(Resource
-					.getResourceURL("images/tbcut.png")), this);
+			cutBtn = new ToolButton("¼ôÌù", new ImageIcon(
+					Resource.getResourceURL("images/tbcut.png")), this);
 
-			pasteBtn = new ToolButton("Õ³Ìù", new ImageIcon(Resource
-					.getResourceURL("images/tbpaste.png")), this);
+			pasteBtn = new ToolButton("Õ³Ìù", new ImageIcon(
+					Resource.getResourceURL("images/tbpaste.png")), this);
 
 		}
 
@@ -306,6 +307,7 @@ public class MainUI {
 	}
 
 	private class LeftPanel extends BaseJPanel {
+		private final Map<String, Object> ListHandlerInstanceMap = new HashMap<String, Object>();
 
 		@Override
 		protected void init() {
@@ -342,35 +344,43 @@ public class MainUI {
 					model.addElement((new BaseJList.ListData(s[0].substring(2),
 							null, true)));
 				} else {
-					model
-							.addElement((new BaseJList.ListData(
-									s[0],
-									new ImageIcon(Resource.getResourceURL(s[1])),
-									false)));
+					model.addElement((new BaseJList.ListData(s[0],
+							new ImageIcon(Resource.getResourceURL(s[1])), false)));
 				}
 			}
 			leftList.addListSelectionListener(new ListSelectionListener() {
 
+				@Override
 				public void valueChanged(ListSelectionEvent e) {
-				
-                     System.out.println(((BaseJList)e.getSource()).getSelectedIndex());
-				}
+					if (!e.getValueIsAdjusting()) {
+						BaseJList source = (BaseJList) e.getSource();
+						int index = source.getSelectedIndex();
+						if (index == 1) {
+							new NewCostRecordUI(mainFrame);
+						}else if(index == 7){
+							new NewIncomeRecordUI(mainFrame);
+						}
+					}
 
+				}
 			});
 			this.add(leftList);
 		}
 	}
 
 	private class CenterPanel extends BaseJPanel {
+
+		private static final long serialVersionUID = -1862161663716703489L;
 		private BaseJTabbedPane tab = null;
 
 		@Override
 		protected void init() {
 			setLayout(new BorderLayout());
 			tab = new BaseJTabbedPane(this);
-			tab.addTabComponent("tab1", new JLabel("dadsadsa"));
-			tab.addTabComponent("tab2", new JLabel("dadsadsa"));
-			tab.addTabComponent("tab3", new JLabel("dad´ïµ½Èöµ©Èöµ©sadsa"));
+		}
+
+		public void addTabComponent(String title, Component component) {
+			tab.addTabComponent(title, component);
 		}
 
 		/**

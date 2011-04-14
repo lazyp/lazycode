@@ -19,6 +19,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * 新增支出记录窗口
@@ -27,10 +29,12 @@ import java.awt.Color;
  * 
  */
 public class NewCostRecordUI extends BaseJDialog {
+
+	private static final long serialVersionUID = -2303701219177219958L;
 	private JPanel panel = null;
 	private Frame owner = null;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField moneyTextField;
+	private JTextField timeTextField;
 
 	public NewCostRecordUI(Frame owner) {
 		super(owner, "新增支出记录", true);
@@ -41,83 +45,93 @@ public class NewCostRecordUI extends BaseJDialog {
 	protected void initUI() {
 
 		setBounds(0, 0, 450, 350);
-
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+			    setVisible(false);
+			}
+			
+		});
+		this.setLocationRelativeTo(owner);
 		this.setResizable(false);
+	
+
+
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		JLabel label = new JLabel("\u65B0\u5EFA\u652F\u51FA\u9879\u76EE");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setBounds(172, 10, 92, 15);
-		panel.add(label);
+		JLabel titlelabel = new JLabel("\u65B0\u5EFA\u652F\u51FA\u9879\u76EE");
+		titlelabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titlelabel.setBounds(172, 10, 92, 15);
+		panel.add(titlelabel);
 
-		JLabel label_1 = new JLabel("\u91D1\u989D\uFF1A");
-		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_1.setBounds(34, 47, 54, 15);
-		panel.add(label_1);
+		JLabel moneyLabel = new JLabel("\u91D1\u989D\uFF1A");
+		moneyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		moneyLabel.setBounds(34, 47, 54, 15);
+		panel.add(moneyLabel);
 
-		textField = new JTextField();
-		textField.setBounds(122, 44, 66, 21);
-		panel.add(textField);
-		textField.setColumns(10);
+		moneyTextField = new JTextField();
+		moneyTextField.setBounds(122, 44, 66, 21);
+		panel.add(moneyTextField);
+		moneyTextField.setColumns(10);
 
-		JLabel label_2 = new JLabel("\u4EE5\u5143\u4E3A\u5355\u4F4D(2.30)");
-		label_2.setForeground(Color.RED);
-		label_2.setBounds(331, 47, 103, 15);
-		panel.add(label_2);
+		JLabel tipLabel = new JLabel("\u4EE5\u5143\u4E3A\u5355\u4F4D(2.30)");
+		tipLabel.setForeground(Color.RED);
+		tipLabel.setBounds(315, 47, 103, 15);
+		panel.add(tipLabel);
 
-		JLabel label_3 = new JLabel("\u65F6\u95F4\uFF1A");
-		label_3.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_3.setBounds(34, 162, 54, 15);
-		panel.add(label_3);
+		JLabel timeLabel = new JLabel("\u65F6\u95F4\uFF1A");
+		timeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		timeLabel.setBounds(34, 162, 54, 15);
+		panel.add(timeLabel);
 
-		textField_1 = new JTextField();
-		textField_1.setBounds(122, 159, 183, 21);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
+		timeTextField = new JTextField();
+		timeTextField.setBounds(122, 159, 183, 21);
+		panel.add(timeTextField);
+		timeTextField.setColumns(10);
 
-		JLabel label_4 = new JLabel("\u7528\u9014\uFF1A");
-		label_4.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_4.setBounds(34, 82, 54, 15);
-		panel.add(label_4);
+		JLabel useLabel = new JLabel("\u7528\u9014\uFF1A");
+		useLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		useLabel.setBounds(34, 82, 54, 15);
+		panel.add(useLabel);
 
-		JLabel label_5 = new JLabel("\u5907\u6CE8\uFF1A");
-		label_5.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_5.setBounds(34, 229, 54, 15);
-		panel.add(label_5);
+		JLabel remarkLabel = new JLabel("\u5907\u6CE8\uFF1A");
+		remarkLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		remarkLabel.setBounds(34, 229, 54, 15);
+		panel.add(remarkLabel);
 
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(122, 211, 183, 45);
-		panel.add(textArea);
+		JTextArea remarkTextArea = new JTextArea();
+		remarkTextArea.setBounds(122, 211, 183, 45);
+		panel.add(remarkTextArea);
 
-		JButton button = new JButton("\u63D0\u4EA4");
-		button.setBounds(122, 285, 84, 23);
-		panel.add(button);
+		JButton submit = new JButton("\u786E\u8BA4");
+		submit.setBounds(122, 285, 84, 23);
+		panel.add(submit);
 
-		JButton button_1 = new JButton("\u6E05\u9664");
-		button_1.setBounds(216, 285, 84, 23);
-		panel.add(button_1);
+		JButton resetbnt = new JButton("\u6E05\u9664");
+		resetbnt.setBounds(216, 285, 84, 23);
+		panel.add(resetbnt);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {
+		JComboBox useComboBox = new JComboBox();
+		useComboBox.setModel(new DefaultComboBoxModel(new String[] {
 				"\u4E70\u978B", "\u8863\u670D", "\u7C73", "\u83DC",
 				"\u5176\u5B83" }));
-		comboBox.setBounds(122, 79, 116, 21);
-		panel.add(comboBox);
+		useComboBox.setBounds(122, 79, 116, 21);
+		panel.add(useComboBox);
 
-		JLabel label_6 = new JLabel("\u6765\u6E90\uFF1A");
-		label_6.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_6.setBounds(34, 120, 54, 15);
-		panel.add(label_6);
+		JLabel sourceLabel = new JLabel("\u6765\u6E90\uFF1A");
+		sourceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		sourceLabel.setBounds(34, 120, 54, 15);
+		panel.add(sourceLabel);
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {
+		JComboBox sourceComboBox = new JComboBox();
+		sourceComboBox.setModel(new DefaultComboBoxModel(new String[] {
 				"\u652F\u4ED8\u5B9D", "\u5EFA\u8BBE\u94F6\u884C\u5361",
 				"\u62DB\u5546\u94F6\u884C\u5361" }));
-		comboBox_1.setBounds(122, 117, 116, 21);
-		panel.add(comboBox_1);
-
+		sourceComboBox.setBounds(122, 117, 116, 21);
+		panel.add(sourceComboBox);
+		this.setVisible(true);
 	}
 
 	public static void main(String[] args) {
