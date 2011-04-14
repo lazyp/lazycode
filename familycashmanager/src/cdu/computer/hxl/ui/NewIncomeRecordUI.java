@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -80,9 +81,18 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		remarkLabel.setBounds(51, 162, 54, 15);
 		getContentPane().add(remarkLabel);
 
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(145, 158, 140, 36);
-		getContentPane().add(textArea);
+		JScrollPane scrollPanel = new JScrollPane();
+		scrollPanel.setSize(140, 52);
+		scrollPanel.setLocation(145, 158);
+		
+		JTextArea remarkTextArea = new JTextArea();
+		remarkTextArea.setLineWrap(true);
+		remarkTextArea.setRows(2);
+		remarkTextArea.setColumns(10);
+		remarkTextArea.setBounds(145, 158, 140, 36);
+		scrollPanel.setViewportView(remarkTextArea);
+		
+		getContentPane().add(scrollPanel);
 
 		JButton submitbnt = new JButton("\u786E\u8BA4");
 		submitbnt.setBounds(145, 220, 66, 23);
