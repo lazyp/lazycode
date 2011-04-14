@@ -21,6 +21,7 @@ public class NewIncomeRecordUI extends BaseJDialog {
 	private  JPanel contentPanel = null;
 	private JTextField amountTextField = null;
 	private JTextField textField = null;
+	private JTextField timeTextField;
 	
 	private Frame owner = null;
 
@@ -69,10 +70,10 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		timeLabel.setBounds(51, 120, 54, 15);
 		getContentPane().add(timeLabel);
 
-		textField = new JTextField();
-		textField.setBounds(145, 117, 140, 21);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		timeTextField = new JTextField();
+		timeTextField.setBounds(145, 117, 140, 21);
+		getContentPane().add(timeTextField);
+		timeTextField.setColumns(10);
 
 		JLabel remarkLabel = new JLabel("\u5907\u6CE8\uFF1A");
 		remarkLabel.setHorizontalAlignment(SwingConstants.RIGHT);
