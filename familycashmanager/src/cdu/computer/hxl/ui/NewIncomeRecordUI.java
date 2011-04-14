@@ -51,7 +51,7 @@ public class NewIncomeRecordUI extends BaseJDialog {
 
 		amountTextField = new JTextField();
 		amountTextField.setHorizontalAlignment(SwingConstants.LEFT);
-		amountTextField.setBounds(145, 44, 66, 21);
+		amountTextField.setBounds(145, 44, 83, 21);
 		getContentPane().add(amountTextField);
 		amountTextField.setColumns(10);
 
@@ -63,7 +63,7 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {
 				"\u5DE5\u8D44", "\u5916\u5305", "\u5176\u5B83" }));
-		comboBox.setBounds(145, 80, 66, 21);
+		comboBox.setBounds(145, 80, 83, 21);
 		getContentPane().add(comboBox);
 
 		JLabel timeLabel = new JLabel("\u65F6\u95F4\uFF1A");

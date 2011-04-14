@@ -350,15 +350,16 @@ public class MainUI {
 			}
 			leftList.addListSelectionListener(new ListSelectionListener() {
 
-				@Override
 				public void valueChanged(ListSelectionEvent e) {
 					if (!e.getValueIsAdjusting()) {
 						BaseJList source = (BaseJList) e.getSource();
 						int index = source.getSelectedIndex();
 						if (index == 1) {
 							new NewCostRecordUI(mainFrame);
-						}else if(index == 7){
+						} else if (index == 7) {
 							new NewIncomeRecordUI(mainFrame);
+						}else if(index == 3){
+							new NewCostCategoryUI(mainFrame);
 						}
 					}
 
