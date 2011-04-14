@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
@@ -21,6 +22,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * 新增支出记录窗口
@@ -72,7 +74,7 @@ public class NewCostRecordUI extends BaseJDialog {
 		panel.add(moneyLabel);
 
 		moneyTextField = new JTextField();
-		moneyTextField.setBounds(122, 44, 66, 21);
+		moneyTextField.setBounds(122, 44, 116, 21);
 		panel.add(moneyTextField);
 		moneyTextField.setColumns(10);
 
@@ -101,15 +103,23 @@ public class NewCostRecordUI extends BaseJDialog {
 		remarkLabel.setBounds(34, 229, 54, 15);
 		panel.add(remarkLabel);
 
+		
 		JTextArea remarkTextArea = new JTextArea();
+		remarkTextArea.setLineWrap(true);
+		remarkTextArea.setColumns(10);
+		remarkTextArea.setRows(2);
 		remarkTextArea.setBounds(122, 211, 183, 45);
-		panel.add(remarkTextArea);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(122, 211, 183, 52);
+		scrollPane.setViewportView(remarkTextArea);
+		panel.add(scrollPane);
 
 		JButton submit = new JButton("\u786E\u8BA4");
 		submit.setBounds(122, 285, 84, 23);
 		panel.add(submit);
 
-		JButton resetbnt = new JButton("\u6E05\u9664");
+		JButton resetbnt = new JButton("\u6E05\u7A7A");
 		resetbnt.setBounds(216, 285, 84, 23);
 		panel.add(resetbnt);
 
