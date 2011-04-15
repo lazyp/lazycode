@@ -7,6 +7,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,10 +22,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.net.ssl.SSLEngineResult.Status;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
@@ -36,7 +39,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
@@ -64,6 +66,8 @@ public class MainUI {
 	private BaseJPanel left = new LeftPanel();
 
 	private CenterPanel center = new CenterPanel();
+
+	private StatusPanel statusPanel = new StatusPanel();
 
 	private JMenuBar bar = new JMenuBar();
 
@@ -98,6 +102,11 @@ public class MainUI {
 	}
 
 	public void initUI() {
+
+		mainFrame.setFrameSize(Constants.MAIN_WIDTH, Constants.MAIN_HEIGHT)
+				.setFrameResizable(true).setFrameCenter();
+
+		mainFrame.setMinimumSize(new Dimension(600, 480));
 
 		/*
 		 * 垂直横条
@@ -137,11 +146,6 @@ public class MainUI {
 
 		};
 
-		mainFrame.setFrameSize(Constants.MAIN_WIDTH, Constants.MAIN_HEIGHT)
-				.setFrameResizable(true).setFrameCenter();
-
-		mainFrame.setMinimumSize(new Dimension(600, 480));
-
 		GridBagConstraints gbc = new GridBagConstraints();
 		GridBagLayout gbl = new GridBagLayout();
 		mainFrame.setLayout(gbl);
@@ -162,7 +166,7 @@ public class MainUI {
 
 		gbc.weightx = 0;
 		gbc.weighty = 1.0;
-		gbc.gridheight = GridBagConstraints.REMAINDER;
+		gbc.gridheight = GridBagConstraints.RELATIVE;
 		gbc.gridwidth = 1;
 
 		vertical.setPreferredSize(new Dimension(3, 100));
@@ -173,11 +177,20 @@ public class MainUI {
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbl.setConstraints(center, gbc);
 
+		gbc.weighty = 0;
+		gbc.gridheight = 1;
+		gbl.setConstraints(statusPanel, gbc);
+
 		mainFrame.add(top);
 		mainFrame.add(horizontal);
 		mainFrame.add(left);
 		mainFrame.add(vertical);
 		mainFrame.add(center);
+		mainFrame.add(statusPanel);
+	}
+
+	public void setStatusText(String text) {
+		this.statusPanel.chanageStatusText(text);
 	}
 
 	/**
@@ -355,11 +368,18 @@ public class MainUI {
 						BaseJList source = (BaseJList) e.getSource();
 						int index = source.getSelectedIndex();
 						if (index == 1) {
+							setStatusText("添加支出新纪录...");
 							new NewCostRecordUI(mainFrame);
+
 						} else if (index == 7) {
+							setStatusText("添加收入新纪录...");
 							new NewIncomeRecordUI(mainFrame);
-						}else if(index == 3){
+						} else if (index == 3) {
+							setStatusText("添加支出类别...");
 							new NewCostCategoryUI(mainFrame);
+						} else if (index == 9) {
+							setStatusText("添加收入类别...");
+							new NewIncomeCategoryUI(mainFrame);
 						}
 					}
 
@@ -396,6 +416,35 @@ public class MainUI {
 		 */
 		public void setTab(BaseJTabbedPane tab) {
 			this.tab = tab;
+		}
+
+	}
+
+	private class StatusPanel extends BaseJPanel {
+
+		private static final long serialVersionUID = -7563273600503012769L;
+		private JLabel status = null;
+
+		@Override
+		protected void init() {
+			setLayout(new BorderLayout());
+			@SuppressWarnings("deprecation")
+			JLabel time = new JLabel(new Date().toLocaleString());
+			time.setFont(new Font("宋体", Font.ITALIC, 10));
+			add(time, BorderLayout.EAST);
+
+			chanageStatusText("准备就绪");
+
+		}
+
+		public void chanageStatusText(String text) {
+			status = new JLabel();
+			status.setText(text);
+			status.setFont(new Font("宋体", Font.ITALIC, 10));
+			if (this.getComponentCount() >= 2)
+				remove(1);
+			add(status, BorderLayout.WEST);
+			validate();
 		}
 
 	}

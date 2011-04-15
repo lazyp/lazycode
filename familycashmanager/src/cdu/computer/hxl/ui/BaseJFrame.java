@@ -179,9 +179,11 @@ public class BaseJFrame extends JFrame {
 
 		return this;
 	}
+	
+	public void setStatusText(String text){}
 
-	public static void main(String[] args) throws IOException {
-		BaseJFrame frame = new BaseJFrame();
-		frame.setVisible(true);
-	}
+//	public static void main(String[] args) throws IOException {
+//		BaseJFrame frame = new BaseJFrame();
+//		frame.setVisible(true);
+//	}
 }

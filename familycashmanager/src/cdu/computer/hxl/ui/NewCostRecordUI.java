@@ -34,13 +34,13 @@ public class NewCostRecordUI extends BaseJDialog {
 
 	private static final long serialVersionUID = -2303701219177219958L;
 	private JPanel panel = null;
-	private Frame owner = null;
+	private BaseJFrame owner = null;
 	private JTextField moneyTextField;
 	private JTextField timeTextField;
 
 	public NewCostRecordUI(Frame owner) {
 		super(owner, "新增支出记录", true);
-		this.owner = owner;
+		this.owner = (BaseJFrame)owner;
 	}
 
 	@Override
