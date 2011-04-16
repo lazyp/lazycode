@@ -380,6 +380,11 @@ public class MainUI {
 						} else if (index == 9) {
 							setStatusText("添加收入类别...");
 							new NewIncomeCategoryUI(mainFrame);
+						} else if (index == 2) {
+							center.addTabComponent("支出管理", new CostManagerUI());
+						}else if(index == 4){
+							center.addTabComponent("支出类别管理",new CostCategoryManagerUI());
+						
 						}
 					}
 
@@ -394,14 +399,19 @@ public class MainUI {
 		private static final long serialVersionUID = -1862161663716703489L;
 		private BaseJTabbedPane tab = null;
 
+		public CenterPanel() {
+			tab = new BaseJTabbedPane(this);
+		}
+
 		@Override
 		protected void init() {
 			setLayout(new BorderLayout());
-			tab = new BaseJTabbedPane(this);
+			
 		}
 
 		public void addTabComponent(String title, Component component) {
 			tab.addTabComponent(title, component);
+			//tab.setSelectedComponent(component);
 		}
 
 		/**

@@ -50,10 +50,15 @@ public class BaseJTabbedPane extends JTabbedPane {
 	}
 
 	public void addTabComponent(String tabTitle, Component comp) {
-		add(tabTitle, comp);
-		System.out.println(getTabCount());
-		setTabComponentAt(getTabCount() - 1, new ButtonTabComponent(
-				BaseJTabbedPane.this, getTabCount() - 1));
+		int index = indexOfTab(tabTitle);
+		if (index == -1) {
+			add(tabTitle, comp);
+			// System.out.println(getTabCount());
+			setTabComponentAt(getTabCount() - 1, new ButtonTabComponent(
+					BaseJTabbedPane.this, getTabCount() - 1));
+			setSelectedComponent(comp);
+		} else
+			setSelectedIndex(index);
 	}
 
 	private static class ButtonTabComponent extends JPanel {

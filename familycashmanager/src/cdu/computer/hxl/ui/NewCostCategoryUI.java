@@ -41,7 +41,7 @@ public class NewCostCategoryUI extends BaseJDialog {
 
 		JLabel tileLabel = new JLabel("\u6DFB\u52A0\u652F\u51FA\u7C7B\u522B");
 		tileLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		tileLabel.setBounds(162, 21, 89, 15);
+		tileLabel.setBounds(127, 21, 89, 15);
 		getContentPane().add(tileLabel);
 
 		JLabel categoryLabel = new JLabel("\u7C7B\u522B\u540D\u79F0\uFF1A");
