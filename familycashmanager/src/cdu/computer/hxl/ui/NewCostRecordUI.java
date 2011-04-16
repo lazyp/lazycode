@@ -115,7 +115,7 @@ public class NewCostRecordUI extends BaseJDialog {
 		scrollPane.setViewportView(remarkTextArea);
 		panel.add(scrollPane);
 
-		JButton submit = new JButton("\u786E\u8BA4");
+		JButton submit = new JButton("\u4FDD\u5B58");
 		submit.setBounds(122, 285, 84, 23);
 		panel.add(submit);
 

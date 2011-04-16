@@ -6,9 +6,6 @@ import java.net.URISyntaxException;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.FileSystemResource;
 
-import test.TabComponentsDemo;
-
-import cdu.computer.hxl.util.Constants;
 import cdu.computer.hxl.util.Resource;
 
 /**
@@ -51,9 +48,6 @@ public final class ObjectFactory {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		TabComponentsDemo demo = (TabComponentsDemo) ObjectFactory
-				.getInstance("tabDemo");
-		demo.runTest();
 
 	}
 

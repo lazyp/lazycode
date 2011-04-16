@@ -67,7 +67,7 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 		remarkTextArea.setRows(2);
 		scrollPane.setViewportView(remarkTextArea);
 
-		JButton submitbnt = new JButton("\u786E\u8BA4");
+		JButton submitbnt = new JButton("\u4FDD\u5B58");
 		submitbnt.setBounds(128, 145, 64, 23);
 		getContentPane().add(submitbnt);
 

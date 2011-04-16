@@ -70,7 +70,7 @@ public class NewCostCategoryUI extends BaseJDialog {
 		scrollPane.setViewportView(remarkTextArea);
 		getContentPane().add(scrollPane);
 
-		JButton submitbnt = new JButton("\u786E\u8BA4");
+		JButton submitbnt = new JButton("\u4FDD\u5B58");
 		submitbnt.setBounds(127, 182, 73, 23);
 		getContentPane().add(submitbnt);
 

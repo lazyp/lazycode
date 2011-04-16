@@ -94,7 +94,7 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		
 		getContentPane().add(scrollPanel);
 
-		JButton submitbnt = new JButton("\u786E\u8BA4");
+		JButton submitbnt = new JButton("\u4FDD\u5B58");
 		submitbnt.setBounds(145, 220, 66, 23);
 		getContentPane().add(submitbnt);
 

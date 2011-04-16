@@ -382,9 +382,25 @@ public class MainUI {
 							new NewIncomeCategoryUI(mainFrame);
 						} else if (index == 2) {
 							center.addTabComponent("支出管理", new CostManagerUI());
-						}else if(index == 4){
-							center.addTabComponent("支出类别管理",new CostCategoryManagerUI());
-						
+						} else if (index == 4) {
+							center.addTabComponent("支出类别管理",
+									new CostCategoryManagerUI());
+
+						} else if (index == 8) {
+							center.addTabComponent("收入记录管理",
+									new IncomeManagerUI());
+						} else if (index == 10) {
+							center.addTabComponent("收入类别管理",
+									new IncomeCategoryManagerUI());
+						} else if (index == 5) {
+							center.addTabComponent("支出分布图",
+									new CostAllocationChartUI());
+						} else if (index == 11) {
+							center.addTabComponent("收入分布图",
+									new IncomeAllocationChartUI());
+						} else if (index == 13) {
+							center.addTabComponent("平衡分布图",
+									new BalanceChartUI());
 						}
 					}
 
@@ -406,12 +422,12 @@ public class MainUI {
 		@Override
 		protected void init() {
 			setLayout(new BorderLayout());
-			
+
 		}
 
 		public void addTabComponent(String title, Component component) {
 			tab.addTabComponent(title, component);
-			//tab.setSelectedComponent(component);
+			// tab.setSelectedComponent(component);
 		}
 
 		/**

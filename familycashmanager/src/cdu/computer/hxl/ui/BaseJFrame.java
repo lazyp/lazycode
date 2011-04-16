@@ -78,8 +78,10 @@ public class BaseJFrame extends JFrame {
 		trayIcon.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				setVisible(true);
+
 				sTray.remove(trayIcon);
+				setVisible(true);
+				setExtendedState(JFrame.NORMAL);
 			}
 
 		});
@@ -179,11 +181,12 @@ public class BaseJFrame extends JFrame {
 
 		return this;
 	}
-	
-	public void setStatusText(String text){}
 
-//	public static void main(String[] args) throws IOException {
-//		BaseJFrame frame = new BaseJFrame();
-//		frame.setVisible(true);
-//	}
+	public void setStatusText(String text) {
+	}
+
+	// public static void main(String[] args) throws IOException {
+	// BaseJFrame frame = new BaseJFrame();
+	// frame.setVisible(true);
+	// }
 }
