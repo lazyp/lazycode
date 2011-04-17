@@ -40,7 +40,7 @@ public class NewCostRecordUI extends BaseJDialog {
 
 	public NewCostRecordUI(Frame owner) {
 		super(owner, "新增支出记录", true);
-		this.owner = (BaseJFrame)owner;
+		this.owner = (BaseJFrame) owner;
 	}
 
 	@Override
@@ -50,14 +50,12 @@ public class NewCostRecordUI extends BaseJDialog {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-			    setVisible(false);
+				setVisible(false);
 			}
-			
-		});
-		this.setLocationRelativeTo(owner);
-		this.setResizable(false);
-	
 
+		});
+
+		this.setResizable(false);
 
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -103,13 +101,12 @@ public class NewCostRecordUI extends BaseJDialog {
 		remarkLabel.setBounds(34, 229, 54, 15);
 		panel.add(remarkLabel);
 
-		
 		JTextArea remarkTextArea = new JTextArea();
 		remarkTextArea.setLineWrap(true);
 		remarkTextArea.setColumns(10);
 		remarkTextArea.setRows(2);
 		remarkTextArea.setBounds(122, 211, 183, 45);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(122, 211, 183, 52);
 		scrollPane.setViewportView(remarkTextArea);
@@ -141,7 +138,7 @@ public class NewCostRecordUI extends BaseJDialog {
 				"\u62DB\u5546\u94F6\u884C\u5361" }));
 		sourceComboBox.setBounds(122, 117, 116, 21);
 		panel.add(sourceComboBox);
-		this.setVisible(true);
+
 	}
 
 	public static void main(String[] args) {

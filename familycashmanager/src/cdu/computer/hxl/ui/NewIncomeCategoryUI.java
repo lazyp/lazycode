@@ -75,7 +75,7 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 		resetbnt.setBounds(202, 145, 60, 23);
 		getContentPane().add(resetbnt);
 		
-		setLocationRelativeTo(owner);
-		setVisible(true);
+//		setLocationRelativeTo(owner);
+//		setVisible(true);
 	}
 }

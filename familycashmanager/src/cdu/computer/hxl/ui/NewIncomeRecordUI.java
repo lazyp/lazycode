@@ -101,7 +101,7 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		JButton btn = new JButton("\u6E05\u7A7A");
 		btn.setBounds(219, 220, 66, 23);
 		getContentPane().add(btn);
-		this.setLocationRelativeTo(owner);
-		this.setVisible(true);
+//		this.setLocationRelativeTo(owner);
+//		this.setVisible(true);
 	}
 }

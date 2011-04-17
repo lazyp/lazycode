@@ -106,7 +106,7 @@ public class MainUI {
 		mainFrame.setFrameSize(Constants.MAIN_WIDTH, Constants.MAIN_HEIGHT)
 				.setFrameResizable(true).setFrameCenter();
 
-		mainFrame.setMinimumSize(new Dimension(600, 480));
+		mainFrame.setMinimumSize(new Dimension(700, 600));
 
 		/*
 		 * ¥π÷±∫·Ãı
@@ -211,6 +211,17 @@ public class MainUI {
 		private BaseJButton copyBtn = null;
 		private BaseJButton cutBtn = null;
 		private BaseJButton pasteBtn = null;
+		
+		private Image image = null;
+		
+		public TopPanel(){
+			 try {
+				image = ImageIO.read(Resource
+						.getResourceURL("images/toolbg.jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 		@Override
 		protected void paintComponent(Graphics g) {
@@ -218,15 +229,17 @@ public class MainUI {
 			super.paintComponent(g);
 
 			Graphics2D g2 = (Graphics2D) g.create();
-			g2.setColor(new Color(96, 96, 96));
-			g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-
-			GradientPaint paint = new GradientPaint(0, 0,
-					new Color(96, 96, 96), 0, this.getHeight(), new Color(10,
-							10, 10));
-
-			g2.setPaint(paint);
-			g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+	
+			g2.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
+//			g2.setColor(new Color(96, 96, 96));
+//			g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+//
+//			GradientPaint paint = new GradientPaint(0, 0,
+//					new Color(96, 96, 96), 0, this.getHeight(), new Color(10,
+//							10, 10));
+//
+//			g2.setPaint(paint);
+//			g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 			g2.dispose();
 		}
 

@@ -77,8 +77,10 @@ public class NewCostCategoryUI extends BaseJDialog {
 		JButton clearbnt = new JButton("\u6E05\u7A7A");
 		clearbnt.setBounds(207, 182, 73, 23);
 		getContentPane().add(clearbnt);
-	
-		setLocationRelativeTo(owner);
-		this.setVisible(true);
+	    /*
+	     * 父类已经实现
+	     */
+//		setLocationRelativeTo(owner);
+//		this.setVisible(true);
 	}
 }

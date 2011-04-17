@@ -17,6 +17,15 @@ public abstract class BaseJDialog extends JDialog {
 	public BaseJDialog(Frame owner, String title, boolean modal) {
 		super(owner, title, modal);
 		initUI();
+		if (owner != null) {
+			/*
+			 * 默认显示在父窗口的中间位置
+			 */
+			setLocation(((owner.getWidth() - this.getWidth()) >> 1),
+					((owner.getHeight() - this.getHeight()) >> 1));
+		}
+		this.setLocationRelativeTo(owner);
+		this.setVisible(true);
 	}
 
 	abstract protected void initUI();
