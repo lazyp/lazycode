@@ -81,12 +81,13 @@ public class FamilyCashManagerSystem {
 			public void actionPerformed(ActionEvent e) {
 
 				mainFrame.getContentPane().removeAll();
+				//mainFrame.showStatus();
 				// mainFrame.getContentPane().repaint();
 				// mainFrame.getContentPane().validate();
 				mainUI.initUI();
 			}
 		});
 
-		mainFrame.setVisible(true);
+		mainFrame.showFrame();
 	}
 }

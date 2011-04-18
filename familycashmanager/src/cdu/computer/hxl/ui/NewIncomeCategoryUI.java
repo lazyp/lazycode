@@ -42,23 +42,23 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 		getContentPane().add(titleLabel);
 
 		JLabel categoryNameLabel = new JLabel("\u7C7B\u522B\u540D\u79F0\uFF1A");
-		categoryNameLabel.setBounds(39, 44, 84, 15);
+		categoryNameLabel.setBounds(34, 44, 84, 15);
 		categoryNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		getContentPane().add(categoryNameLabel);
 
 		categoryNameTextField = new JTextField();
-		categoryNameTextField.setBounds(128, 41, 134, 21);
+		categoryNameTextField.setBounds(128, 41, 146, 21);
 		categoryNameTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		getContentPane().add(categoryNameTextField);
 		categoryNameTextField.setColumns(10);
 
 		JLabel remarkLabel = new JLabel("\u5907\u6CE8\uFF1A");
-		remarkLabel.setBounds(69, 90, 54, 15);
+		remarkLabel.setBounds(64, 87, 54, 15);
 		remarkLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		getContentPane().add(remarkLabel);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(128, 72, 134, 50);
+		scrollPane.setBounds(128, 72, 146, 50);
 		getContentPane().add(scrollPane);
 
 		JTextArea remarkTextArea = new JTextArea();

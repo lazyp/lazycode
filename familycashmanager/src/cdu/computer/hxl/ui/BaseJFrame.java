@@ -1,8 +1,9 @@
 package cdu.computer.hxl.ui;
 
 import java.awt.AWTException;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.PopupMenu;
@@ -16,13 +17,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
@@ -43,6 +44,8 @@ import cdu.computer.hxl.util.Constants;
 public class BaseJFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+
+	private final StatusPanel status = new StatusPanel();
 
 	private final Dimension screen = Toolkit.getDefaultToolkit()
 			.getScreenSize();// 获得屏幕的大小
@@ -75,6 +78,8 @@ public class BaseJFrame extends JFrame {
 
 		// this.getContentPane().setSize(new Dimension(width, height));
 		this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		this.setLayout(new BorderLayout());// 设置布局管理器
+
 		trayIcon.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -109,6 +114,7 @@ public class BaseJFrame extends JFrame {
 			}
 
 		});
+
 	}
 
 	/**
@@ -131,7 +137,7 @@ public class BaseJFrame extends JFrame {
 	public BaseJFrame setFrameSize(double width, double height) {
 
 		/*
-		 * 如果哦传入的宽度或者高度小于等于了0，那么就把窗口设置为默认高度、宽度
+		 * 如果传入的宽度或者高度小于等于了0，那么就把窗口设置为默认高度、宽度
 		 */
 		if (width <= 0.0 || height <= 0.0) {
 			width = this.DEFAULT_WIDTH;
@@ -181,10 +187,65 @@ public class BaseJFrame extends JFrame {
 
 		return this;
 	}
+	
 
-	public void setStatusText(String text) {
+	/**
+	 * 显示底部状态栏
+	 */
+	public void showStatus() {
+		this.add(status, BorderLayout.SOUTH);
 	}
 
+	/**
+	 * 显示窗口
+	 */
+	public void showFrame() {
+		setVisible(true);
+	}
+
+	/**
+	 * 改变状态栏左边的提示信息
+	 * 
+	 * @param text
+	 */
+	public void setStatusText(String text) {
+		status.chanageStatusText(text);
+	}
+
+	/**
+	 * 底部状态栏
+	 * 
+	 * @author hxl
+	 * 
+	 */
+	private class StatusPanel extends BaseJPanel {
+
+		private static final long serialVersionUID = -7563273600503012769L;
+		private JLabel status = null;
+
+		@Override
+		protected void init() {
+			setLayout(new BorderLayout());
+			@SuppressWarnings("deprecation")
+			JLabel time = new JLabel(new Date().toLocaleString());
+			time.setFont(new Font("宋体", Font.ITALIC, 10));
+			add(time, BorderLayout.EAST);
+
+			chanageStatusText("准备就绪");
+
+		}
+
+		public void chanageStatusText(String text) {
+			status = new JLabel();
+			status.setText(text);
+			status.setFont(new Font("宋体", Font.ITALIC, 10));
+			if (this.getComponentCount() >= 2)
+				remove(1);
+			add(status, BorderLayout.WEST);
+			validate();
+		}
+
+	}
 	// public static void main(String[] args) throws IOException {
 	// BaseJFrame frame = new BaseJFrame();
 	// frame.setVisible(true);

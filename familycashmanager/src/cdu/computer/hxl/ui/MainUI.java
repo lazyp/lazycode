@@ -61,13 +61,13 @@ import cdu.computer.hxl.util.Resource;
 public class MainUI {
 	private BaseJFrame mainFrame = null;
 
+	private JPanel mainPanel = new JPanel();
+
 	private BaseJPanel top = new TopPanel();
 
 	private BaseJPanel left = new LeftPanel();
 
 	private CenterPanel center = new CenterPanel();
-
-	private StatusPanel statusPanel = new StatusPanel();
 
 	private JMenuBar bar = new JMenuBar();
 
@@ -78,20 +78,7 @@ public class MainUI {
 			"修改", "删除" }, new ActionListener[] { null, null, null });
 
 	private JMenu helpMenu = MenuFactory.createMenu("帮助", new String[] { "说明",
-			"作者" }, new ActionListener[] { new ActionListener() {
-
-		public void actionPerformed(ActionEvent e) {
-			new BaseJWindow(mainFrame) {
-				protected void init() {
-					super.init();
-					this.setWindowSize(300, 200);
-
-					this.setVisible(true);
-				}
-			};
-		}
-
-	}, null });
+			"作者" }, new ActionListener[] { null, null });
 
 	public MainUI() {
 
@@ -104,7 +91,7 @@ public class MainUI {
 	public void initUI() {
 
 		mainFrame.setFrameSize(Constants.MAIN_WIDTH, Constants.MAIN_HEIGHT)
-				.setFrameResizable(true).setFrameCenter();
+				.setFrameResizable(true).setFrameCenter().showStatus();
 
 		mainFrame.setMinimumSize(new Dimension(700, 600));
 
@@ -148,7 +135,8 @@ public class MainUI {
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		GridBagLayout gbl = new GridBagLayout();
-		mainFrame.setLayout(gbl);
+		// mainFrame.setLayout(gbl);
+		mainPanel.setLayout(gbl);
 
 		bar.add(startMenu);
 		bar.add(editMenu);
@@ -166,7 +154,7 @@ public class MainUI {
 
 		gbc.weightx = 0;
 		gbc.weighty = 1.0;
-		gbc.gridheight = GridBagConstraints.RELATIVE;
+		gbc.gridheight = GridBagConstraints.REMAINDER;
 		gbc.gridwidth = 1;
 
 		vertical.setPreferredSize(new Dimension(3, 100));
@@ -177,21 +165,28 @@ public class MainUI {
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbl.setConstraints(center, gbc);
 
-		gbc.weighty = 0;
-		gbc.gridheight = 1;
-		gbl.setConstraints(statusPanel, gbc);
+		// gbc.weighty = 0;
+		// gbc.gridheight = 1;
+		// gbl.setConstraints(statusPanel, gbc);
 
-		mainFrame.add(top);
-		mainFrame.add(horizontal);
-		mainFrame.add(left);
-		mainFrame.add(vertical);
-		mainFrame.add(center);
-		mainFrame.add(statusPanel);
+		/*
+		 * mainFrame.add(top); mainFrame.add(horizontal); mainFrame.add(left);
+		 * mainFrame.add(vertical); mainFrame.add(center);
+		 * mainFrame.add(statusPanel);
+		 */
+		mainPanel.add(top);
+		mainPanel.add(horizontal);
+		mainPanel.add(left);
+		mainPanel.add(vertical);
+		mainPanel.add(center);
+
+		mainFrame.add(mainPanel, BorderLayout.CENTER);
+
 	}
 
-	public void setStatusText(String text) {
-		this.statusPanel.chanageStatusText(text);
-	}
+	// public void setStatusText(String text) {
+	// this.statusPanel.chanageStatusText(text);
+	// }
 
 	/**
 	 * 顶部菜单栏
@@ -211,11 +206,11 @@ public class MainUI {
 		private BaseJButton copyBtn = null;
 		private BaseJButton cutBtn = null;
 		private BaseJButton pasteBtn = null;
-		
+
 		private Image image = null;
-		
-		public TopPanel(){
-			 try {
+
+		public TopPanel() {
+			try {
 				image = ImageIO.read(Resource
 						.getResourceURL("images/toolbg.jpg"));
 			} catch (IOException e) {
@@ -229,17 +224,17 @@ public class MainUI {
 			super.paintComponent(g);
 
 			Graphics2D g2 = (Graphics2D) g.create();
-	
+
 			g2.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
-//			g2.setColor(new Color(96, 96, 96));
-//			g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-//
-//			GradientPaint paint = new GradientPaint(0, 0,
-//					new Color(96, 96, 96), 0, this.getHeight(), new Color(10,
-//							10, 10));
-//
-//			g2.setPaint(paint);
-//			g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+			// g2.setColor(new Color(96, 96, 96));
+			// g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+			//
+			// GradientPaint paint = new GradientPaint(0, 0,
+			// new Color(96, 96, 96), 0, this.getHeight(), new Color(10,
+			// 10, 10));
+			//
+			// g2.setPaint(paint);
+			// g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 			g2.dispose();
 		}
 
@@ -381,17 +376,17 @@ public class MainUI {
 						BaseJList source = (BaseJList) e.getSource();
 						int index = source.getSelectedIndex();
 						if (index == 1) {
-							setStatusText("添加支出新纪录...");
+							// setStatusText("添加支出新纪录...");
 							new NewCostRecordUI(mainFrame);
 
 						} else if (index == 7) {
-							setStatusText("添加收入新纪录...");
+							// setStatusText("添加收入新纪录...");
 							new NewIncomeRecordUI(mainFrame);
 						} else if (index == 3) {
-							setStatusText("添加支出类别...");
+							// setStatusText("添加支出类别...");
 							new NewCostCategoryUI(mainFrame);
 						} else if (index == 9) {
-							setStatusText("添加收入类别...");
+							// setStatusText("添加收入类别...");
 							new NewIncomeCategoryUI(mainFrame);
 						} else if (index == 2) {
 							center.addTabComponent("支出管理", new CostManagerUI());
@@ -459,32 +454,4 @@ public class MainUI {
 
 	}
 
-	private class StatusPanel extends BaseJPanel {
-
-		private static final long serialVersionUID = -7563273600503012769L;
-		private JLabel status = null;
-
-		@Override
-		protected void init() {
-			setLayout(new BorderLayout());
-			@SuppressWarnings("deprecation")
-			JLabel time = new JLabel(new Date().toLocaleString());
-			time.setFont(new Font("宋体", Font.ITALIC, 10));
-			add(time, BorderLayout.EAST);
-
-			chanageStatusText("准备就绪");
-
-		}
-
-		public void chanageStatusText(String text) {
-			status = new JLabel();
-			status.setText(text);
-			status.setFont(new Font("宋体", Font.ITALIC, 10));
-			if (this.getComponentCount() >= 2)
-				remove(1);
-			add(status, BorderLayout.WEST);
-			validate();
-		}
-
-	}
 }
