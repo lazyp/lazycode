@@ -332,7 +332,9 @@ public class MainUI {
 
 		@Override
 		protected void init() {
-
+			/*
+			 * 左侧列表项名称
+			 */
 			String[][] leftMenu = new String[][] { { "//资金支出管理", "/" },
 					{ "新增支出记录", "images/listselect.png" },
 					{ "管理支出记录", "images/listselect.png" },
@@ -344,7 +346,8 @@ public class MainUI {
 					{ "添加收入类别", "images/listselect.png" },
 					{ "收入类别管理", "images/listselect.png" },
 					{ "收入分布图", "images/listselect.png" }, { "//资金收支统计", "/" },
-					{ "收支平衡图表", "images/listselect.png" } };
+					{ "收支平衡图表", "images/listselect.png" }, { "//系统设置         "  , "/" },
+					{ "密码更改 ", "images/listselect.png" } };
 
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			this.setPreferredSize(new Dimension(210, 0));

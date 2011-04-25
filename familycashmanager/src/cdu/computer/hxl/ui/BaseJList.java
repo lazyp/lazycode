@@ -48,7 +48,7 @@ public class BaseJList extends JList {
 				if (data.getIcon() != null) {
 					setHorizontalAlignment(SwingConstants.LEADING);
 					setIcon(data.getIcon());
-					setIconTextGap(30);
+					setIconTextGap(42);
 				} else {
 					setIcon(null);
 					setHorizontalAlignment(SwingConstants.CENTER);

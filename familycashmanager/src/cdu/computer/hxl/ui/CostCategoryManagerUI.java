@@ -19,7 +19,7 @@ public class CostCategoryManagerUI extends BaseJPanel {
 	@Override
 	protected void init() {
 		setLayout(new BorderLayout(0, 0));
-
+        /*
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
@@ -36,7 +36,7 @@ public class CostCategoryManagerUI extends BaseJPanel {
 		textField_1 = new JTextField();
 		panel.add(textField_1);
 		textField_1.setColumns(10);
-
+*/
 		JPanel panel_1 = new JPanel();
 		add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BorderLayout(0, 0));

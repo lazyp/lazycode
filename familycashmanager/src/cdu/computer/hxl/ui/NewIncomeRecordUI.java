@@ -24,9 +24,9 @@ public class NewIncomeRecordUI extends BaseJDialog {
 	private JTextField textField = null;
 	private JTextField timeTextField;
 	
-	private Frame owner = null;
+	private BaseJFrame owner = null;
 
-	public NewIncomeRecordUI(Frame owner) {
+	public NewIncomeRecordUI(BaseJFrame owner) {
 		super(owner, "新增收入记录", true);
 	}
 

@@ -38,9 +38,9 @@ public class NewCostRecordUI extends BaseJDialog {
 	private JTextField moneyTextField;
 	private JTextField timeTextField;
 
-	public NewCostRecordUI(Frame owner) {
+	public NewCostRecordUI(BaseJFrame owner) {
 		super(owner, "新增支出记录", true);
-		this.owner = (BaseJFrame) owner;
+		this.owner =  owner;
 	}
 
 	@Override
@@ -142,24 +142,6 @@ public class NewCostRecordUI extends BaseJDialog {
 	}
 
 	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		JFrame frame = new JFrame();
-		try {
-			NewCostRecordUI dialog = new NewCostRecordUI(frame);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 }

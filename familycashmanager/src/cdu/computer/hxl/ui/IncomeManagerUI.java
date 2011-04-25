@@ -22,21 +22,21 @@ public class IncomeManagerUI extends BaseJPanel {
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		
-		JLabel label = new JLabel("New label");
+		JLabel label = new JLabel("\u6765\u6E90\uFF1A");
 		panel.add(label);
 		
 		textField = new JTextField();
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		JLabel label_1 = new JLabel("New label");
+		JLabel label_1 = new JLabel("\u65F6\u95F4\uFF1A");
 		panel.add(label_1);
 		
 		textField_1 = new JTextField();
 		panel.add(textField_1);
 		textField_1.setColumns(10);
 		
-		JButton button = new JButton("New button");
+		JButton button = new JButton("\u67E5\u8BE2");
 		panel.add(button);
 		
 		JPanel panel_1 = new JPanel();

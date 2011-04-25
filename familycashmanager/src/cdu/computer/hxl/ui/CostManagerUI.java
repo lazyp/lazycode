@@ -40,14 +40,14 @@ public class CostManagerUI extends BaseJPanel {
 		searchPanel.setBackground(Color.BLACK);
 		add(searchPanel, BorderLayout.NORTH);
 
-		JLabel label = new JLabel("New label");
+		JLabel label = new JLabel("\u91D1\u989D\uFF1A");
 		searchPanel.add(label);
 
 		textField = new JTextField();
 		searchPanel.add(textField);
 		textField.setColumns(10);
 
-		JLabel label_1 = new JLabel("New label");
+		JLabel label_1 = new JLabel("\u65F6\u95F4\uFF1A");
 		searchPanel.add(label_1);
 
 		textField_1 = new JTextField();

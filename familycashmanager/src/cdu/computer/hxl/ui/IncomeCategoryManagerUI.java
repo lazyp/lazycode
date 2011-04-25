@@ -19,7 +19,7 @@ public class IncomeCategoryManagerUI extends BaseJPanel {
 	 */
 	public IncomeCategoryManagerUI() {
 		setLayout(new BorderLayout(0, 0));
-
+        /*
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
@@ -37,9 +37,9 @@ public class IncomeCategoryManagerUI extends BaseJPanel {
 		panel.add(textField_1);
 		textField_1.setColumns(10);
 
-		JButton button = new JButton("New button");
+		JButton button = new JButton("\u67E5\u8BE2");
 		panel.add(button);
-
+*/
 		JPanel panel_1 = new JPanel();
 		add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BorderLayout(0, 0));

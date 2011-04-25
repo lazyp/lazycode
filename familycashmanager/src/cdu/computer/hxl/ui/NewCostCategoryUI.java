@@ -17,13 +17,13 @@ import javax.swing.JTextArea;
 public class NewCostCategoryUI extends BaseJDialog {
 
 	private  JPanel contentPanel = null;
-	private Frame owner = null;
+	private BaseJFrame owner = null;
 	private JTextField nameTextField;
 
 	/**
 	 * Create the dialog.
 	 */
-	public NewCostCategoryUI(Frame owner) {
+	public NewCostCategoryUI(BaseJFrame owner) {
 		super(owner, "新增支出类别", true);
 		this.owner = owner;
 	}

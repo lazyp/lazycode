@@ -17,15 +17,14 @@ import javax.swing.JTextArea;
 public class NewIncomeCategoryUI extends BaseJDialog {
 
 	private static final long serialVersionUID = 3359896724350259509L;
-	private Frame owner = null;
+	private BaseJFrame owner = null;
 	private JTextField categoryNameTextField;
 
 	/**
 	 * Create the dialog.
 	 */
-	public NewIncomeCategoryUI(Frame owner) {
+	public NewIncomeCategoryUI(BaseJFrame owner) {
 		super(owner, "添加收入类别", true);
-
 		this.owner = owner;
 
 	}
