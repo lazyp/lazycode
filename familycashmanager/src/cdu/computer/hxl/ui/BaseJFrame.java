@@ -2,6 +2,7 @@ package cdu.computer.hxl.ui;
 
 import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -12,28 +13,20 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
+import javax.swing.border.TitledBorder;
 
 import cdu.computer.hxl.factory.MenuFactory;
-import cdu.computer.hxl.util.Constants;
 
 /**
  * 家庭财务管理系统主显示窗体
@@ -75,7 +68,7 @@ public class BaseJFrame extends JFrame {
 	} });
 
 	public BaseJFrame() {
-
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		// this.getContentPane().setSize(new Dimension(width, height));
 		this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setLayout(new BorderLayout());// 设置布局管理器
@@ -95,12 +88,7 @@ public class BaseJFrame extends JFrame {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				setVisible(false);
-				try {
-					sTray.add(trayIcon);// 添加系统托盘
-				} catch (AWTException e1) {
-					e1.printStackTrace();
-				}
+				new CloseDialog(BaseJFrame.this).showDialog();
 			}
 
 			@Override
@@ -187,7 +175,6 @@ public class BaseJFrame extends JFrame {
 
 		return this;
 	}
-	
 
 	/**
 	 * 显示底部状态栏
@@ -246,8 +233,100 @@ public class BaseJFrame extends JFrame {
 		}
 
 	}
-	// public static void main(String[] args) throws IOException {
-	// BaseJFrame frame = new BaseJFrame();
-	// frame.setVisible(true);
-	// }
+
+	/**
+	 * 关闭Frame时，弹出对话，让用户选择关闭还是缩小到系统托盘
+	 * 
+	 * @author hxl
+	 * 
+	 */
+	private class CloseDialog extends BaseJDialog {
+		private int close = 1;
+		private JFrame frame = null;
+
+		private CloseDialog(BaseJFrame frame) {
+			super(frame, "系统托盘", true);
+			this.frame = frame;
+			// System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		}
+
+		@Override
+		protected void initUI() {
+			setLayout(null);
+			setSize(300, 160);
+			setResizable(false);
+			JPanel panel = new JPanel();
+			panel.setBorder(new TitledBorder(new RoundBorder(), "请选择",
+					TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			ButtonGroup group = new ButtonGroup();
+			JRadioButton trayBnt = new JRadioButton("最小到系统托盘");
+			JRadioButton exitBnt = new JRadioButton("直接推出程序");
+			group.add(trayBnt);
+			group.add(exitBnt);
+			group.setSelected(trayBnt.getModel(), true);
+
+			JButton okBnt = new JButton("确定");
+			JButton closeBnt = new JButton("关闭");
+
+			trayBnt.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					close = 1;
+				}
+			});
+
+			exitBnt.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					close = 0;
+
+				}
+			});
+
+			okBnt.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					setVisible(false);
+					if (isClose() == 0) {
+						System.exit(0);
+					} else if (isClose() == 1) {
+						frame.setVisible(false);
+						try {
+							sTray.add(trayIcon);// 添加系统托盘
+						} catch (AWTException e1) {
+							e1.printStackTrace();
+						}
+					}
+
+				}
+			});
+
+			closeBnt.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					close = -1;
+					setVisible(false);
+				}
+			});
+
+			// panel.setPreferredSize(new Dimension(100, 100));
+			panel.setBounds(15, 10, 265, 110);
+			panel.add(trayBnt);
+			panel.add(exitBnt);
+			panel.add(okBnt);
+			panel.add(closeBnt);
+
+			add(panel);
+
+		}
+
+		protected int isClose() {
+			return close;
+		}
+	}
+
+	public static void main(String[] args) {
+		BaseJFrame frame = new BaseJFrame();
+		frame.setVisible(true);
+	}
 }

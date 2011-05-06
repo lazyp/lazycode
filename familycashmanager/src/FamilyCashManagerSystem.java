@@ -71,7 +71,7 @@ public class FamilyCashManagerSystem {
 				Constants.LOGIN_HEIGHT).setFrameIconImage(image)
 				.setFrameResizable(false).setFrameCenter();
 
-		mainFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+		//mainFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
 		LoginUI login = LoginUI.instance().mainFrame(mainFrame).topImage(
 				loginImg).build();

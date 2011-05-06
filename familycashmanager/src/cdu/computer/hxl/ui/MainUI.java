@@ -380,17 +380,17 @@ public class MainUI {
 						int index = source.getSelectedIndex();
 						if (index == 1) {
 							// setStatusText("添加支出新纪录...");
-							new NewCostRecordUI(mainFrame);
+							new NewCostRecordUI(mainFrame).showDialog();
 
 						} else if (index == 7) {
 							// setStatusText("添加收入新纪录...");
-							new NewIncomeRecordUI(mainFrame);
+							new NewIncomeRecordUI(mainFrame).showDialog();
 						} else if (index == 3) {
 							// setStatusText("添加支出类别...");
-							new NewCostCategoryUI(mainFrame);
+							new NewCostCategoryUI(mainFrame).showDialog();
 						} else if (index == 9) {
 							// setStatusText("添加收入类别...");
-							new NewIncomeCategoryUI(mainFrame);
+							new NewIncomeCategoryUI(mainFrame).showDialog();
 						} else if (index == 2) {
 							center.addTabComponent("支出管理", new CostManagerUI());
 						} else if (index == 4) {
@@ -413,7 +413,7 @@ public class MainUI {
 							center.addTabComponent("平衡分布图",
 									new BalanceChartUI());
 						}else if(index == 15){
-							new ChangePasswordUI(mainFrame);
+							new ChangePasswordUI(mainFrame).showDialog();
 						}
 					}
 

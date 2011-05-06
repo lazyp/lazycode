@@ -153,4 +153,9 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 		}
 	}
 
+	public static void main(String[] args) {
+		DefaultDBCRUDHandler handler = new DefaultDBCRUDHandler();
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+  	}
 }

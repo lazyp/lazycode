@@ -24,10 +24,14 @@ public abstract class BaseJDialog extends JDialog {
 			setLocation(((owner.getWidth() - this.getWidth()) >> 1),
 					((owner.getHeight() - this.getHeight()) >> 1));
 		}
+	
 		this.setLocationRelativeTo(owner);
-		this.setVisible(true);
+		//this.setVisible(true);
+	
 	}
-
+    public void showDialog(){
+    	setVisible(true);
+    }
 	abstract protected void initUI();
 
 	/**
