@@ -412,6 +412,8 @@ public class MainUI {
 						} else if (index == 13) {
 							center.addTabComponent("Æ½ºâ·Ö²¼Í¼",
 									new BalanceChartUI());
+						}else if(index == 15){
+							new ChangePasswordUI(mainFrame);
 						}
 					}
 

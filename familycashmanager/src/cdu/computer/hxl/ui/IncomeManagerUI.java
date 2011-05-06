@@ -46,9 +46,16 @@ public class IncomeManagerUI extends BaseJPanel {
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-				"序列号", "金额", "收入来源", "存入", "时间"
+				"\u5E8F\u5217\u53F7", "\u91D1\u989D", "\u6536\u5165\u6765\u6E90", "\u5B58\u5165", "\u65F6\u95F4"
 			}
 		));
 		panel_1.add(table.getTableHeader() , BorderLayout.NORTH);

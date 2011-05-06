@@ -45,8 +45,20 @@ public class IncomeCategoryManagerUI extends BaseJPanel {
 		panel_1.setLayout(new BorderLayout(0, 0));
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
-				"序列号", "类别名称", "时间" }));
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+			},
+			new String[] {
+				"\u5E8F\u5217\u53F7", "\u7C7B\u522B\u540D\u79F0", "\u65F6\u95F4"
+			}
+		));
 		panel_1.add(table.getTableHeader(), BorderLayout.NORTH);
 		panel_1.add(table, BorderLayout.CENTER);
 

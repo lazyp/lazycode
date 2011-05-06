@@ -63,8 +63,19 @@ public class CostManagerUI extends BaseJPanel {
 		costDataTable = new JTable();
 		costDataTable.setSelectionBackground(new Color(240,188,66));
 		costDataTable.setSelectionForeground(Color.WHITE);
-		costDataTable.setModel(new DefaultTableModel(new Object[][] { }, new String[] { "序列号",
-				"金额", "用处", "来源", "时间" }));
+		costDataTable.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"\u5E8F\u5217\u53F7", "\u91D1\u989D", "\u7528\u5904", "\u6765\u6E90", "\u65F6\u95F4"
+			}
+		));
 		tablePanel.add(costDataTable.getTableHeader(), BorderLayout.NORTH);
 		tablePanel.add(costDataTable, BorderLayout.CENTER);
 		add(tablePanel, BorderLayout.CENTER);

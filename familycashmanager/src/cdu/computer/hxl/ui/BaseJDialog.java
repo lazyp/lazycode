@@ -14,8 +14,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public abstract class BaseJDialog extends JDialog {
 
-	public BaseJDialog(BaseJFrame owner, String title, boolean modal) {
-		super(owner, title, modal);
+	public BaseJDialog(BaseJFrame owner, String title, boolean model) {
+		super(owner, title, model);
 		initUI();
 		if (owner != null) {
 			/*
