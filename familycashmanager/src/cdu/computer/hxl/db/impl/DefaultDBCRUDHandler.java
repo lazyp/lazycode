@@ -87,7 +87,7 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 			Map<String, Object> whereDataMap, String table) {
 		List<Map<String, Object>> queryResult = new ArrayList<Map<String, Object>>();
 
-		String sql = SQLHandler.createReadSqlForPrepareStatement(field,
+		String sql = SQLHandler.createReadSqlForStatement(field,
 				whereDataMap, table);
 		prepareExecute();
 		try {

@@ -17,6 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import cdu.computer.hxl.factory.ObjectFactory;
+import cdu.computer.hxl.service.MemberService;
+
 import com.sun.java.swing.plaf.motif.MotifBorders.BevelBorder;
 
 /**
@@ -57,7 +60,9 @@ public class LoginUI {
 
 	@SuppressWarnings("serial")
 	private void init() {
-
+        
+		passField.setEchoChar('*');
+		
 		lgBgPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
 		top = new JLabel() {
@@ -81,17 +86,15 @@ public class LoginUI {
 			protected void init() {
 
 				// if(mainFrame != null){
-
-				mainFrame.addMouseListener(new MouseAdapter() {
-
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						loginNameField.setFocusable(false);
-						passField.setFocusable(false);
-					}
-
-				});
-				// }
+				/*
+				 * mainFrame.addMouseListener(new MouseAdapter() {
+				 * 
+				 * @Override public void mouseClicked(MouseEvent e) {
+				 * loginNameField.setFocusable(false);
+				 * passField.setFocusable(false); }
+				 * 
+				 * }); // }
+				 */
 
 				loginNameField.setFocusable(false);
 				passField.setFocusable(false);
@@ -156,6 +159,15 @@ public class LoginUI {
 
 		// mainFrame.add(top, BorderLayout.NORTH);
 		mainFrame.add(lgBgPanel);
+	}
+
+	public boolean isAccessLogin() {
+		MemberService mservice = (MemberService) ObjectFactory
+				.getInstance("memberService");
+		String uname = loginNameField.getText();
+		String upass = passField.getText();
+		boolean b = mservice.checkMember(uname, upass);
+		return b;
 	}
 
 	public JButton getResetButton() {

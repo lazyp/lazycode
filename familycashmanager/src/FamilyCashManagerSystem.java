@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
@@ -15,6 +16,9 @@ import javax.swing.WindowConstants;
 import com.jtattoo.plaf.noire.NoireLookAndFeel;
 import com.jtattoo.plaf.smart.SmartLookAndFeel;
 
+import cdu.computer.hxl.db.DBCRUDHandler;
+import cdu.computer.hxl.factory.ObjectFactory;
+import cdu.computer.hxl.service.MemberService;
 import cdu.computer.hxl.ui.BaseJFrame;
 import cdu.computer.hxl.ui.LoginUI;
 import cdu.computer.hxl.ui.MainUI;
@@ -66,25 +70,31 @@ public class FamilyCashManagerSystem {
 		Image image = ImageIO.read(Resource
 				.getResourceURL("images/trayIcon.jpg"));
 
-		final BaseJFrame mainFrame = new BaseJFrame().setFrameTitle(
-				"懒人家庭财务管理系统").setFrameSize(Constants.LOGIN_WIDTH,
-				Constants.LOGIN_HEIGHT).setFrameIconImage(image)
-				.setFrameResizable(false).setFrameCenter();
+		final BaseJFrame mainFrame = new BaseJFrame()
+				.setFrameTitle("懒人家庭财务管理系统")
+				.setFrameSize(Constants.LOGIN_WIDTH, Constants.LOGIN_HEIGHT)
+				.setFrameIconImage(image).setFrameResizable(false)
+				.setFrameCenter();
 
-		//mainFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-
-		LoginUI login = LoginUI.instance().mainFrame(mainFrame).topImage(
-				loginImg).build();
+		final LoginUI login = LoginUI.instance().mainFrame(mainFrame)
+				.topImage(loginImg).build();
 		final MainUI mainUI = new MainUI(mainFrame);
 
 		login.getSubmitButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				mainFrame.getContentPane().removeAll();
-				//mainFrame.showStatus();
-				// mainFrame.getContentPane().repaint();
-				// mainFrame.getContentPane().validate();
-				mainUI.initUI();
+				if (login.isAccessLogin()) {
+
+					mainFrame.getContentPane().removeAll();
+					// mainFrame.showStatus();
+					// mainFrame.getContentPane().repaint();
+					// mainFrame.getContentPane().validate();
+					mainUI.initUI();
+				} else {
+					JOptionPane.showMessageDialog(mainFrame,
+							"登录失败 ，请检查用户名和密码是否正确!", "提示",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 

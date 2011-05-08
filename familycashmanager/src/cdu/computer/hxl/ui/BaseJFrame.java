@@ -219,6 +219,7 @@ public class BaseJFrame extends JFrame {
 			add(time, BorderLayout.EAST);
 
 			chanageStatusText("×¼±¸¾ÍÐ÷");
+		    setBackground(Color.BLACK);
 
 		}
 

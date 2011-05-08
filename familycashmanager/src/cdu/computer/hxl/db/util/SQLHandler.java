@@ -97,7 +97,7 @@ public class SQLHandler {
 		size = whereDataMap.size();
 		for (int i = 0; i < size; i++) {
 			Map.Entry<String, Object> entry = lst.get(i);
-			sql += entry.getKey() + " = " + entry.getValue();
+			sql += entry.getKey() + " = " + buildParam(entry.getValue());
 			if (i != size - 1)
 				sql += " and ";
 		}
