@@ -44,6 +44,8 @@ import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import java.awt.event.ActionListener;
 
@@ -52,6 +54,7 @@ import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import cdu.computer.hxl.factory.MenuFactory;
 import cdu.computer.hxl.util.Constants;
 import cdu.computer.hxl.util.Resource;
+import cdu.computer.hxl.util.ThreadExecutorUtils;
 
 /**
  * 
@@ -346,7 +349,8 @@ public class MainUI {
 					{ "添加收入类别", "images/listselect.png" },
 					{ "收入类别管理", "images/listselect.png" },
 					{ "收入分布图", "images/listselect.png" }, { "//资金收支统计", "/" },
-					{ "收支平衡图表", "images/listselect.png" }, { "//系统设置         "  , "/" },
+					{ "收支平衡图表", "images/listselect.png" },
+					{ "//系统设置         ", "/" },
 					{ "密码更改 ", "images/listselect.png" } };
 
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -398,8 +402,23 @@ public class MainUI {
 									new CostCategoryManagerUI());
 
 						} else if (index == 8) {
-							center.addTabComponent("收入记录管理",
-									new IncomeManagerUI());
+							IncomeManagerUI in = new IncomeManagerUI();
+							final DefaultTableModel model = (DefaultTableModel) in
+									.getTable().getModel();
+							center.addTabComponent("收入记录管理", in);
+							mainFrame.setStatusText("正在加载数据，请等待...");
+							new ThreadExecutorUtils() {
+
+								@Override
+								protected void task() {
+									model.addRow(new Object[] { 'd', 'd', 'd',
+											'd', 'd' });
+
+									model.addRow(new Object[] { 'c', 'c', 'c',
+											'c', 'c' });
+									mainFrame.setStatusText("加载完毕");
+								}
+							}.exec();
 						} else if (index == 10) {
 							center.addTabComponent("收入类别管理",
 									new IncomeCategoryManagerUI());
@@ -412,7 +431,7 @@ public class MainUI {
 						} else if (index == 13) {
 							center.addTabComponent("平衡分布图",
 									new BalanceChartUI());
-						}else if(index == 15){
+						} else if (index == 15) {
 							new ChangePasswordUI(mainFrame).showDialog();
 						}
 					}

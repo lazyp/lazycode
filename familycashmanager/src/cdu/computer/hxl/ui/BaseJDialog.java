@@ -13,26 +13,39 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @date 2010-03-26
  */
 public abstract class BaseJDialog extends JDialog {
+	private BaseJFrame owner = null;
 
 	public BaseJDialog(BaseJFrame owner, String title, boolean model) {
 		super(owner, title, model);
-		initUI();
-		if (owner != null) {
-			/*
-			 * 默认显示在父窗口的中间位置
-			 */
-			setLocation(((owner.getWidth() - this.getWidth()) >> 1),
-					((owner.getHeight() - this.getHeight()) >> 1));
-		}
-	
-		this.setLocationRelativeTo(owner);
-		//this.setVisible(true);
-	
+		this.owner = owner;
 	}
-    public void showDialog(){
-    	setVisible(true);
-    }
-	abstract protected void initUI();
+
+	public void showDialog() {
+		setVisible(true);
+	}
+
+	protected void setCenterForOwner() {
+		setLocationRelativeTo(owner);
+	}
+
+	protected void initUI() {
+		this.setCenterForOwner();
+	}
+
+	/**
+	 * @return the owner
+	 */
+	public BaseJFrame getOwner() {
+		return owner;
+	}
+
+	/**
+	 * @param owner
+	 *            the owner to set
+	 */
+	public void setOwner(BaseJFrame owner) {
+		this.owner = owner;
+	}
 
 	/**
 	 * @param args

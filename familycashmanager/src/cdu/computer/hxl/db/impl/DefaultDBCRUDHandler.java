@@ -96,7 +96,7 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 			int cols = metaData.getColumnCount();
 			while (rs.next()) {
 				Map<String, Object> data = new HashMap<String, Object>();
-				for (int i = 1; i < cols; i++) {
+				for (int i = 1; i <= cols; i++) {
 					String colname = metaData.getColumnName(i);
 					Object value = rs.getObject(colname);
 					data.put(colname, value);

@@ -26,7 +26,7 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 	public NewIncomeCategoryUI(BaseJFrame owner) {
 		super(owner, "添加收入类别", true);
 		this.owner = owner;
-
+		initUI();
 	}
 
 	@Override
@@ -73,8 +73,7 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 		JButton resetbnt = new JButton("\u6E05\u7A7A");
 		resetbnt.setBounds(202, 145, 60, 23);
 		getContentPane().add(resetbnt);
-		
-//		setLocationRelativeTo(owner);
-//		setVisible(true);
+
+		super.initUI();
 	}
 }

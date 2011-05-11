@@ -26,6 +26,7 @@ public class NewCostCategoryUI extends BaseJDialog {
 	public NewCostCategoryUI(BaseJFrame owner) {
 		super(owner, "新增支出类别", true);
 		this.owner = owner;
+		initUI();
 	}
 
 	@Override
@@ -77,10 +78,9 @@ public class NewCostCategoryUI extends BaseJDialog {
 		JButton clearbnt = new JButton("\u6E05\u7A7A");
 		clearbnt.setBounds(207, 182, 73, 23);
 		getContentPane().add(clearbnt);
-	    /*
-	     * 父类已经实现
-	     */
+	
 //		setLocationRelativeTo(owner);
 //		this.setVisible(true);
+		super.initUI();
 	}
 }

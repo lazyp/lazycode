@@ -219,7 +219,7 @@ public class BaseJFrame extends JFrame {
 			add(time, BorderLayout.EAST);
 
 			chanageStatusText("准备就绪");
-		    setBackground(Color.BLACK);
+			setBackground(Color.BLACK);
 
 		}
 
@@ -229,8 +229,12 @@ public class BaseJFrame extends JFrame {
 			status.setFont(new Font("宋体", Font.ITALIC, 10));
 			if (this.getComponentCount() >= 2)
 				remove(1);
-			add(status, BorderLayout.WEST);
+			
+			updateUI();
 			validate();
+			add(status, BorderLayout.WEST);
+			
+
 		}
 
 	}
@@ -248,6 +252,7 @@ public class BaseJFrame extends JFrame {
 		private CloseDialog(BaseJFrame frame) {
 			super(frame, "系统托盘", true);
 			this.frame = frame;
+			initUI();
 			// System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		}
 
@@ -318,7 +323,7 @@ public class BaseJFrame extends JFrame {
 			panel.add(closeBnt);
 
 			add(panel);
-
+			super.initUI();
 		}
 
 		protected int isClose() {
@@ -328,6 +333,9 @@ public class BaseJFrame extends JFrame {
 
 	public static void main(String[] args) {
 		BaseJFrame frame = new BaseJFrame();
+		frame.showStatus();
+		frame.setStatusText("OX");
+		frame.setStatusText("7");
 		frame.setVisible(true);
 	}
 }

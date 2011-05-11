@@ -34,18 +34,17 @@ public class NewCostRecordUI extends BaseJDialog {
 
 	private static final long serialVersionUID = -2303701219177219958L;
 	private JPanel panel = null;
-	private BaseJFrame owner = null;
 	private JTextField moneyTextField;
 	private JTextField timeTextField;
 
 	public NewCostRecordUI(BaseJFrame owner) {
 		super(owner, "新增支出记录", true);
-		this.owner =  owner;
+		initUI();
 	}
 
 	@Override
 	protected void initUI() {
-
+	
 		setBounds(0, 0, 450, 350);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -138,10 +137,10 @@ public class NewCostRecordUI extends BaseJDialog {
 				"\u62DB\u5546\u94F6\u884C\u5361" }));
 		sourceComboBox.setBounds(122, 117, 116, 21);
 		panel.add(sourceComboBox);
-
+		super.initUI();
 	}
 
 	public static void main(String[] args) {
-		
+
 	}
 }

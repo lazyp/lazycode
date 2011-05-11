@@ -17,6 +17,7 @@ public class ChangePasswordUI extends BaseJDialog {
 
 	public ChangePasswordUI(BaseJFrame owner) {
 		super(owner, "ÃÜÂëÐÞ¸Ä", true);
+		initUI();
 	}
 
 	@Override
@@ -58,6 +59,6 @@ public class ChangePasswordUI extends BaseJDialog {
 		JButton clearButton = new JButton("Çå¿Õ");
 		clearButton.setBounds(166, 142, 65, 23);
 		contentPanel.add(clearButton);
-
+		super.initUI();
 	}
 }
