@@ -3,6 +3,10 @@ package cdu.computer.hxl.ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,11 +18,18 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
+import cdu.computer.hxl.factory.ObjectFactory;
+import cdu.computer.hxl.service.CostService;
+import cdu.computer.hxl.util.GetSystemTime;
+import cdu.computer.hxl.util.ThreadExecutorUtils;
+
 public class NewCostCategoryUI extends BaseJDialog {
 
-	private  JPanel contentPanel = null;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPanel = null;
 	private BaseJFrame owner = null;
-	private JTextField nameTextField;
+	private JTextField nameTextField = null;
+	private JTextArea remarkTextArea = null;
 
 	/**
 	 * Create the dialog.
@@ -32,7 +43,7 @@ public class NewCostCategoryUI extends BaseJDialog {
 	@Override
 	protected void initUI() {
 		setBounds(0, 0, 350, 250);
-		
+
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -59,28 +70,67 @@ public class NewCostCategoryUI extends BaseJDialog {
 		remarkLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		remarkLabel.setBounds(51, 110, 54, 15);
 		getContentPane().add(remarkLabel);
-		
-		JTextArea remarkTextArea = new JTextArea();
+
+		remarkTextArea = new JTextArea();
 		remarkTextArea.setLineWrap(true);
 		remarkTextArea.setColumns(10);
 		remarkTextArea.setRows(2);
 		remarkTextArea.setBounds(127, 108, 153, 42);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(127, 108, 153, 42);
 		scrollPane.setViewportView(remarkTextArea);
 		getContentPane().add(scrollPane);
 
-		JButton submitbnt = new JButton("\u4FDD\u5B58");
+		JButton submitbnt = new JButton("保存");
 		submitbnt.setBounds(127, 182, 73, 23);
+
+		submitbnt.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new ThreadExecutorUtils() {
+
+					@Override
+					protected void task() {
+
+						String name = nameTextField.getText();
+						String remark = remarkTextArea.getText();
+						Map<String, Object> data = new HashMap<String, Object>();
+						data.put("categoryname", name);
+						data.put("remark", remark);
+						data.put("datetime", GetSystemTime.get());
+
+						CostService cService = (CostService) ObjectFactory
+								.getInstance("costService");
+
+						owner.setStatusText("正在保存中...");
+
+						cService.addCostCategory(data);
+
+						owner.setStatusText("保存成功");
+					}
+				}.exec();
+			}
+		});
+
 		getContentPane().add(submitbnt);
 
 		JButton clearbnt = new JButton("\u6E05\u7A7A");
 		clearbnt.setBounds(207, 182, 73, 23);
+
+		clearbnt.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				nameTextField.setText("");
+				remarkTextArea.setText("");
+			}
+		});
+
 		getContentPane().add(clearbnt);
-	
-//		setLocationRelativeTo(owner);
-//		this.setVisible(true);
+
+		// setLocationRelativeTo(owner);
+		// this.setVisible(true);
 		super.initUI();
 	}
 }

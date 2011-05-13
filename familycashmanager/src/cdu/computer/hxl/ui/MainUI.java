@@ -398,21 +398,41 @@ public class MainUI {
 							// setStatusText("添加收入来源...");
 							new NewIncomeCategoryUI(mainFrame).showDialog();
 						} else if (index == 2) {
-							center.addTabComponent("支出管理", new CostManagerUI());
+							final CostManagerUI cmu = new CostManagerUI();
+							center.addTabComponent("支出管理", cmu);
+							new ThreadExecutorUtils() {
+
+								@Override
+								protected void task() {
+									mainFrame.setStatusText("正在加载数据...");
+									cmu.loadData();
+									mainFrame.setStatusText("加载完毕");
+								}
+							}.exec();
 						} else if (index == 4) {
-							center.addTabComponent("支出类别管理",
-									new CostCategoryManagerUI());
+							final CostCategoryManagerUI ccm = new CostCategoryManagerUI();
+							center.addTabComponent("支出类别管理", ccm);
+							new ThreadExecutorUtils() {
+
+								@Override
+								protected void task() {
+									mainFrame.setStatusText("正在加载数据...");
+									ccm.loadData();
+									mainFrame.setStatusText("加载完毕");
+								}
+							}.exec();
 
 						} else if (index == 8) {
 							IncomeManagerUI in = new IncomeManagerUI();
 							final DefaultTableModel model = (DefaultTableModel) in
 									.getTable().getModel();
 							center.addTabComponent("收入记录管理", in);
-							mainFrame.setStatusText("正在加载数据，请等待...");
+
 							new ThreadExecutorUtils() {
 
 								@Override
 								protected void task() {
+									mainFrame.setStatusText("正在加载数据，请等待...");
 									IncomeService inService = (IncomeService) ObjectFactory
 											.getInstance("incomeService");
 									Object[][] data = inService

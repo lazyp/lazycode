@@ -22,6 +22,8 @@ import cdu.computer.hxl.util.ThreadExecutorUtils;
 
 public class IncomeAllocationChartUI extends BaseJPanel {
 
+	private static final long serialVersionUID = -8114364422893235600L;
+
 	public IncomeAllocationChartUI() {
 
 	}
@@ -53,7 +55,7 @@ public class IncomeAllocationChartUI extends BaseJPanel {
 						dataset, // data
 						true, // include legend
 						true, false);
-		
+
 				Font font = new Font("ËÎÌו", Font.PLAIN, 12);
 
 				chart.getTitle().setFont(new Font("ËÎÌו", Font.PLAIN, 18));

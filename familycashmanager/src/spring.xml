@@ -19,4 +19,8 @@
 	<bean name="bankService" class="cdu.computer.hxl.service.BankService">
 		<property name="dbHandler" ref="dbCURDHandler"></property>
 	</bean>
+	<bean name="costService" class="cdu.computer.hxl.service.CostService">
+		<property name="dbHandler" ref="dbCURDHandler"></property>
+	</bean>
+
 </beans>

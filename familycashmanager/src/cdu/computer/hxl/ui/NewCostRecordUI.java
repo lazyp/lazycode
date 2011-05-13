@@ -1,13 +1,8 @@
 package cdu.computer.hxl.ui;
 
-import java.awt.Dialog;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Frame;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -16,13 +11,20 @@ import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+
+import cdu.computer.hxl.factory.ObjectFactory;
+import cdu.computer.hxl.service.BankService;
+import cdu.computer.hxl.service.CostService;
+import cdu.computer.hxl.util.ThreadExecutorUtils;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.ScrollPaneConstants;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 新增支出记录窗口
@@ -33,9 +35,17 @@ import javax.swing.ScrollPaneConstants;
 public class NewCostRecordUI extends BaseJDialog {
 
 	private static final long serialVersionUID = -2303701219177219958L;
+	private final CostService cService = (CostService) ObjectFactory
+			.getInstance("costService");
+	private final BankService bService = (BankService) ObjectFactory
+			.getInstance("bankService");
+
 	private JPanel panel = null;
-	private JTextField moneyTextField;
-	private JTextField timeTextField;
+	private JTextField moneyTextField = null;
+	private JTextField timeTextField = null;
+	private BaseJComboBox sourceComboBox = null;
+	private JTextArea remarkTextArea = null;
+	private BaseJComboBox useComboBox = null;
 
 	public NewCostRecordUI(BaseJFrame owner) {
 		super(owner, "新增支出记录", true);
@@ -44,7 +54,7 @@ public class NewCostRecordUI extends BaseJDialog {
 
 	@Override
 	protected void initUI() {
-	
+
 		setBounds(0, 0, 450, 350);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -100,7 +110,7 @@ public class NewCostRecordUI extends BaseJDialog {
 		remarkLabel.setBounds(34, 229, 54, 15);
 		panel.add(remarkLabel);
 
-		JTextArea remarkTextArea = new JTextArea();
+		remarkTextArea = new JTextArea();
 		remarkTextArea.setLineWrap(true);
 		remarkTextArea.setColumns(10);
 		remarkTextArea.setRows(2);
@@ -111,18 +121,50 @@ public class NewCostRecordUI extends BaseJDialog {
 		scrollPane.setViewportView(remarkTextArea);
 		panel.add(scrollPane);
 
-		JButton submit = new JButton("\u4FDD\u5B58");
+		JButton submit = new JButton("保存");
 		submit.setBounds(122, 285, 84, 23);
 		panel.add(submit);
+		submit.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new ThreadExecutorUtils() {
+
+					@SuppressWarnings("unchecked")
+					@Override
+					protected void task() {
+
+						int money = Integer.parseInt(moneyTextField.getText());
+
+						int useid = (Integer) ((Map<String, Object>) useComboBox
+								.getSelectedItem()).get("rowid");
+						int sourceid = (Integer) ((Map<String, Object>) sourceComboBox
+								.getSelectedItem()).get("rowid");
+						String remark = remarkTextArea.getText();
+						String datetime = timeTextField.getText();
+
+						Map<String, Object> dataMap = new HashMap<String, Object>();
+						dataMap.put("amount", money);
+						dataMap.put("bankid", sourceid);
+						dataMap.put("useid", useid);
+						dataMap.put("remark", remark);
+						dataMap.put("date", datetime);
+
+						getOwner().setStatusText("正在保存数据...");
+						cService.addCost(dataMap);
+						getOwner().setStatusText("保存成功");
+					}
+				}.exec();
+
+			}
+		});
 
 		JButton resetbnt = new JButton("\u6E05\u7A7A");
 		resetbnt.setBounds(216, 285, 84, 23);
 		panel.add(resetbnt);
 
-		JComboBox useComboBox = new JComboBox();
-		useComboBox.setModel(new DefaultComboBoxModel(new String[] {
-				"\u4E70\u978B", "\u8863\u670D", "\u7C73", "\u83DC",
-				"\u5176\u5B83" }));
+		useComboBox = new BaseJComboBox();
+		useComboBox.setModel(new DefaultComboBoxModel());
 		useComboBox.setBounds(122, 79, 116, 21);
 		panel.add(useComboBox);
 
@@ -131,12 +173,53 @@ public class NewCostRecordUI extends BaseJDialog {
 		sourceLabel.setBounds(34, 120, 54, 15);
 		panel.add(sourceLabel);
 
-		JComboBox sourceComboBox = new JComboBox();
-		sourceComboBox.setModel(new DefaultComboBoxModel(new String[] {
-				"\u652F\u4ED8\u5B9D", "\u5EFA\u8BBE\u94F6\u884C\u5361",
-				"\u62DB\u5546\u94F6\u884C\u5361" }));
+		sourceComboBox = new BaseJComboBox();
+		sourceComboBox.setModel(new DefaultComboBoxModel());
 		sourceComboBox.setBounds(122, 117, 116, 21);
 		panel.add(sourceComboBox);
+
+		/*
+		 * 加载用途列表
+		 */
+
+		new ThreadExecutorUtils() {
+
+			@Override
+			protected void task() {
+
+				DefaultComboBoxModel dcb = (DefaultComboBoxModel) useComboBox
+						.getModel();
+				List<Map<String, Object>> category = cService
+						.loadCostCategoryForList(null);
+				int size = category.size();
+				for (int i = 0; i < size; i++) {
+					Map<String, Object> mm = category.get(i);
+					mm.put("name", mm.get("categoryname"));
+					mm.remove("categoryname");
+					dcb.addElement(mm);
+				}
+			}
+		}.exec();
+
+		/*
+		 * 加载银行列表
+		 */
+		new ThreadExecutorUtils() {
+
+			@Override
+			protected void task() {
+				DefaultComboBoxModel dcb = (DefaultComboBoxModel) sourceComboBox
+						.getModel();
+				List<Map<String, Object>> bank = bService.loadAllBank();
+				int size = bank.size();
+				for (int i = 0; i < size; i++) {
+					Map<String, Object> mm = bank.get(i);
+					mm.put("name", mm.get("bankname"));
+					mm.remove("bankname");
+					dcb.addElement(mm);
+				}
+			}
+		}.exec();
 		super.initUI();
 	}
 
