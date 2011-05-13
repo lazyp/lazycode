@@ -92,15 +92,30 @@ public class SQLHandler {
 			if (i != size - 1)
 				sql += " , ";
 		}
-		sql += " from " + table + " where ";
-		List<Map.Entry<String, Object>> lst = mapToList(whereDataMap);
-		size = whereDataMap.size();
-		for (int i = 0; i < size; i++) {
-			Map.Entry<String, Object> entry = lst.get(i);
-			sql += entry.getKey() + " = " + buildParam(entry.getValue());
-			if (i != size - 1)
-				sql += " and ";
+		sql += " from " + table;
+		String in = null;
+		if (whereDataMap != null) {
+			sql += " where ";
+			List<Map.Entry<String, Object>> lst = mapToList(whereDataMap);
+			size = whereDataMap.size();
+			for (int i = 0; i < size; i++) {
+				Map.Entry<String, Object> entry = lst.get(i);
+				String key = entry.getKey();
+				if (key.indexOf("in") != -1) {
+					in = key + " (" + entry.getValue() + ")";
+					continue;
+				}
+				sql += key + " = " + buildParam(entry.getValue());
+				if (i != size - 1)
+					sql += " and ";
+			}
 		}
+		if (in != null)
+			if (size > 1)
+				sql += " and " + in;
+			else
+				sql += in;
+
 		return sql;
 	}
 
@@ -128,7 +143,7 @@ public class SQLHandler {
 	public static String createUpdateSqlForStatement(
 			Map<String, Object> dataMap, Map<String, Object> whereDataMap,
 			String table) {
-		String sql = "update set ";
+		String sql = "update " + table + " set ";
 		int size = dataMap.size();
 		List<Map.Entry<String, Object>> lst = mapToList(dataMap);
 		for (int i = 0; i < size; i++) {

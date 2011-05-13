@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,17 +25,20 @@ import javax.swing.JTextArea;
 import cdu.computer.hxl.db.DBCRUDHandler;
 import cdu.computer.hxl.db.impl.DefaultDBCRUDHandler;
 import cdu.computer.hxl.factory.ObjectFactory;
+import cdu.computer.hxl.service.BankService;
 import cdu.computer.hxl.service.IncomeService;
 import cdu.computer.hxl.util.ThreadExecutorUtils;
 
 public class NewIncomeRecordUI extends BaseJDialog {
 
 	private static final long serialVersionUID = 6375647562062306231L;
+	private static final IncomeService incomeService = (IncomeService) ObjectFactory
+			.getInstance("incomeService");
 	private JPanel contentPanel = null;
 	private JTextField amountTextField = null;
 	private JTextField timeTextField = null;
-	private JComboBox saveComboBox = null;
-	private JComboBox sourceComboBox = null;
+	private BaseJComboBox saveComboBox = null;
+	private BaseJComboBox sourceComboBox = null;
 	private JTextArea remarkTextArea = null;
 	private JButton submitbnt = null;
 	private JButton clearbtn = null;
@@ -74,20 +78,25 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		sourceLabel.setBounds(51, 83, 54, 15);
 		getContentPane().add(sourceLabel);
 
-		sourceComboBox = new JComboBox();
-		sourceComboBox.setModel(new DefaultComboBoxModel(new String[] {
-				"\u5DE5\u8D44", "\u5916\u5305", "\u5176\u5B83" }));
+		sourceComboBox = new BaseJComboBox();
+		// sourceComboBox.setModel(new DefaultComboBoxModel(new String[] {
+		// "\u5DE5\u8D44", "\u5916\u5305", "\u5176\u5B83" }));
+		final DefaultComboBoxModel sourcemodel = new DefaultComboBoxModel();
+		sourceComboBox.setModel(sourcemodel);
 		sourceComboBox.setBounds(145, 80, 83, 21);
 		getContentPane().add(sourceComboBox);
 
 		JLabel saveLabel = new JLabel("\u5B58\u5165\uFF1A");
-		saveLabel.setBounds(69, 167, 36, 15);
+		saveLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		saveLabel.setBounds(51, 167, 54, 15);
 		getContentPane().add(saveLabel);
 
-		saveComboBox = new JComboBox();
-		saveComboBox.setModel(new DefaultComboBoxModel(
-				new String[] { "\u5DE5\u5546\u94F6\u884C" }));
+		saveComboBox = new BaseJComboBox();
+		// saveComboBox.setModel(new DefaultComboBoxModel(
+		// new String[] { "\u5DE5\u5546\u94F6\u884C" }));
 		saveComboBox.setBounds(145, 164, 83, 21);
+		final DefaultComboBoxModel savemodel = new DefaultComboBoxModel();
+		saveComboBox.setModel(savemodel);
 		getContentPane().add(saveComboBox);
 
 		JLabel timeLabel = new JLabel("\u65F6\u95F4\uFF1A");
@@ -128,33 +137,31 @@ public class NewIncomeRecordUI extends BaseJDialog {
 				final double money = Double.parseDouble(amountTextField
 						.getText());
 				final String time = timeTextField.getText();
-				final String save = (String) saveComboBox.getSelectedItem();
-				final String source = (String) sourceComboBox.getSelectedItem();
+
+				@SuppressWarnings("unchecked")
+				final Integer saveid = (Integer) ((Map<String, Object>) saveComboBox
+						.getSelectedItem()).get("rowid");
+
+				@SuppressWarnings("unchecked")
+				final Integer sourceid = (Integer) ((Map<String, Object>) sourceComboBox
+						.getSelectedItem()).get("rowid");
+
 				final String remark = remarkTextArea.getText();
 				new ThreadExecutorUtils() {
 
 					@Override
 					protected void task() {
 						getOwner().setStatusText("正在保存收入记录...");
-						
-						IncomeService incomeService = (IncomeService) ObjectFactory
-								.getInstance("incomeService");
-
-						Map<String, Object> whereDataMap = new HashMap<String, Object>();
-						whereDataMap.put("bankname", save);
-
-						int bankid = incomeService
-								.getRowIdForBank(whereDataMap);
 
 						Map<String, Object> data = new HashMap<String, Object>();
 						data.put("amount", money);
 						data.put("remark", remark);
-						data.put("bankid", bankid);
-						data.put("source", source);
+						data.put("bankid", saveid);
+						data.put("sourceid", sourceid);
 						data.put("date", time);
 
 						incomeService.addIncomeItem(data);
-					
+
 						getOwner().setStatusText("保存成功");
 					}
 				}.exec();
@@ -167,6 +174,39 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		clearbtn = new JButton("\u6E05\u7A7A");
 		clearbtn.setBounds(219, 266, 66, 23);
 		getContentPane().add(clearbtn);
+
+		new ThreadExecutorUtils() {
+
+			@Override
+			protected void task() {
+				BankService bService = (BankService) ObjectFactory
+						.getInstance("bankService");
+				List<Map<String, Object>> rankdata = bService.loadAllBank();
+				int size = rankdata.size();
+				for (int i = 0; i < size; i++) {
+					Map<String, Object> mm = rankdata.get(i);
+					mm.put("name", mm.get("bankname"));
+					mm.remove("bankname");
+					savemodel.addElement(mm);
+				}
+			}
+		}.exec();
+
+		new ThreadExecutorUtils() {
+
+			@Override
+			protected void task() {
+				List<Map<String, Object>> incomeList = incomeService
+						.loadIncomeCategoryForList(null);
+				int size = incomeList.size();
+				for (int i = 0; i < size; i++) {
+					Map<String, Object> mm = incomeList.get(i);
+					mm.put("name", mm.get("categoryname"));
+					mm.remove("categoryname");
+					sourcemodel.addElement(mm);
+				}
+			}
+		}.exec();
 
 		super.initUI();
 	}

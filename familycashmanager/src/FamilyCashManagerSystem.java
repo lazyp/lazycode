@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,7 @@ import cdu.computer.hxl.ui.LoginUI;
 import cdu.computer.hxl.ui.MainUI;
 import cdu.computer.hxl.util.Constants;
 import cdu.computer.hxl.util.Resource;
+import cdu.computer.hxl.util.VarCacheFactory;
 
 /**
  * 家庭财务管理系统主类

@@ -34,6 +34,30 @@ public class MemberService {
 	}
 
 	/**
+	 * ĞŞ¸ÄÃÜÂë
+	 * 
+	 * @param uname
+	 * @param oldupass
+	 * @param newupass
+	 * @return true or false
+	 */
+	public boolean modifyPass(String uname, String oldupass, String newupass) {
+		Map<String, Object> whereDataMap = new HashMap<String, Object>();
+		whereDataMap.put("uname", uname);
+		whereDataMap.put("upass", oldupass);
+		List<Map<String, Object>> member = dbHandler.search(new String[] {
+				"rowid", "uname", "upass" }, whereDataMap, "member");
+		if (member != null && member.size() == 1) {
+			Map<String, Object> updateDataMap = new HashMap<String, Object>();
+			updateDataMap.put("upass", newupass);
+			Integer id = (Integer) member.get(0).get("rowid");
+			dbHandler.update(id, updateDataMap, "member");
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * @return the dbHandler
 	 */
 	public DBCRUDHandler getDbHandler() {

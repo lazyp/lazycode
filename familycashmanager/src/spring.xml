@@ -12,7 +12,11 @@
 	<bean name="memberService" class="cdu.computer.hxl.service.MemberService">
 		<property name="dbHandler" ref="dbCURDHandler"></property>
 	</bean>
-		<bean name="incomeService" class="cdu.computer.hxl.service.IncomeService">
+	<bean name="incomeService" class="cdu.computer.hxl.service.IncomeService">
+		<property name="dbHandler" ref="dbCURDHandler"></property>
+	</bean>
+
+	<bean name="bankService" class="cdu.computer.hxl.service.BankService">
 		<property name="dbHandler" ref="dbCURDHandler"></property>
 	</bean>
 </beans>

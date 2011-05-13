@@ -87,8 +87,9 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 			Map<String, Object> whereDataMap, String table) {
 		List<Map<String, Object>> queryResult = new ArrayList<Map<String, Object>>();
 
-		String sql = SQLHandler.createReadSqlForStatement(field,
-				whereDataMap, table);
+		String sql = SQLHandler.createReadSqlForStatement(field, whereDataMap,
+				table);
+		System.out.println(sql);
 		prepareExecute();
 		try {
 			rs = stm.executeQuery(sql);
@@ -114,8 +115,15 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 			String table) {
 		Map<String, Object> whereMap = new HashMap<String, Object>();
 		whereMap.put("rowid", id);
+		update(whereMap, updateDataMap, table);
+	}
+
+	public void update(Map<String, Object> whereMap,
+			Map<String, Object> updateDataMap, String table) {
+
 		String sql = SQLHandler.createUpdateSqlForStatement(updateDataMap,
 				whereMap, table);
+		System.out.println(sql);
 		prepareExecute();
 		try {
 			int updatesum = stm.executeUpdate(sql);
@@ -156,6 +164,6 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 	public static void main(String[] args) {
 		DefaultDBCRUDHandler handler = new DefaultDBCRUDHandler();
 		Map<String, Object> data = new HashMap<String, Object>();
-		
-  	}
+
+	}
 }

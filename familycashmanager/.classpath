@@ -7,5 +7,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SQLite"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SQLiteJDBC"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/USERJAR"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JFREECHAR"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

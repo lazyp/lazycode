@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import cdu.computer.hxl.factory.ObjectFactory;
 import cdu.computer.hxl.service.MemberService;
+import cdu.computer.hxl.util.VarCacheFactory;
 
 import com.sun.java.swing.plaf.motif.MotifBorders.BevelBorder;
 
@@ -60,9 +61,9 @@ public class LoginUI {
 
 	@SuppressWarnings("serial")
 	private void init() {
-        
+
 		passField.setEchoChar('*');
-		
+
 		lgBgPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
 		top = new JLabel() {
@@ -166,7 +167,12 @@ public class LoginUI {
 				.getInstance("memberService");
 		String uname = loginNameField.getText();
 		String upass = passField.getText();
+
 		boolean b = mservice.checkMember(uname, upass);
+		if (b) {
+			VarCacheFactory.uname = uname;
+			VarCacheFactory.upass = upass;
+		}
 		return b;
 	}
 

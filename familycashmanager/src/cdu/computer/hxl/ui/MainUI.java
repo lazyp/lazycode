@@ -52,6 +52,8 @@ import java.awt.event.ActionListener;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import cdu.computer.hxl.factory.MenuFactory;
+import cdu.computer.hxl.factory.ObjectFactory;
+import cdu.computer.hxl.service.IncomeService;
 import cdu.computer.hxl.util.Constants;
 import cdu.computer.hxl.util.Resource;
 import cdu.computer.hxl.util.ThreadExecutorUtils;
@@ -346,7 +348,7 @@ public class MainUI {
 					{ "支出分布图", "images/listselect.png" }, { "//资金收入管理", "/" },
 					{ "新增收入记录", "images/listselect.png" },
 					{ "收入记录管理", "images/listselect.png" },
-					{ "添加收入类别", "images/listselect.png" },
+					{ "添加收入来源", "images/listselect.png" },
 					{ "收入类别管理", "images/listselect.png" },
 					{ "收入分布图", "images/listselect.png" }, { "//资金收支统计", "/" },
 					{ "收支平衡图表", "images/listselect.png" },
@@ -393,7 +395,7 @@ public class MainUI {
 							// setStatusText("添加支出类别...");
 							new NewCostCategoryUI(mainFrame).showDialog();
 						} else if (index == 9) {
-							// setStatusText("添加收入类别...");
+							// setStatusText("添加收入来源...");
 							new NewIncomeCategoryUI(mainFrame).showDialog();
 						} else if (index == 2) {
 							center.addTabComponent("支出管理", new CostManagerUI());
@@ -411,17 +413,40 @@ public class MainUI {
 
 								@Override
 								protected void task() {
-									model.addRow(new Object[] { 'd', 'd', 'd',
-											'd', 'd' });
+									IncomeService inService = (IncomeService) ObjectFactory
+											.getInstance("incomeService");
+									Object[][] data = inService
+											.loadIncomeRecord(null);
+									int sum = data.length;
+									for (int i = 0; i < sum; i++) {
+										model.addRow(data[i]);
+									}
 
-									model.addRow(new Object[] { 'c', 'c', 'c',
-											'c', 'c' });
 									mainFrame.setStatusText("加载完毕");
 								}
 							}.exec();
 						} else if (index == 10) {
-							center.addTabComponent("收入类别管理",
-									new IncomeCategoryManagerUI());
+							IncomeCategoryManagerUI ic = new IncomeCategoryManagerUI();
+							center.addTabComponent("收入类别管理", ic);
+							final DefaultTableModel dtm = (DefaultTableModel) ic
+									.getTable().getModel();
+							new ThreadExecutorUtils() {
+
+								@Override
+								protected void task() {
+									mainFrame.setStatusText("正在加载数据...");
+									IncomeService inService = (IncomeService) ObjectFactory
+											.getInstance("incomeService");
+									Object[][] data = inService
+											.loadIncomeCategory(null);
+									int len = data.length;
+									for (int i = 0; i < len; i++) {
+										dtm.addRow(data[i]);
+									}
+									mainFrame.setStatusText("加载完毕");
+								}
+							}.exec();
+
 						} else if (index == 5) {
 							center.addTabComponent("支出分布图",
 									new CostAllocationChartUI());
