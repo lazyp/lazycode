@@ -2,6 +2,8 @@ package cdu.computer.hxl.ui;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.util.Map;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -39,11 +41,13 @@ public class IncomeCategoryManagerUI extends BaseJPanel {
 
 		table = new JTable();
 		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
-				"\u5E8F\u5217\u53F7", "\u7C7B\u522B\u540D\u79F0","±¸×¢",
+				"\u5E8F\u5217\u53F7", "\u7C7B\u522B\u540D\u79F0", "±¸×¢",
 				"\u65F6\u95F4" }));
 		panel.add(table.getTableHeader(), BorderLayout.NORTH);
 		panel.add(table, BorderLayout.CENTER);
 	}
+
+
 
 	@Override
 	protected void init() {

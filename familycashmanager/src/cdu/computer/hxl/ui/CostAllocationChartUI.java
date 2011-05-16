@@ -51,73 +51,21 @@ public class CostAllocationChartUI extends BaseJPanel {
 
 	protected JPanel createAllocationPanel() {
 
-		DefaultPieDataset dataset = new DefaultPieDataset();
-
 		Map<String, Object> data = cService.statistiCostForallocation();
+		PieChartUI pie = new PieChartUI();
+		return pie.createPieChartPanel("支出分布图", data);
 
-		Set<Map.Entry<String, Object>> dataSet = data.entrySet();
-		Iterator<Map.Entry<String, Object>> iter = dataSet.iterator();
-
-		while (iter.hasNext()) {
-			Map.Entry<String, Object> entry = iter.next();
-			dataset.setValue(entry.getKey(), (Double) entry.getValue());
-		}
-
-		JFreeChart chart = ChartFactory.createPieChart("支出分布图", // chart
-																// title
-				dataset, // data
-				true, // include legend
-				true, false);
-
-		Font font = new Font("宋体", Font.PLAIN, 12);
-
-		chart.getTitle().setFont(new Font("宋体", Font.PLAIN, 18));
-		chart.getLegend().setItemFont(font);
-
-		PiePlot plot = (PiePlot) chart.getPlot();
-		plot.setLabelFont(font);
-		plot.setNoDataMessage("没有数据");
-		plot.setCircular(false);
-		plot.setLabelGap(0.02);
-
-		JPanel panel1 = new ChartPanel(chart);
-		panel1.setPreferredSize(new Dimension(400, 280));
-		return panel1;
 	}
 
 	protected JPanel createCostMoneyAllocationPanel() {
-		DefaultPieDataset dataset = new DefaultPieDataset();
 
-		Map<String, Object> data = cService.statistiCostForMoneyallocation();
+		Map<String, Double> data = cService.statistiCostForMoneyallocation();
 
-		Set<Map.Entry<String, Object>> dataSet = data.entrySet();
-		Iterator<Map.Entry<String, Object>> iter = dataSet.iterator();
+		Bar3DChartUI barChart = new Bar3DChartUI();
 
-		while (iter.hasNext()) {
-			Map.Entry<String, Object> entry = iter.next();
-			dataset.setValue(entry.getKey(), (Double) entry.getValue());
-		}
-
-		JFreeChart chart = ChartFactory.createPieChart("支出资金流向图", // chart
-																	// title
-				dataset, // data
-				true, // include legend
-				true, false);
-
-		Font font = new Font("宋体", Font.PLAIN, 12);
-
-		chart.getTitle().setFont(new Font("宋体", Font.PLAIN, 18));
-		chart.getLegend().setItemFont(font);
-
-		PiePlot plot = (PiePlot) chart.getPlot();
-		plot.setLabelFont(font);
-		plot.setNoDataMessage("没有数据");
-		plot.setCircular(false);
-		plot.setLabelGap(0.02);
-
-		JPanel panel1 = new ChartPanel(chart);
-		panel1.setPreferredSize(new Dimension(400, 280));
-		return panel1;
+		JPanel panel = barChart.createBar3DChartPanel("资金流向柱状图", data);
+		panel.setPreferredSize(new Dimension(400, 280));
+		return panel;
 	}
 
 	protected void addComponent(Component comp) {

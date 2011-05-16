@@ -92,8 +92,8 @@ public class CostService {
 		return statistData;
 	}
 
-	public Map<String, Object> statistiCostForMoneyallocation() {
-		Map<String, Object> statistData = new HashMap<String, Object>();
+	public Map<String, Double> statistiCostForMoneyallocation() {
+		Map<String, Double> statistData = new HashMap<String, Double>();
 		List<Map<String, Object>> sumMoneyList = dbHandler.search(
 				new String[] { "sum(amount) as summoney" }, null, "cost");
 		double sum = 1;
@@ -117,8 +117,7 @@ public class CostService {
 			if (result != null && result.size() == 1) {
 				count = (Double) result.get(0).get("money");
 			}
-			statistData.put((String) m.get("categoryname"), count / sum * 1.0
-					* 100);
+			statistData.put((String) m.get("categoryname"), count / sum * 1.0);
 		}
 
 		return statistData;

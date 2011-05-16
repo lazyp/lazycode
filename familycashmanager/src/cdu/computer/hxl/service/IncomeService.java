@@ -116,6 +116,38 @@ public class IncomeService {
 		return statistData;
 	}
 
+	
+	public Map<String, Double> statistiIncomeForMoneyallocation() {
+		Map<String, Double> statistData = new HashMap<String, Double>();
+		List<Map<String, Object>> sumMoneyList = dbHandler.search(
+				new String[] { "sum(amount) as summoney" }, null, "income");
+		double sum = 1;
+		if (sumMoneyList != null && sumMoneyList.size() == 1)
+			sum = (Double) sumMoneyList.get(0).get("summoney");
+
+		List<Map<String, Object>> cateList = dbHandler.search(new String[] {
+				"rowid", "categoryname" }, null, "income_category");
+
+		Map<String, Object> whereDataMap = new HashMap<String, Object>();
+
+		int size = cateList.size();
+		for (int i = 0; i < size; i++) {
+			Map<String, Object> m = cateList.get(i);
+			whereDataMap.clear();
+			whereDataMap.put("sourceid", m.get("rowid"));
+			List<Map<String, Object>> result = dbHandler.search(
+					new String[] { "sum(amount) as money" }, whereDataMap,
+					"income");
+			double count = 0;
+			if (result != null && result.size() == 1) {
+				count = (Double) result.get(0).get("money");
+			}
+			statistData.put((String) m.get("categoryname"), count / sum * 1.0);
+		}
+
+		return statistData;
+	}
+	
 	/**
 	 * @return the dbHandler
 	 */
