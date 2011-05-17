@@ -46,9 +46,12 @@ public class NewCostRecordUI extends BaseJDialog {
 	private BaseJComboBox sourceComboBox = null;
 	private JTextArea remarkTextArea = null;
 	private BaseJComboBox useComboBox = null;
+	private int rowid = -1;
+	private String title = "";
 
-	public NewCostRecordUI(BaseJFrame owner) {
-		super(owner, "新增支出记录", true);
+	public NewCostRecordUI(String title , BaseJFrame owner) {
+		super(owner, title, true);
+		this.title = title;
 		initUI();
 	}
 
@@ -70,7 +73,7 @@ public class NewCostRecordUI extends BaseJDialog {
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		JLabel titlelabel = new JLabel("\u65B0\u5EFA\u652F\u51FA\u9879\u76EE");
+		JLabel titlelabel = new JLabel(title);
 		titlelabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titlelabel.setBounds(172, 10, 92, 15);
 		panel.add(titlelabel);
@@ -134,7 +137,7 @@ public class NewCostRecordUI extends BaseJDialog {
 					@Override
 					protected void task() {
 
-						int money = Integer.parseInt(moneyTextField.getText());
+						double money = Double.parseDouble(moneyTextField.getText());
 
 						int useid = (Integer) ((Map<String, Object>) useComboBox
 								.getSelectedItem()).get("rowid");
@@ -149,6 +152,7 @@ public class NewCostRecordUI extends BaseJDialog {
 						dataMap.put("useid", useid);
 						dataMap.put("remark", remark);
 						dataMap.put("date", datetime);
+						dataMap.put("rowid", rowid);
 
 						getOwner().setStatusText("正在保存数据...");
 						cService.addCost(dataMap);
@@ -221,6 +225,22 @@ public class NewCostRecordUI extends BaseJDialog {
 			}
 		}.exec();
 		super.initUI();
+	}
+
+	public void setMoney(String money) {
+		this.moneyTextField.setText(money);
+	}
+
+	public void setTime(String time) {
+		this.timeTextField.setText(time);
+	}
+
+	public void setRemarkText(String remarkText) {
+		this.remarkTextArea.setText(remarkText);
+	}
+
+	public void setRowid(int id) {
+		this.rowid = id;
 	}
 
 	public static void main(String[] args) {

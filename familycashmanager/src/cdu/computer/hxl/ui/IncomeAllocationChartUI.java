@@ -2,19 +2,10 @@ package cdu.computer.hxl.ui;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.util.Iterator;
+import java.awt.GridLayout;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.JPanel;
-
-import org.jfree.chart.ChartColor;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
 
 import cdu.computer.hxl.factory.ObjectFactory;
 import cdu.computer.hxl.service.IncomeService;
@@ -23,16 +14,19 @@ import cdu.computer.hxl.util.ThreadExecutorUtils;
 public class IncomeAllocationChartUI extends BaseJPanel {
 
 	private static final long serialVersionUID = -8114364422893235600L;
+	private static final JPanel contentPanel = new JPanel();
 	private static final IncomeService inService = (IncomeService) ObjectFactory
 			.getInstance("incomeService");
 
 	public IncomeAllocationChartUI() {
-
+		contentPanel.setPreferredSize(new Dimension(405, 570));
+		this.add(contentPanel);
 	}
 
 	@Override
 	protected void init() {
-
+		contentPanel.setLayout(new GridLayout(2, 1, 5, 5));
+		
 		new ThreadExecutorUtils() {
 
 			@Override
@@ -71,6 +65,7 @@ public class IncomeAllocationChartUI extends BaseJPanel {
 				//
 				// JPanel panel = new ChartPanel(chart);
 				// panel.setPreferredSize(new Dimension(400, 280));
+				contentPanel.removeAll();
 				addComponent(createAllocationPanel());
 
 				addComponent(createIncomeMoneyAllocationPanel());
@@ -97,7 +92,7 @@ public class IncomeAllocationChartUI extends BaseJPanel {
 	}
 
 	protected void addComponent(Component comp) {
-		this.add(comp);
+		contentPanel.add(comp);
 		validate();
 	}
 }

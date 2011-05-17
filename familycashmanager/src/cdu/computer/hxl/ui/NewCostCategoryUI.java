@@ -30,6 +30,7 @@ public class NewCostCategoryUI extends BaseJDialog {
 	private BaseJFrame owner = null;
 	private JTextField nameTextField = null;
 	private JTextArea remarkTextArea = null;
+	private int rowid = -1;
 
 	/**
 	 * Create the dialog.
@@ -97,6 +98,7 @@ public class NewCostCategoryUI extends BaseJDialog {
 						String name = nameTextField.getText();
 						String remark = remarkTextArea.getText();
 						Map<String, Object> data = new HashMap<String, Object>();
+						data.put("rowid", rowid);
 						data.put("categoryname", name);
 						data.put("remark", remark);
 						data.put("datetime", GetSystemTime.get());
@@ -132,5 +134,17 @@ public class NewCostCategoryUI extends BaseJDialog {
 		// setLocationRelativeTo(owner);
 		// this.setVisible(true);
 		super.initUI();
+	}
+
+	public void setNameText(String nameText) {
+		this.nameTextField.setText(nameText);
+	}
+
+	public void setRemarkText(String remarkText) {
+		this.remarkTextArea.setText(remarkText);
+	}
+
+	public void setRowid(int rowid) {
+		this.rowid = rowid;
 	}
 }

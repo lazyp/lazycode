@@ -2,19 +2,10 @@ package cdu.computer.hxl.ui;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.util.Iterator;
+import java.awt.GridLayout;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.JPanel;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
 
 import cdu.computer.hxl.factory.ObjectFactory;
 import cdu.computer.hxl.service.CostService;
@@ -23,6 +14,7 @@ import cdu.computer.hxl.util.ThreadExecutorUtils;
 public class CostAllocationChartUI extends BaseJPanel {
 
 	private static final long serialVersionUID = 5557495476388906150L;
+	private static final JPanel contentPanel = new JPanel();
 	private static final CostService cService = (CostService) ObjectFactory
 			.getInstance("costService");
 
@@ -30,17 +22,18 @@ public class CostAllocationChartUI extends BaseJPanel {
 	 * Create the panel.
 	 */
 	public CostAllocationChartUI() {
-
+		contentPanel.setPreferredSize(new Dimension(405, 570));
+		this.add(contentPanel);
 	}
 
 	@Override
 	protected void init() {
-		this.setLayout(new FlowLayout());
+		contentPanel.setLayout(new GridLayout(2, 1, 5, 5));
 		new ThreadExecutorUtils() {
 
 			@Override
 			protected void task() {
-
+				contentPanel.removeAll();
 				addComponent(createAllocationPanel());
 
 				addComponent(createCostMoneyAllocationPanel());
@@ -69,7 +62,7 @@ public class CostAllocationChartUI extends BaseJPanel {
 	}
 
 	protected void addComponent(Component comp) {
-		this.add(comp);
+		contentPanel.add(comp);
 		validate();
 	}
 }

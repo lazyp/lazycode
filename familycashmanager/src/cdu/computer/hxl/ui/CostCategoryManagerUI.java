@@ -19,6 +19,7 @@ public class CostCategoryManagerUI extends BaseJPanel {
 	private final CostService cService = (CostService) ObjectFactory
 			.getInstance("costService");
 	private JTable table = null;
+	private Object[][] dataObj = null;
 
 	public CostCategoryManagerUI() {
 		JPanel panel_1 = new JPanel();
@@ -51,25 +52,57 @@ public class CostCategoryManagerUI extends BaseJPanel {
 
 	}
 
+	private void loadData(List<Map<String, Object>> dataList) {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+		int size = dataList.size();
+		dataObj = new Object[size][4];
+		for (int i = 0; i < size; i++) {
+			Map<String, Object> one = dataList.get(i);
+			Object[] rowData = new Object[4];
+			rowData[0] = one.get("rowid");
+			dataObj[i][0] = rowData[0];
+			rowData[1] = one.get("categoryname");
+			dataObj[i][1] = rowData[1];
+			rowData[2] = one.get("remark");
+			dataObj[i][2] = rowData[2];
+			rowData[3] = one.get("datetime");
+			dataObj[i][3] = rowData[3];
+			model.addRow(rowData);
+		}
+	}
+
 	public void loadData() {
 		// new ThreadExecutorUtils() {
 		//
 		// @Override
 		// protected void task() {
-
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		List<Map<String, Object>> data = cService.loadCostCategoryForList(null);
-		int size = data.size();
-		for (int i = 0; i < size; i++) {
-			Map<String, Object> one = data.get(i);
-			Object[] rowData = new Object[4];
-			rowData[0] = one.get("rowid");
-			rowData[1] = one.get("categoryname");
-			rowData[2] = one.get("remark");
-			rowData[3] = one.get("datetime");
-			model.addRow(rowData);
-		}
+		this.loadData(data);
 		// }
 		// }.exec();
+	}
+
+	public void reloadData() {
+
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+
+		int count = dtm.getRowCount();
+		// System.out.println(count+"@");
+		for (int i = 0; i < count; i++) {
+			dtm.removeRow(0);
+		}
+
+		List<Map<String, Object>> data = cService.loadCostCategoryForList(null);
+		this.loadData(data);
+
+	}
+
+	public Object[] getSelectedRowData() {
+		int rownum = table.getSelectedRow();
+		// System.out.println(rownum);
+		if (rownum == -1)
+			return null;
+		return dataObj[rownum];
 	}
 }

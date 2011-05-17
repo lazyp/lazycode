@@ -22,6 +22,10 @@ public class CostService {
 		dbHandler.add(map, "cost");
 	}
 
+	public void deleteCost(int rowid) {
+		dbHandler.delete(rowid, "cost");
+	}
+
 	public List<Map<String, Object>> loadCostCategoryForList(
 			Map<String, Object> whereDataMap) {
 		List<Map<String, Object>> result = dbHandler.search(new String[] {
@@ -39,7 +43,7 @@ public class CostService {
 		 */
 		List<Map<String, Object>> result = dbHandler
 				.search(new String[] { "c.rowid", "amount", "cc.categoryname",
-						"c.remark", "c.date" },
+						"b.bankname", "c.remark", "c.date" },
 						whereDataMap,
 						"cost as c left join cost_category as cc on c.useid =cc.rowid left join bank as b on c.bankid=b.rowid");
 		return result;
@@ -54,7 +58,7 @@ public class CostService {
 			o[i][0] = mm.get("rowid");
 			o[i][1] = mm.get("amount");
 			o[i][2] = mm.get("categoryname");
-			o[i][3] = mm.get("categoryname");
+			o[i][3] = mm.get("bankname");
 			o[i][4] = mm.get("remark");
 			o[i][5] = mm.get("date");
 		}

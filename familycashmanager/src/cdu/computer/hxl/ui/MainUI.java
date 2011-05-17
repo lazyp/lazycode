@@ -38,6 +38,7 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
@@ -208,9 +209,11 @@ public class MainUI {
 		private BaseJButton saveBtn = null;
 		private BaseJButton modifyBtn = null;
 		private BaseJButton delBtn = null;
-		private BaseJButton copyBtn = null;
-		private BaseJButton cutBtn = null;
-		private BaseJButton pasteBtn = null;
+
+		private BaseJButton refresh = null;
+		// private BaseJButton copyBtn = null;
+		// private BaseJButton cutBtn = null;
+		// private BaseJButton pasteBtn = null;
 
 		private Image image = null;
 
@@ -257,17 +260,125 @@ public class MainUI {
 			modifyBtn = new ToolButton("修改", new ImageIcon(
 					Resource.getResourceURL("images/tbmodify.png")), this);
 
+			modifyBtn.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					String title = center.getSelectedTitle();
+					boolean flag = false;
+					if (title != null) {
+						if (title.trim().equals("支出管理")) {
+							CostManagerUI cmg = (CostManagerUI) center.getTab()
+									.getSelectedComponent();
+							Object[] rowData = cmg.getSelectedRowData();
+							if (rowData == null)
+								flag = true;
+							else {
+								NewCostRecordUI nru = new NewCostRecordUI(
+										"修改支出记录", mainFrame);
+								nru.setMoney(String.valueOf(rowData[1]));
+								nru.setTime(String.valueOf(rowData[5]));
+								nru.setRemarkText(String.valueOf(rowData[4]));
+								nru.setRowid((Integer) rowData[0]);
+								nru.showDialog();
+							}
+						} else if (title.trim().equals("支出类别管理")) {
+							CostCategoryManagerUI ccmg = (CostCategoryManagerUI) center
+									.getTab().getSelectedComponent();
+							Object[] rowData = ccmg.getSelectedRowData();
+							if (rowData == null)
+								flag = true;
+							else {
+								NewCostCategoryUI ncu = new NewCostCategoryUI(
+										mainFrame);
+								ncu.setRowid((Integer) rowData[0]);
+								ncu.setNameText(String.valueOf(rowData[1]));
+								ncu.setRemarkText(String.valueOf(rowData[2]));
+								ncu.showDialog();
+							}
+						}
+					}
+					if (flag)
+						JOptionPane.showMessageDialog(mainFrame, "请选择一行数据!",
+								"提示", JOptionPane.WARNING_MESSAGE);
+				}
+			});
+
 			delBtn = new ToolButton("删除", new ImageIcon(
 					Resource.getResourceURL("images/tbdel.png")), this);
 
-			copyBtn = new ToolButton("复制", new ImageIcon(
-					Resource.getResourceURL("images/tbcopy.png")), this);
+			delBtn.addActionListener(new ActionListener() {
 
-			cutBtn = new ToolButton("剪贴", new ImageIcon(
-					Resource.getResourceURL("images/tbcut.png")), this);
+				public void actionPerformed(ActionEvent e) {
+					String title = center.getSelectedTitle();
+					if (title != null) {
+						if (title.trim().equals("支出管理")) {
+							final CostManagerUI cmg = (CostManagerUI) center
+									.getTab().getSelectedComponent();
+							Object[] rowData = cmg.getSelectedRowData();
+							if (rowData == null)
+								JOptionPane.showMessageDialog(mainFrame,
+										"请选择一行数据!", "提示",
+										JOptionPane.WARNING_MESSAGE);
+							else {
+								final int rowid = (Integer) rowData[0];
+								new ThreadExecutorUtils() {
 
-			pasteBtn = new ToolButton("粘贴", new ImageIcon(
-					Resource.getResourceURL("images/tbpaste.png")), this);
+									@Override
+									protected void task() {
+										mainFrame.setStatusText("正在删除记录...");
+										cmg.removeRow(rowid);
+										mainFrame.setStatusText("删除成功!");
+									}
+								}.exec();
+
+							}
+						} else if (title.trim().equals("支出类别管理")) {
+
+						}
+					}
+
+				}
+			});
+
+			refresh = new ToolButton("刷新", new ImageIcon(
+					Resource.getResourceURL("images/tbudpate.png")), this);
+			refresh.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					String title = center.getSelectedTitle();
+					if (title != null) {
+						if (title.trim().equals("支出管理")) {
+							final CostManagerUI cmg = (CostManagerUI) center
+									.getTab().getSelectedComponent();
+							new ThreadExecutorUtils() {
+
+								@Override
+								protected void task() {
+									cmg.reloadData();
+								}
+							}.exec();
+						} else if (title.trim().equals("支出类别管理")) {
+							final CostCategoryManagerUI ccmg = (CostCategoryManagerUI) center
+									.getTab().getSelectedComponent();
+							new ThreadExecutorUtils() {
+
+								@Override
+								protected void task() {
+									ccmg.reloadData();
+								}
+							}.exec();
+						}
+					}
+				}
+			});
+			// copyBtn = new ToolButton("复制", new ImageIcon(
+			// Resource.getResourceURL("images/tbcopy.png")), this);
+			//
+			// cutBtn = new ToolButton("剪贴", new ImageIcon(
+			// Resource.getResourceURL("images/tbcut.png")), this);
+			//
+			// pasteBtn = new ToolButton("粘贴", new ImageIcon(
+			// Resource.getResourceURL("images/tbpaste.png")), this);
 
 		}
 
@@ -386,7 +497,8 @@ public class MainUI {
 						int index = source.getSelectedIndex();
 						if (index == 1) {
 							// setStatusText("添加支出新纪录...");
-							new NewCostRecordUI(mainFrame).showDialog();
+							new NewCostRecordUI("新增支出记录", mainFrame)
+									.showDialog();
 
 						} else if (index == 7) {
 							// setStatusText("添加收入新纪录...");
@@ -505,6 +617,13 @@ public class MainUI {
 		public void addTabComponent(String title, Component component) {
 			tab.addTabComponent(title, component);
 			// tab.setSelectedComponent(component);
+		}
+
+		public String getSelectedTitle() {
+			int index = this.getTab().getSelectedIndex();
+			if (index == -1)
+				return null;
+			return this.getTab().getTitleAt(index);
 		}
 
 		/**

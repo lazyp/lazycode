@@ -30,15 +30,28 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 	private ResultSet rs = null;
 
 	public void add(Map<String, Object> dataMap, String table) {
-		String sql = SQLHandler.createInsertSqlForStatement(dataMap, table);
-		prepareExecute();
+		String sql = "";
+		int rowid = (Integer) dataMap.get("rowid");
+		dataMap.remove("rowid");
+		if (rowid != -1) {
+			Map<String, Object> whereDataMap = new HashMap<String, Object>();
+			whereDataMap.put("rowid", rowid);
+			sql = SQLHandler.createUpdateSqlForStatement(dataMap, whereDataMap,
+					table);
+		} else
+			sql = SQLHandler.createInsertSqlForStatement(dataMap, table);
+
+		System.out.println(sql);
+
+		prepareExecute(true);
 		try {
 			int addsum = stm.executeUpdate(sql);
 
 		} catch (SQLException sqle) {
+			rollTransaction();
 			sqle.printStackTrace();
 		} finally {
-			this.closeDB();
+			this.closeDB(true);
 		}
 	}
 
@@ -46,14 +59,15 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 		Map<String, Object> whereMap = new HashMap<String, Object>();
 		whereMap.put("rowid", id);
 		String sql = SQLHandler.createDeleteSqlForStatement(whereMap, table);
-		prepareExecute();
+		prepareExecute(true);
 
 		try {
 			int delsum = stm.executeUpdate(sql);
 		} catch (SQLException e) {
+			rollTransaction();
 			e.printStackTrace();
 		} finally {
-			closeDB();
+			closeDB(true);
 		}
 	}
 
@@ -64,21 +78,23 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 		whereMap.put("rowid", id);
 		String sql = SQLHandler.createReadSqlForStatement(field, whereMap,
 				table);
-		prepareExecute();
+		prepareExecute(false);
 		try {
 			rs = stm.executeQuery(sql);
-			ResultSetMetaData metaData = rs.getMetaData();
-			int cols = metaData.getColumnCount();
-			for (int i = 1; i <= cols; i++) {
-				String colName = metaData.getColumnName(i);
-				Object value = rs.getObject(colName);
-				queryResult.put(colName, value);
-			}
 			if (rs.next()) {
-
+				ResultSetMetaData metaData = rs.getMetaData();
+				int cols = metaData.getColumnCount();
+				for (int i = 1; i <= cols; i++) {
+					String colName = metaData.getColumnName(i);
+					Object value = rs.getObject(colName);
+					queryResult.put(colName, value);
+				}
 			}
 		} catch (SQLException e) {
+			// rollTransaction();
 			e.printStackTrace();
+		} finally {
+			closeDB(false);
 		}
 		return queryResult;
 	}
@@ -90,7 +106,7 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 		String sql = SQLHandler.createReadSqlForStatement(field, whereDataMap,
 				table);
 		System.out.println(sql);
-		prepareExecute();
+		prepareExecute(false);
 		try {
 			rs = stm.executeQuery(sql);
 			ResultSetMetaData metaData = rs.getMetaData();
@@ -105,7 +121,10 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 				queryResult.add(data);
 			}
 		} catch (SQLException e) {
+			// rollTransaction();
 			e.printStackTrace();
+		} finally {
+			closeDB(false);
 		}
 
 		return queryResult;
@@ -124,23 +143,45 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 		String sql = SQLHandler.createUpdateSqlForStatement(updateDataMap,
 				whereMap, table);
 		System.out.println(sql);
-		prepareExecute();
+		prepareExecute(true);
 		try {
 			int updatesum = stm.executeUpdate(sql);
 		} catch (SQLException e) {
+			rollTransaction();
 			e.printStackTrace();
 		} finally {
-			closeDB();
+			closeDB(true);
 		}
 	}
 
-	private void prepareExecute() {
+	private void commitTransaction() {
+		if (conn != null)
+			try {
+				conn.commit();
+			} catch (SQLException e1) {
+				rollTransaction();
+				e1.printStackTrace();
+			}
+	}
+
+	private void rollTransaction() {
+		if (conn != null) {
+			try {
+				conn.rollback();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void prepareExecute(boolean isAutoCommit) {
 
 		try {
 			conn = db.connection();
+			if (isAutoCommit)
+				conn.setAutoCommit(false);
 			stm = conn.createStatement();
 		} catch (DBConnectionException e) {
-
 			e.printStackTrace();
 		} catch (SQLException ee) {
 			ee.printStackTrace();
@@ -148,7 +189,11 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 
 	}
 
-	private void closeDB() {
+	private void closeDB(boolean iscommit) {
+		if (iscommit)
+			/* 关闭连接前，先提交事务 */
+			commitTransaction();
+
 		try {
 			if (rs != null)
 				rs.close();

@@ -32,6 +32,7 @@ public class CostManagerUI extends BaseJPanel {
 	private JTextField textField = null;
 	private JTextField textField_1 = null;
 	private JTable costDataTable = null;
+	private Object[][] data = null;
 
 	public CostManagerUI() {
 		setLayout(new BorderLayout(0, 0));
@@ -69,8 +70,8 @@ public class CostManagerUI extends BaseJPanel {
 			}
 
 		};
-//		costDataTable.setSelectionBackground(new Color(240, 188, 66));
-//		costDataTable.setSelectionForeground(Color.WHITE);
+		// costDataTable.setSelectionBackground(new Color(240, 188, 66));
+		// costDataTable.setSelectionForeground(Color.WHITE);
 		costDataTable.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "序列号", "金额", "用途", "来源", "备注", "时间" }));
 		tablePanel.add(costDataTable.getTableHeader(), BorderLayout.NORTH);
@@ -85,10 +86,40 @@ public class CostManagerUI extends BaseJPanel {
 
 	public void loadData() {
 		DefaultTableModel dtm = (DefaultTableModel) costDataTable.getModel();
-		Object[][] o = cService.loadCostForObject(null);
-		int len = o.length;
+		data = cService.loadCostForObject(null);
+		int len = data.length;
 		for (int i = 0; i < len; i++) {
-			dtm.addRow(o[i]);
+			dtm.addRow(data[i]);
 		}
+	}
+
+	public void reloadData() {
+
+		DefaultTableModel dtm = (DefaultTableModel) costDataTable.getModel();
+
+		int count = dtm.getRowCount();
+       // System.out.println(count+"@");
+		for (int i = 0; i < count; i++) {
+			dtm.removeRow(0);
+		}
+
+		data = cService.loadCostForObject(null);
+		int len = data.length;
+		for (int i = 0; i < len; i++) {
+			dtm.addRow(data[i]);
+		}
+	}
+	
+	public void removeRow(int rowid){
+		cService.deleteCost(rowid);
+	}
+
+	public Object[] getSelectedRowData() {
+		int rownum = costDataTable.getSelectedRow();
+		//System.out.println(rownum);
+		if (rownum == -1)
+			return null;
+		return data[rownum];
+
 	}
 }
