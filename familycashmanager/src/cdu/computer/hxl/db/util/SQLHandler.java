@@ -94,6 +94,7 @@ public class SQLHandler {
 		}
 		sql += " from " + table;
 		String in = null;
+		String like = null;
 		if (whereDataMap != null) {
 			sql += " where ";
 			List<Map.Entry<String, Object>> lst = mapToList(whereDataMap);
@@ -101,8 +102,11 @@ public class SQLHandler {
 			for (int i = 0; i < size; i++) {
 				Map.Entry<String, Object> entry = lst.get(i);
 				String key = entry.getKey();
-				if (key.indexOf("in") != -1) {
+				if (key.indexOf(" in ") != -1) {
 					in = key + " (" + entry.getValue() + ")";
+					continue;
+				} else if (key.indexOf(" like ") != -1) {
+					like = key + " ('" + entry.getValue() + "')";
 					continue;
 				}
 				sql += key + " = " + buildParam(entry.getValue());
@@ -115,6 +119,12 @@ public class SQLHandler {
 				sql += " and " + in;
 			else
 				sql += in;
+		
+		if (like != null)
+			if (size > 1)
+				sql += " and " + like;
+			else
+				sql += like;
 
 		return sql;
 	}

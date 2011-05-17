@@ -1,5 +1,6 @@
 package cdu.computer.hxl.service;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,13 +119,43 @@ public class CostService {
 					new String[] { "sum(amount) as money" }, whereDataMap,
 					"cost");
 			double count = 0;
+			// System.out.println(result.size() + "%");
 			if (result != null && result.size() == 1) {
-				count = (Double) result.get(0).get("money");
+				Object o = result.get(0).get("money");
+				if (o != null)
+					count = (Double) o;
 			}
 			statistData.put((String) m.get("categoryname"), count / sum * 1.0);
 		}
 
 		return statistData;
+	}
+
+	public Map<Integer, Double> statistiCostForBalance() {
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		double sum = 0.0;
+		Map<String, Object> whereDataMap = new HashMap<String, Object>();
+		whereDataMap.put("date like ", "%" + year + "%");
+		List<Map<String, Object>> result = dbHandler.search(new String[] {
+				"amount", "date" }, whereDataMap, "cost");
+		Map<Integer, Double> map = new HashMap<Integer, Double>();
+		for (int i = 0; i < 12; i++) {
+			map.put(i, 0.0);
+		}
+
+		int size = result.size();
+		for (int i = 0; i < size; i++) {
+			Map<String, Object> m = result.get(i);
+			double amount = (Double) m.get("amount");
+			sum += amount;
+			String date = String.valueOf(m.get("date"));
+			//System.out.println(date);
+			Integer month = Integer.parseInt(date.split("-")[1]);
+
+			map.put(month - 1, map.get(month - 1) + amount);
+		}
+		map.put(1000, sum);
+		return map;
 	}
 
 	/**

@@ -124,7 +124,7 @@ public class Bar3DChartUI {
 
 			CategoryDataset dataset = getPlot().getDataset();
 			double value = dataset.getValue(row, column).doubleValue();
-			if (value >= 0.70) {
+			if (value >= 0.50) {
 				return Color.RED;
 			} else {
 				return Color.GREEN;

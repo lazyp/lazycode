@@ -1,15 +1,12 @@
 package cdu.computer.hxl.ui;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
@@ -30,14 +27,16 @@ public class NewCostCategoryUI extends BaseJDialog {
 	private BaseJFrame owner = null;
 	private JTextField nameTextField = null;
 	private JTextArea remarkTextArea = null;
+	private String title = "";
 	private int rowid = -1;
 
 	/**
 	 * Create the dialog.
 	 */
-	public NewCostCategoryUI(BaseJFrame owner) {
-		super(owner, "新增支出类别", true);
+	public NewCostCategoryUI(String title , BaseJFrame owner) {
+		super(owner, title, true);
 		this.owner = owner;
+		this.title = title;
 		initUI();
 	}
 
@@ -52,7 +51,7 @@ public class NewCostCategoryUI extends BaseJDialog {
 
 		getContentPane().setLayout(null);
 
-		JLabel tileLabel = new JLabel("\u6DFB\u52A0\u652F\u51FA\u7C7B\u522B");
+		JLabel tileLabel = new JLabel(title);
 		tileLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		tileLabel.setBounds(127, 21, 89, 15);
 		getContentPane().add(tileLabel);

@@ -3,15 +3,25 @@ package cdu.computer.hxl.ui;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import cdu.computer.hxl.factory.ObjectFactory;
+import cdu.computer.hxl.service.IncomeService;
+
 public class IncomeManagerUI extends BaseJPanel {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTable table;
+
+	private static final IncomeService inService = (IncomeService) ObjectFactory
+			.getInstance("incomeService");
+
+	private JTextField textField = null;
+	private JTextField textField_1 = null;
+	private JTable table = null;
+
+	private Object[][] data = null;
 
 	/**
 	 * Create the panel.
@@ -54,10 +64,13 @@ public class IncomeManagerUI extends BaseJPanel {
 		};
 		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
 				"\u5E8F\u5217\u53F7", "\u91D1\u989D",
-				"\u6536\u5165\u6765\u6E90", "\u5B58\u5165", "\u65F6\u95F4" }));
-
+				"\u6536\u5165\u6765\u6E90", "\u5B58\u5165", "±¸×¢",
+				"\u65F6\u95F4" }));
+		JScrollPane scrollPane = new JScrollPane();
+		// scrollPane.setBounds(122, 211, 183, 52);
+		scrollPane.setViewportView(table);
 		panel_1.add(table.getTableHeader(), BorderLayout.NORTH);
-		panel_1.add(table, BorderLayout.CENTER);
+		panel_1.add(scrollPane, BorderLayout.CENTER);
 
 	}
 
@@ -79,6 +92,54 @@ public class IncomeManagerUI extends BaseJPanel {
 	 */
 	public void setTable(JTable table) {
 		this.table = table;
+	}
+
+	public Object[] getSelectedData() {
+		int rownum = table.getSelectedRow();
+		// System.out.println(rownum);
+		if (rownum == -1)
+			return null;
+		return data[rownum];
+	}
+
+	public void loadData() {
+
+		final DefaultTableModel model = (DefaultTableModel) getTable()
+				.getModel();
+		data = inService.loadIncomeRecord(null);
+		int sum = data.length;
+		for (int i = 0; i < sum; i++) {
+			model.addRow(data[i]);
+		}
+	}
+
+	public void reloadData() {
+
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+
+		// int count = dtm.getRowCount();
+		// // System.out.println(count + "@");
+		// for (int i = 0; i < count; i++) {
+		// dtm.removeRow(0);
+		// }
+		dtm.getDataVector().removeAllElements();
+
+		// data = inService.loadIncomeRecord(null);
+		// int len = data.length;
+		// for (int i = 0; i < len; i++) {
+		// dtm.addRow(data[i]);
+		// }
+		this.loadData();
+	}
+
+	public boolean isSelected() {
+		return table.getSelectedRow() == -1 ? false : true;
+	}
+
+	public void removeRow() {
+		int rownum = table.getSelectedRow();
+		int rowid = (Integer) data[rownum][0];
+		inService.deleteIncomeRecord(rowid);
 	}
 
 }

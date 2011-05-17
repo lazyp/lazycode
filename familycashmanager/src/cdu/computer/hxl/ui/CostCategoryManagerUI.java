@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -29,8 +30,13 @@ public class CostCategoryManagerUI extends BaseJPanel {
 		table = new JTable();
 		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
 				"序列号", "名称", "备注", "时间" }));
+
+		JScrollPane scrollPane = new JScrollPane();
+		// scrollPane.setBounds(122, 211, 183, 52);
+		scrollPane.setViewportView(table);
+
 		panel_1.add(table.getTableHeader(), BorderLayout.NORTH);
-		panel_1.add(table, BorderLayout.CENTER);
+		panel_1.add(scrollPane, BorderLayout.CENTER);
 	}
 
 	@Override
@@ -87,11 +93,13 @@ public class CostCategoryManagerUI extends BaseJPanel {
 
 		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 
-		int count = dtm.getRowCount();
-		// System.out.println(count+"@");
-		for (int i = 0; i < count; i++) {
-			dtm.removeRow(0);
-		}
+		// int count = dtm.getRowCount();
+		// // System.out.println(count+"@");
+		// for (int i = 0; i < count; i++) {
+		// dtm.removeRow(0);
+		// }
+
+		dtm.getDataVector().removeAllElements();
 
 		List<Map<String, Object>> data = cService.loadCostCategoryForList(null);
 		this.loadData(data);

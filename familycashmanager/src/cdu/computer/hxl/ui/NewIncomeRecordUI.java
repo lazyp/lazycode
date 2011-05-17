@@ -43,8 +43,12 @@ public class NewIncomeRecordUI extends BaseJDialog {
 	private JButton submitbnt = null;
 	private JButton clearbtn = null;
 
-	public NewIncomeRecordUI(BaseJFrame owner) {
-		super(owner, "新增收入记录", true);
+	private String title = "";
+	private int rowid = -1;
+
+	public NewIncomeRecordUI(String title, BaseJFrame owner) {
+		super(owner, title, true);
+		this.title = title;
 		initUI();
 	}
 
@@ -57,7 +61,7 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		setResizable(false);
 		getContentPane().setLayout(null);
 
-		JLabel titleLabel = new JLabel("\u6DFB\u52A0\u6536\u5165\u8BB0\u5F55");
+		JLabel titleLabel = new JLabel(title);
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBounds(145, 10, 83, 15);
 		getContentPane().add(titleLabel);
@@ -154,6 +158,8 @@ public class NewIncomeRecordUI extends BaseJDialog {
 						getOwner().setStatusText("正在保存收入记录...");
 
 						Map<String, Object> data = new HashMap<String, Object>();
+
+						data.put("rowid", rowid);
 						data.put("amount", money);
 						data.put("remark", remark);
 						data.put("bankid", saveid);
@@ -210,4 +216,21 @@ public class NewIncomeRecordUI extends BaseJDialog {
 
 		super.initUI();
 	}
+
+	public void setAmount(String amount) {
+		amountTextField.setText(amount);
+	}
+
+	public void setTimeText(String time) {
+		this.timeTextField.setText(time);
+	}
+
+	public void setRemark(String remark) {
+		remarkTextArea.setText(remark);
+	}
+
+	public void setRowid(int rowid) {
+		this.rowid = rowid;
+	}
+
 }

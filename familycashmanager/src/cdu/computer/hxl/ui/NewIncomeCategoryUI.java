@@ -30,12 +30,16 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 	private JTextField categoryNameTextField = null;
 	private JTextArea remarkTextArea = null;
 
+	private String title = "";
+	private int rowid = -1;
+
 	/**
 	 * Create the dialog.
 	 */
-	public NewIncomeCategoryUI(BaseJFrame owner) {
-		super(owner, "添加收入类别", true);
+	public NewIncomeCategoryUI(String title, BaseJFrame owner) {
+		super(owner, title, true);
 		this.owner = owner;
+		this.title = title;
 		initUI();
 	}
 
@@ -45,7 +49,7 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 		setResizable(false);
 		getContentPane().setLayout(null);
 
-		JLabel titleLabel = new JLabel("\u6DFB\u52A0\u6536\u5165\u7C7B\u522B");
+		JLabel titleLabel = new JLabel(title);
 		titleLabel.setBounds(118, 10, 93, 15);
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(titleLabel);
@@ -95,6 +99,7 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 								.getInstance("incomeService");
 
 						Map<String, Object> data = new HashMap<String, Object>();
+						data.put("rowid", rowid);
 						data.put("categoryname", title);
 						data.put("remark", remark);
 						data.put("datetime", GetSystemTime.get());
@@ -111,5 +116,17 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 		getContentPane().add(resetbnt);
 
 		super.initUI();
+	}
+
+	public void setCategoryName(String name) {
+		categoryNameTextField.setText(name);
+	}
+
+	public void setRemark(String remark) {
+		remarkTextArea.setText(remark);
+	}
+
+	public void setRowid(int rowid) {
+		this.rowid = rowid;
 	}
 }

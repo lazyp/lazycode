@@ -49,7 +49,7 @@ public class NewCostRecordUI extends BaseJDialog {
 	private int rowid = -1;
 	private String title = "";
 
-	public NewCostRecordUI(String title , BaseJFrame owner) {
+	public NewCostRecordUI(String title, BaseJFrame owner) {
 		super(owner, title, true);
 		this.title = title;
 		initUI();
@@ -137,7 +137,8 @@ public class NewCostRecordUI extends BaseJDialog {
 					@Override
 					protected void task() {
 
-						double money = Double.parseDouble(moneyTextField.getText());
+						double money = Double.parseDouble(moneyTextField
+								.getText());
 
 						int useid = (Integer) ((Map<String, Object>) useComboBox
 								.getSelectedItem()).get("rowid");
@@ -241,6 +242,14 @@ public class NewCostRecordUI extends BaseJDialog {
 
 	public void setRowid(int id) {
 		this.rowid = id;
+	}
+
+	public void setSource(Object o) {
+		sourceComboBox.setSelectedItem(o);
+	}
+
+	public void setUseComboBox(Object o) {
+		useComboBox.setSelectedItem(o);
 	}
 
 	public static void main(String[] args) {

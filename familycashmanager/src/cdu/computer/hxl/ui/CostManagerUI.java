@@ -3,6 +3,7 @@ package cdu.computer.hxl.ui;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
@@ -74,8 +75,13 @@ public class CostManagerUI extends BaseJPanel {
 		// costDataTable.setSelectionForeground(Color.WHITE);
 		costDataTable.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "序列号", "金额", "用途", "来源", "备注", "时间" }));
+
+		JScrollPane scrollPane = new JScrollPane();
+		// scrollPane.setBounds(122, 211, 183, 52);
+		scrollPane.setViewportView(costDataTable);
+
 		tablePanel.add(costDataTable.getTableHeader(), BorderLayout.NORTH);
-		tablePanel.add(costDataTable, BorderLayout.CENTER);
+		tablePanel.add(scrollPane, BorderLayout.CENTER);
 		add(tablePanel, BorderLayout.CENTER);
 	}
 
@@ -97,11 +103,12 @@ public class CostManagerUI extends BaseJPanel {
 
 		DefaultTableModel dtm = (DefaultTableModel) costDataTable.getModel();
 
-		int count = dtm.getRowCount();
-       // System.out.println(count+"@");
-		for (int i = 0; i < count; i++) {
-			dtm.removeRow(0);
-		}
+		// int count = dtm.getRowCount();
+		// // System.out.println(count+"@");
+		// for (int i = 0; i < count; i++) {
+		// dtm.removeRow(0);
+		// }
+		dtm.getDataVector().removeAllElements();
 
 		data = cService.loadCostForObject(null);
 		int len = data.length;
@@ -109,14 +116,14 @@ public class CostManagerUI extends BaseJPanel {
 			dtm.addRow(data[i]);
 		}
 	}
-	
-	public void removeRow(int rowid){
+
+	public void removeRow(int rowid) {
 		cService.deleteCost(rowid);
 	}
 
 	public Object[] getSelectedRowData() {
 		int rownum = costDataTable.getSelectedRow();
-		//System.out.println(rownum);
+		// System.out.println(rownum);
 		if (rownum == -1)
 			return null;
 		return data[rownum];

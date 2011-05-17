@@ -11,6 +11,8 @@ import javax.swing.ListCellRenderer;
 
 public class BaseJComboBox extends JComboBox {
 
+	private static final long serialVersionUID = -2186104662576101060L;
+
 	public BaseJComboBox() {
 		setRenderer(new MyComboBoxRenderer());
 	}
@@ -30,6 +32,15 @@ public class BaseJComboBox extends JComboBox {
 			} else if (value != null) {
 				setText(value.toString());
 			}
+			if (isSelected) {
+				setBackground(list.getSelectionBackground());
+				setForeground(list.getSelectionForeground());
+			} else {
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
+			}
+			setFont(list.getFont());
+			setOpaque(true);
 			return this;
 		}
 	}

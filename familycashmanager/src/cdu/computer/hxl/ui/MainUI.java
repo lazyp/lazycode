@@ -109,7 +109,6 @@ public class MainUI {
 			@Override
 			protected void paintComponent(Graphics g) {
 				Graphics2D g2 = (Graphics2D) g.create();
-
 				GradientPaint paint = new GradientPaint(0, 0, new Color(90,
 						120, 90), this.getWidth(), this.getHeight(), new Color(
 						10, 90, 10));
@@ -289,12 +288,43 @@ public class MainUI {
 								flag = true;
 							else {
 								NewCostCategoryUI ncu = new NewCostCategoryUI(
-										mainFrame);
+										"修改支出类别", mainFrame);
 								ncu.setRowid((Integer) rowData[0]);
 								ncu.setNameText(String.valueOf(rowData[1]));
 								ncu.setRemarkText(String.valueOf(rowData[2]));
 								ncu.showDialog();
 							}
+						} else if (title.trim().equals("收入记录管理")) {
+							IncomeManagerUI imu = (IncomeManagerUI) center
+									.getTab().getSelectedComponent();
+							Object[] rowData = imu.getSelectedData();
+							if (rowData == null)
+								flag = true;
+							else {
+								NewIncomeRecordUI niru = new NewIncomeRecordUI(
+										"修改收入记录", mainFrame);
+								niru.setRowid((Integer) rowData[0]);
+								niru.setAmount(String.valueOf(rowData[1]));
+								niru.setTimeText(String.valueOf(rowData[5]));
+								niru.setRemark(String.valueOf(rowData[4]));
+								niru.showDialog();
+							}
+
+						} else if (title.trim().equals("收入类别管理")) {
+							IncomeCategoryManagerUI icmu = (IncomeCategoryManagerUI) center
+									.getTab().getSelectedComponent();
+							Object[] rowData = icmu.getSelectedData();
+							if (rowData == null)
+								flag = true;
+							else {
+								NewIncomeCategoryUI ncu = new NewIncomeCategoryUI(
+										"修改收入类别", mainFrame);
+								ncu.setRowid((Integer) rowData[0]);
+								ncu.setCategoryName(String.valueOf(rowData[1]));
+								ncu.setRemark(String.valueOf(rowData[2]));
+								ncu.showDialog();
+							}
+
 						}
 					}
 					if (flag)
@@ -310,15 +340,14 @@ public class MainUI {
 
 				public void actionPerformed(ActionEvent e) {
 					String title = center.getSelectedTitle();
+					boolean flag = false;
 					if (title != null) {
 						if (title.trim().equals("支出管理")) {
 							final CostManagerUI cmg = (CostManagerUI) center
 									.getTab().getSelectedComponent();
 							Object[] rowData = cmg.getSelectedRowData();
 							if (rowData == null)
-								JOptionPane.showMessageDialog(mainFrame,
-										"请选择一行数据!", "提示",
-										JOptionPane.WARNING_MESSAGE);
+								flag = true;
 							else {
 								final int rowid = (Integer) rowData[0];
 								new ThreadExecutorUtils() {
@@ -334,9 +363,27 @@ public class MainUI {
 							}
 						} else if (title.trim().equals("支出类别管理")) {
 
+						} else if (title.trim().equals("收入记录管理")) {
+							final IncomeManagerUI imu = (IncomeManagerUI) center
+									.getTab().getSelectedComponent();
+							if (!imu.isSelected())
+								flag = true;
+							else {
+								new ThreadExecutorUtils() {
+
+									@Override
+									protected void task() {
+										mainFrame.setStatusText("正在删除记录...");
+										imu.removeRow();
+										mainFrame.setStatusText("删除成功!");
+									}
+								}.exec();
+							}
 						}
 					}
-
+					if (flag)
+						JOptionPane.showMessageDialog(mainFrame, "请选择一行数据!",
+								"提示", JOptionPane.WARNING_MESSAGE);
 				}
 			});
 
@@ -365,6 +412,26 @@ public class MainUI {
 								@Override
 								protected void task() {
 									ccmg.reloadData();
+								}
+							}.exec();
+						} else if (title.trim().equals("收入记录管理")) {
+							final IncomeManagerUI imu = (IncomeManagerUI) center
+									.getTab().getSelectedComponent();
+							new ThreadExecutorUtils() {
+
+								@Override
+								protected void task() {
+									imu.reloadData();
+								}
+							}.exec();
+						} else if (title.trim().equals("收入类别管理")) {
+							final IncomeCategoryManagerUI icmu = (IncomeCategoryManagerUI) center
+									.getTab().getSelectedComponent();
+							new ThreadExecutorUtils() {
+
+								@Override
+								protected void task() {
+									icmu.reloadData();
 								}
 							}.exec();
 						}
@@ -502,13 +569,16 @@ public class MainUI {
 
 						} else if (index == 7) {
 							// setStatusText("添加收入新纪录...");
-							new NewIncomeRecordUI(mainFrame).showDialog();
+							new NewIncomeRecordUI("新增收入记录", mainFrame)
+									.showDialog();
 						} else if (index == 3) {
 							// setStatusText("添加支出类别...");
-							new NewCostCategoryUI(mainFrame).showDialog();
+							new NewCostCategoryUI("添加支出类别", mainFrame)
+									.showDialog();
 						} else if (index == 9) {
 							// setStatusText("添加收入来源...");
-							new NewIncomeCategoryUI(mainFrame).showDialog();
+							new NewIncomeCategoryUI("新增收入类别", mainFrame)
+									.showDialog();
 						} else if (index == 2) {
 							final CostManagerUI cmu = new CostManagerUI();
 							center.addTabComponent("支出管理", cmu);
@@ -535,9 +605,8 @@ public class MainUI {
 							}.exec();
 
 						} else if (index == 8) {
-							IncomeManagerUI in = new IncomeManagerUI();
-							final DefaultTableModel model = (DefaultTableModel) in
-									.getTable().getModel();
+							final IncomeManagerUI in = new IncomeManagerUI();
+
 							center.addTabComponent("收入记录管理", in);
 
 							new ThreadExecutorUtils() {
@@ -545,36 +614,20 @@ public class MainUI {
 								@Override
 								protected void task() {
 									mainFrame.setStatusText("正在加载数据，请等待...");
-									IncomeService inService = (IncomeService) ObjectFactory
-											.getInstance("incomeService");
-									Object[][] data = inService
-											.loadIncomeRecord(null);
-									int sum = data.length;
-									for (int i = 0; i < sum; i++) {
-										model.addRow(data[i]);
-									}
-
+									in.loadData();
 									mainFrame.setStatusText("加载完毕");
 								}
 							}.exec();
 						} else if (index == 10) {
-							IncomeCategoryManagerUI ic = new IncomeCategoryManagerUI();
+							final IncomeCategoryManagerUI ic = new IncomeCategoryManagerUI();
 							center.addTabComponent("收入类别管理", ic);
-							final DefaultTableModel dtm = (DefaultTableModel) ic
-									.getTable().getModel();
+
 							new ThreadExecutorUtils() {
 
 								@Override
 								protected void task() {
 									mainFrame.setStatusText("正在加载数据...");
-									IncomeService inService = (IncomeService) ObjectFactory
-											.getInstance("incomeService");
-									Object[][] data = inService
-											.loadIncomeCategory(null);
-									int len = data.length;
-									for (int i = 0; i < len; i++) {
-										dtm.addRow(data[i]);
-									}
+									ic.loadData();
 									mainFrame.setStatusText("加载完毕");
 								}
 							}.exec();
