@@ -1,10 +1,7 @@
 package cdu.computer.hxl.service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +27,25 @@ public class IncomeService {
 	}
 
 	public void deleteIncomeRecord(int rowid) {
-		dbHandler.delete(rowid, "income");
+		Map<String, Object> whereMap = new HashMap<String, Object>();
+		whereMap.put("rowid", rowid);
+		dbHandler.delete(whereMap, "income");
+	}
+
+	public void deleteIncomeCategory(int rowid) {
+		Map<String, Object> whereMap = new HashMap<String, Object>();
+		try {
+			whereMap.put("sourceid", rowid);
+			dbHandler.delete(whereMap, "income");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		whereMap.clear();
+
+		whereMap.put("rowid", rowid);
+		dbHandler.delete(whereMap, "income_category");
+
 	}
 
 	public int getRowIdForBank(Map<String, Object> whereMap) {

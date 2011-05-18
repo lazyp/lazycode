@@ -166,7 +166,7 @@ public class LoginUI {
 		MemberService mservice = (MemberService) ObjectFactory
 				.getInstance("memberService");
 		String uname = loginNameField.getText();
-		String upass = passField.getText();
+		String upass = new String(passField.getPassword());
 
 		boolean b = mservice.checkMember(uname, upass);
 		if (b) {

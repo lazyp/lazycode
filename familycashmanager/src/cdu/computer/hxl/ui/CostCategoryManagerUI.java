@@ -113,4 +113,16 @@ public class CostCategoryManagerUI extends BaseJPanel {
 			return null;
 		return dataObj[rownum];
 	}
+
+	public boolean isSelected() {
+		return table.getSelectedRow() == -1 ? false : true;
+	}
+
+	public void removeRow() {
+		int rownum = table.getSelectedRow();
+		// System.out.println(rownum);
+		if (rownum == -1)
+			return;
+		cService.deleteCostcategory((Integer) dataObj[rownum][0]);
+	}
 }

@@ -55,7 +55,7 @@ public class DefaultDBConnectionImpl implements DBConnection {
 		try {
 			Connection con = db.connection();
 			Statement stm = con.createStatement();
-			stm.executeUpdate("delete from income");
+			stm.executeQuery("select * from income");
 			// stm.executeUpdate("CREATE TABLE cost (amount REAL, reason TEXT,
 			// bankid INTEGER, date TEXT);");
 			// ResultSet rs = stm.executeQuery("select * from test");

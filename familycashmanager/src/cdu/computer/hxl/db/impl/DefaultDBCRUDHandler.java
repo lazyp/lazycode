@@ -55,9 +55,9 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 		}
 	}
 
-	public void delete(Integer id, String table) {
-		Map<String, Object> whereMap = new HashMap<String, Object>();
-		whereMap.put("rowid", id);
+	public void delete(Map<String, Object> whereMap, String table) {
+		// Map<String, Object> whereMap = new HashMap<String, Object>();
+		// whereMap.put("rowid", id);
 		String sql = SQLHandler.createDeleteSqlForStatement(whereMap, table);
 		prepareExecute(true);
 

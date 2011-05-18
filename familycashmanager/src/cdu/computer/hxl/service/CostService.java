@@ -24,7 +24,25 @@ public class CostService {
 	}
 
 	public void deleteCost(int rowid) {
-		dbHandler.delete(rowid, "cost");
+		Map<String, Object> whereMap = new HashMap<String, Object>();
+		whereMap.put("rowid", rowid);
+		dbHandler.delete(whereMap, "cost");
+	}
+
+	public void deleteCostcategory(int rowid) {
+		Map<String, Object> whereMap = new HashMap<String, Object>();
+		try {
+			whereMap.put("useid", rowid);
+			dbHandler.delete(whereMap, "cost");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		whereMap.clear();
+
+		whereMap.put("rowid", rowid);
+		dbHandler.delete(whereMap, "cost_category");
+
 	}
 
 	public List<Map<String, Object>> loadCostCategoryForList(
@@ -149,7 +167,7 @@ public class CostService {
 			double amount = (Double) m.get("amount");
 			sum += amount;
 			String date = String.valueOf(m.get("date"));
-			//System.out.println(date);
+			// System.out.println(date);
 			Integer month = Integer.parseInt(date.split("-")[1]);
 
 			map.put(month - 1, map.get(month - 1) + amount);

@@ -20,12 +20,12 @@ public interface DBCRUDHandler {
 	public void add(Map<String, Object> dataMap, String table);
 
 	/**
-	 * 删除数据，根据id
+	 * 删除数据，根据whereMap
 	 * 
-	 * @param id
+	 * @param whereMap
 	 * @param table
 	 */
-	public void delete(Integer id, String table);
+	public void delete(Map<String, Object> whereMap, String table);
 
 	/**
 	 * 更新数据,根据id

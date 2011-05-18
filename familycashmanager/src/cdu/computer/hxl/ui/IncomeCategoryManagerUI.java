@@ -111,6 +111,9 @@ public class IncomeCategoryManagerUI extends BaseJPanel {
 
 	public void removeRow() {
 		int row = table.getSelectedRow();
+		if (row == -1)
+			return;
+		inService.deleteIncomeCategory((Integer) data[row][0]);
 		// if(row != -1)
 
 	}

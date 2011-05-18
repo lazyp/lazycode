@@ -5,57 +5,42 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Paint;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
-import javax.net.ssl.SSLEngineResult.Status;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.ListModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import java.awt.event.ActionListener;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-
 import cdu.computer.hxl.factory.MenuFactory;
-import cdu.computer.hxl.factory.ObjectFactory;
-import cdu.computer.hxl.service.IncomeService;
 import cdu.computer.hxl.util.Constants;
+import cdu.computer.hxl.util.FileUtils;
 import cdu.computer.hxl.util.Resource;
 import cdu.computer.hxl.util.ThreadExecutorUtils;
 
@@ -67,24 +52,37 @@ import cdu.computer.hxl.util.ThreadExecutorUtils;
 public class MainUI {
 	private BaseJFrame mainFrame = null;
 
-	private JPanel mainPanel = new JPanel();
+	private final JPanel mainPanel = new JPanel();
 
-	private BaseJPanel top = new TopPanel();
+	private final BaseJPanel top = new TopPanel();
 
-	private BaseJPanel left = new LeftPanel();
+	private final LeftPanel left = new LeftPanel();
 
-	private CenterPanel center = new CenterPanel();
+	private final CenterPanel center = new CenterPanel();
 
 	private JMenuBar bar = new JMenuBar();
 
-	private JMenu startMenu = MenuFactory.createMenu("开始", new String[] { "保存",
-			"退出" }, new ActionListener[] { null, null });
+	private JMenu startMenu = MenuFactory.createMenu("开始",
+			new String[] { "退出" }, new ActionListener[] { new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			} });
 
-	private JMenu editMenu = MenuFactory.createMenu("编辑", new String[] { "添加",
-			"修改", "删除" }, new ActionListener[] { null, null, null });
+	// private JMenu editMenu = MenuFactory.createMenu("编辑", new String[] {
+	// "添加",
+	// "修改", "删除" }, new ActionListener[] { null, null, null });
 
 	private JMenu helpMenu = MenuFactory.createMenu("帮助", new String[] { "说明",
-			"作者" }, new ActionListener[] { null, null });
+			"作者" }, new ActionListener[] { new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			new SystemIntroduceUI(null, "系统说明").showDialog();
+		}
+	}, new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			new AboutAuthorDialogUI(null, "作者介绍").showDialog();
+		}
+	} });
 
 	public MainUI() {
 
@@ -144,7 +142,7 @@ public class MainUI {
 		mainPanel.setLayout(gbl);
 
 		bar.add(startMenu);
-		bar.add(editMenu);
+		// bar.add(editMenu);
 		bar.add(helpMenu);
 
 		mainFrame.setJMenuBar(bar);
@@ -201,9 +199,6 @@ public class MainUI {
 	 */
 	private class TopPanel extends BaseJPanel {
 
-		private JPanel leftToolPane = null;
-		private JPanel rightToolPane = null;
-
 		private BaseJButton newCreateBtn = null;
 		private BaseJButton saveBtn = null;
 		private BaseJButton modifyBtn = null;
@@ -223,6 +218,7 @@ public class MainUI {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			initUI();
 		}
 
 		@Override
@@ -233,28 +229,45 @@ public class MainUI {
 			Graphics2D g2 = (Graphics2D) g.create();
 
 			g2.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
-			// g2.setColor(new Color(96, 96, 96));
-			// g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-			//
-			// GradientPaint paint = new GradientPaint(0, 0,
-			// new Color(96, 96, 96), 0, this.getHeight(), new Color(10,
-			// 10, 10));
-			//
-			// g2.setPaint(paint);
-			// g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+
 			g2.dispose();
 		}
 
 		@Override
 		protected void init() {
+
+		}
+
+		protected void initUI() {
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			// this.setBackground(Color.BLACK);
 
 			newCreateBtn = new ToolButton("新建", new ImageIcon(
 					Resource.getResourceURL("images/tbnew.png")), this);
 
-			saveBtn = new ToolButton("保存", new ImageIcon(
-					Resource.getResourceURL("images/tbsave.png")), this);
+			newCreateBtn.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					BaseJList leftList = left.getLeftList();
+					int index = leftList.getSelectedIndex();
+					if (index == 1) {
+						new NewCostRecordUI("新增支出记录", mainFrame).showDialog();
+					} else if (index == 3) {
+						new NewCostCategoryUI("新增支出类别", mainFrame).showDialog();
+					} else if (index == 7) {
+						new NewIncomeRecordUI("新增收入记录", mainFrame).showDialog();
+					} else if (index == 9) {
+						new NewIncomeCategoryUI("新增收入类别", mainFrame)
+								.showDialog();
+					} else {
+						JOptionPane.showMessageDialog(mainFrame, "无效选择", "提示",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			});
+
+			// saveBtn = new ToolButton("保存", new ImageIcon(
+			// Resource.getResourceURL("images/tbsave.png")), this);
 
 			modifyBtn = new ToolButton("修改", new ImageIcon(
 					Resource.getResourceURL("images/tbmodify.png")), this);
@@ -362,6 +375,28 @@ public class MainUI {
 
 							}
 						} else if (title.trim().equals("支出类别管理")) {
+							final CostCategoryManagerUI ccmg = (CostCategoryManagerUI) center
+									.getTab().getSelectedComponent();
+							if (ccmg.isSelected()) {
+								int result = JOptionPane.showConfirmDialog(
+										null, "注意：会同时删除对应的消费记录,请谨慎操作!", "警告",
+										JOptionPane.WARNING_MESSAGE);
+								if (result == 0) {
+									new ThreadExecutorUtils() {
+
+										@Override
+										protected void task() {
+											mainFrame
+													.setStatusText("正在删除记录...");
+											ccmg.removeRow();
+											mainFrame.setStatusText("删除成功!");
+										}
+
+									}.exec();
+								}
+							} else {
+								flag = true;
+							}
 
 						} else if (title.trim().equals("收入记录管理")) {
 							final IncomeManagerUI imu = (IncomeManagerUI) center
@@ -379,6 +414,29 @@ public class MainUI {
 									}
 								}.exec();
 							}
+						} else if (title.trim().equals("收入类别管理")) {
+							final IncomeCategoryManagerUI icmu = (IncomeCategoryManagerUI) center
+									.getTab().getSelectedComponent();
+							if (icmu.isSelected()) {
+
+								int result = JOptionPane.showConfirmDialog(
+										null, "注意：会同时删除对应的收入记录,请谨慎操作!", "警告",
+										JOptionPane.WARNING_MESSAGE);
+								if (result == 0) {
+
+									new ThreadExecutorUtils() {
+
+										@Override
+										protected void task() {
+											mainFrame
+													.setStatusText("正在删除记录...");
+											icmu.removeRow();
+											mainFrame.setStatusText("删除成功!");
+										}
+									}.exec();
+								}
+							} else
+								flag = true;
 						}
 					}
 					if (flag)
@@ -438,6 +496,8 @@ public class MainUI {
 					}
 				}
 			});
+
+			setTopToolButtonEnabled(new boolean[] { false, false, false, false });
 			// copyBtn = new ToolButton("复制", new ImageIcon(
 			// Resource.getResourceURL("images/tbcopy.png")), this);
 			//
@@ -449,14 +509,25 @@ public class MainUI {
 
 		}
 
+		public void setTopToolButtonEnabled(boolean[] b) {
+			newCreateBtn.setEnabled(b[0]);
+			modifyBtn.setEnabled(b[1]);
+			delBtn.setEnabled(b[2]);
+			refresh.setEnabled(b[3]);
+		}
+
 		private class ToolButton extends BaseJButton {
+
+			private static final long serialVersionUID = -3547510803997708494L;
 			private static final int TOOLBUTTON_WIDTH = 50;
 			private static final int TOOLBUTTON_HEIGHT = 50;
 
+			@SuppressWarnings("unused")
 			public ToolButton(String title) {
 				this(title, null, null);
 			}
 
+			@SuppressWarnings("unused")
 			public ToolButton(String title, Container container) {
 				this(title, null, container);
 			}
@@ -511,10 +582,15 @@ public class MainUI {
 	}
 
 	private class LeftPanel extends BaseJPanel {
-		private final Map<String, Object> ListHandlerInstanceMap = new HashMap<String, Object>();
 
-		@Override
-		protected void init() {
+		private static final long serialVersionUID = -3731623495310154977L;
+		private final BaseJList leftList = new BaseJList();
+
+		public LeftPanel() {
+			this.initUI();
+		}
+
+		protected void initUI() {
 			/*
 			 * 左侧列表项名称
 			 */
@@ -531,13 +607,12 @@ public class MainUI {
 					{ "收入分布图", "images/listselect.png" }, { "//资金收支统计", "/" },
 					{ "收支平衡图表", "images/listselect.png" },
 					{ "//系统设置         ", "/" },
-					{ "密码更改 ", "images/listselect.png" } };
+					{ "密码更改 ", "images/listselect.png" },
+					{ "数据备份 ", "images/listselect.png" } };
 
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			this.setPreferredSize(new Dimension(210, 0));
 			this.setBackground(new Color(52, 55, 59));
-
-			BaseJList leftList = new BaseJList();
 
 			DefaultListModel model = new DefaultListModel();
 			leftList.setModel(model);
@@ -563,23 +638,40 @@ public class MainUI {
 						BaseJList source = (BaseJList) e.getSource();
 						int index = source.getSelectedIndex();
 						if (index == 1) {
+
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											true, false, false, false });
 							// setStatusText("添加支出新纪录...");
 							new NewCostRecordUI("新增支出记录", mainFrame)
 									.showDialog();
 
 						} else if (index == 7) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											true, false, false, false });
 							// setStatusText("添加收入新纪录...");
 							new NewIncomeRecordUI("新增收入记录", mainFrame)
 									.showDialog();
 						} else if (index == 3) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											true, false, false, false });
 							// setStatusText("添加支出类别...");
 							new NewCostCategoryUI("添加支出类别", mainFrame)
 									.showDialog();
 						} else if (index == 9) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											true, false, false, false });
 							// setStatusText("添加收入来源...");
 							new NewIncomeCategoryUI("新增收入类别", mainFrame)
 									.showDialog();
 						} else if (index == 2) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											true, true, true, true });
+
 							final CostManagerUI cmu = new CostManagerUI();
 							center.addTabComponent("支出管理", cmu);
 							new ThreadExecutorUtils() {
@@ -592,6 +684,10 @@ public class MainUI {
 								}
 							}.exec();
 						} else if (index == 4) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											true, true, true, true });
+
 							final CostCategoryManagerUI ccm = new CostCategoryManagerUI();
 							center.addTabComponent("支出类别管理", ccm);
 							new ThreadExecutorUtils() {
@@ -605,6 +701,10 @@ public class MainUI {
 							}.exec();
 
 						} else if (index == 8) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											true, true, true, true });
+
 							final IncomeManagerUI in = new IncomeManagerUI();
 
 							center.addTabComponent("收入记录管理", in);
@@ -619,6 +719,10 @@ public class MainUI {
 								}
 							}.exec();
 						} else if (index == 10) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											true, true, true, true });
+
 							final IncomeCategoryManagerUI ic = new IncomeCategoryManagerUI();
 							center.addTabComponent("收入类别管理", ic);
 
@@ -633,22 +737,97 @@ public class MainUI {
 							}.exec();
 
 						} else if (index == 5) {
+
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											false, false, false, true });
 							center.addTabComponent("支出分布图",
 									new CostAllocationChartUI());
 						} else if (index == 11) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											false, false, false, true });
 							center.addTabComponent("收入分布图",
 									new IncomeAllocationChartUI());
+
 						} else if (index == 13) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											false, false, false, true });
 							center.addTabComponent("平衡分布图",
 									new BalanceChartUI());
 						} else if (index == 15) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											false, false, false, false });
+
 							new ChangePasswordUI(mainFrame).showDialog();
+
+						} else if (index == 16) {
+							JFileChooser fileChooser = new JFileChooser();
+							fileChooser.setDialogTitle("数据备份");
+
+							int result = fileChooser.showSaveDialog(mainFrame);
+
+							if (JFileChooser.APPROVE_OPTION == result) {
+								mainFrame.setStatusText("正在保存备份...");
+								File file = fileChooser.getSelectedFile();
+								String path = file.getAbsolutePath();
+								// JOptionPane.showMessageDialog(null, path);
+
+								FileUtils fileUtils = new FileUtils();
+								ZipOutputStream zos = fileUtils
+										.getZipOputStream(file);
+								ZipEntry zipEntry = new ZipEntry("fcms.db");
+								try {
+									zos.putNextEntry(zipEntry);
+								} catch (IOException e2) {
+									e2.printStackTrace();
+								}
+
+								DataInputStream ds = fileUtils
+										.getDataInpuStream(new File(
+												"db/fcms.db"));
+
+								byte[] data = new byte[512];
+								int size = 0;
+								try {
+									while ((size = ds.read(data)) != -1) {
+										zos.write(data, 0, size);
+									}
+
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								} finally {
+
+									try {
+										zos.finish();
+										zos.closeEntry();
+										zos.close();
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+
+								}
+								mainFrame.setStatusText("备份成功");
+							}
 						}
 					}
 
 				}
 			});
 			this.add(leftList);
+		}
+
+		/**
+		 * @return the leftList
+		 */
+		public BaseJList getLeftList() {
+			return leftList;
+		}
+
+		@Override
+		protected void init() {
 		}
 	}
 
@@ -659,6 +838,31 @@ public class MainUI {
 
 		public CenterPanel() {
 			tab = new BaseJTabbedPane(this);
+			tab.addChangeListener(new ChangeListener() {
+
+				public void stateChanged(ChangeEvent e) {
+					int index = tab.getSelectedIndex();
+					if (index == -1) {
+
+						((TopPanel) top).setTopToolButtonEnabled(new boolean[] {
+								false, false, false, false });
+					} else {
+						String title = tab.getTitleAt(index);
+						if (title.trim().equals("收入管理")
+								|| title.trim().equals("收入类别管理")
+								|| title.trim().equals("支出管理")
+								|| title.trim().equals("支出类别管理")) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											true, true, true, true });
+						} else {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											false, false, false, true });
+						}
+					}
+				}
+			});
 		}
 
 		@Override
