@@ -947,12 +947,12 @@ public class MainUI {
 								false, false, false, false, false, false });
 					} else {
 						String title = tab.getTitleAt(index);
-						System.out.println(title + "1");
+						//System.out.println(title + "1");
 						if (title.trim().equals("收入记录管理")
 								|| title.trim().equals("收入类别管理")
 								|| title.trim().equals("支出记录管理")
 								|| title.trim().equals("支出类别管理")) {
-							System.out.println(title + "2");
+						//	System.out.println(title + "2");
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
 											true, true, true, true, false,
