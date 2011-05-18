@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
@@ -30,6 +31,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -205,6 +207,8 @@ public class MainUI {
 		private BaseJButton delBtn = null;
 
 		private BaseJButton refresh = null;
+		private BaseJButton backup = null;
+		private BaseJButton restore = null;
 		// private BaseJButton copyBtn = null;
 		// private BaseJButton cutBtn = null;
 		// private BaseJButton pasteBtn = null;
@@ -278,7 +282,7 @@ public class MainUI {
 					String title = center.getSelectedTitle();
 					boolean flag = false;
 					if (title != null) {
-						if (title.trim().equals("支出管理")) {
+						if (title.trim().equals("支出记录管理")) {
 							CostManagerUI cmg = (CostManagerUI) center.getTab()
 									.getSelectedComponent();
 							Object[] rowData = cmg.getSelectedRowData();
@@ -355,7 +359,7 @@ public class MainUI {
 					String title = center.getSelectedTitle();
 					boolean flag = false;
 					if (title != null) {
-						if (title.trim().equals("支出管理")) {
+						if (title.trim().equals("支出记录管理")) {
 							final CostManagerUI cmg = (CostManagerUI) center
 									.getTab().getSelectedComponent();
 							Object[] rowData = cmg.getSelectedRowData();
@@ -452,7 +456,7 @@ public class MainUI {
 				public void actionPerformed(ActionEvent e) {
 					String title = center.getSelectedTitle();
 					if (title != null) {
-						if (title.trim().equals("支出管理")) {
+						if (title.trim().equals("支出记录管理")) {
 							final CostManagerUI cmg = (CostManagerUI) center
 									.getTab().getSelectedComponent();
 							new ThreadExecutorUtils() {
@@ -496,8 +500,27 @@ public class MainUI {
 					}
 				}
 			});
+			backup = new ToolButton("备份", new ImageIcon(
+					Resource.getResourceURL("images/data.jpg")), this);
+			backup.addActionListener(new ActionListener() {
 
-			setTopToolButtonEnabled(new boolean[] { false, false, false, false });
+				public void actionPerformed(ActionEvent e) {
+					left.backup();
+
+				}
+			});
+			restore = new ToolButton("还原", new ImageIcon(
+					Resource.getResourceURL("images/data.jpg")), this);
+			restore.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					left.restore();
+
+				}
+			});
+
+			setTopToolButtonEnabled(new boolean[] { false, false, false, false,
+					false, false });
 			// copyBtn = new ToolButton("复制", new ImageIcon(
 			// Resource.getResourceURL("images/tbcopy.png")), this);
 			//
@@ -514,6 +537,8 @@ public class MainUI {
 			modifyBtn.setEnabled(b[1]);
 			delBtn.setEnabled(b[2]);
 			refresh.setEnabled(b[3]);
+			backup.setEnabled(b[4]);
+			restore.setEnabled(b[5]);
 		}
 
 		private class ToolButton extends BaseJButton {
@@ -608,7 +633,8 @@ public class MainUI {
 					{ "收支平衡图表", "images/listselect.png" },
 					{ "//系统设置         ", "/" },
 					{ "密码更改 ", "images/listselect.png" },
-					{ "数据备份 ", "images/listselect.png" } };
+					{ "数据备份 ", "images/listselect.png" },
+					{ "数据还原", "images/listselect.png" } };
 
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			this.setPreferredSize(new Dimension(210, 0));
@@ -641,7 +667,8 @@ public class MainUI {
 
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											true, false, false, false });
+											true, false, false, false, false,
+											false });
 							// setStatusText("添加支出新纪录...");
 							new NewCostRecordUI("新增支出记录", mainFrame)
 									.showDialog();
@@ -649,31 +676,35 @@ public class MainUI {
 						} else if (index == 7) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											true, false, false, false });
+											true, false, false, false, false,
+											false });
 							// setStatusText("添加收入新纪录...");
 							new NewIncomeRecordUI("新增收入记录", mainFrame)
 									.showDialog();
 						} else if (index == 3) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											true, false, false, false });
+											true, false, false, false, false,
+											false });
 							// setStatusText("添加支出类别...");
 							new NewCostCategoryUI("添加支出类别", mainFrame)
 									.showDialog();
 						} else if (index == 9) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											true, false, false, false });
+											true, false, false, false, false,
+											false });
 							// setStatusText("添加收入来源...");
 							new NewIncomeCategoryUI("新增收入类别", mainFrame)
 									.showDialog();
 						} else if (index == 2) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											true, true, true, true });
+											true, true, true, true, false,
+											false });
 
 							final CostManagerUI cmu = new CostManagerUI();
-							center.addTabComponent("支出管理", cmu);
+							center.addTabComponent("支出记录管理", cmu);
 							new ThreadExecutorUtils() {
 
 								@Override
@@ -686,7 +717,8 @@ public class MainUI {
 						} else if (index == 4) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											true, true, true, true });
+											true, true, true, true, false,
+											false });
 
 							final CostCategoryManagerUI ccm = new CostCategoryManagerUI();
 							center.addTabComponent("支出类别管理", ccm);
@@ -703,7 +735,8 @@ public class MainUI {
 						} else if (index == 8) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											true, true, true, true });
+											true, true, true, true, false,
+											false });
 
 							final IncomeManagerUI in = new IncomeManagerUI();
 
@@ -721,7 +754,8 @@ public class MainUI {
 						} else if (index == 10) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											true, true, true, true });
+											true, true, true, true, false,
+											false });
 
 							final IncomeCategoryManagerUI ic = new IncomeCategoryManagerUI();
 							center.addTabComponent("收入类别管理", ic);
@@ -740,83 +774,148 @@ public class MainUI {
 
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											false, false, false, true });
+											false, false, false, true, false,
+											false });
 							center.addTabComponent("支出分布图",
 									new CostAllocationChartUI());
 						} else if (index == 11) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											false, false, false, true });
+											false, false, false, true, false,
+											false });
 							center.addTabComponent("收入分布图",
 									new IncomeAllocationChartUI());
 
 						} else if (index == 13) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											false, false, false, true });
+											false, false, false, true, false,
+											false });
 							center.addTabComponent("平衡分布图",
 									new BalanceChartUI());
 						} else if (index == 15) {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											false, false, false, false });
+											false, false, false, false, false,
+											false });
 
 							new ChangePasswordUI(mainFrame).showDialog();
 
 						} else if (index == 16) {
-							JFileChooser fileChooser = new JFileChooser();
-							fileChooser.setDialogTitle("数据备份");
-
-							int result = fileChooser.showSaveDialog(mainFrame);
-
-							if (JFileChooser.APPROVE_OPTION == result) {
-								mainFrame.setStatusText("正在保存备份...");
-								File file = fileChooser.getSelectedFile();
-								String path = file.getAbsolutePath();
-								// JOptionPane.showMessageDialog(null, path);
-
-								FileUtils fileUtils = new FileUtils();
-								ZipOutputStream zos = fileUtils
-										.getZipOputStream(file);
-								ZipEntry zipEntry = new ZipEntry("fcms.db");
-								try {
-									zos.putNextEntry(zipEntry);
-								} catch (IOException e2) {
-									e2.printStackTrace();
-								}
-
-								DataInputStream ds = fileUtils
-										.getDataInpuStream(new File(
-												"db/fcms.db"));
-
-								byte[] data = new byte[512];
-								int size = 0;
-								try {
-									while ((size = ds.read(data)) != -1) {
-										zos.write(data, 0, size);
-									}
-
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								} finally {
-
-									try {
-										zos.finish();
-										zos.closeEntry();
-										zos.close();
-									} catch (IOException e1) {
-										e1.printStackTrace();
-									}
-
-								}
-								mainFrame.setStatusText("备份成功");
-							}
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											false, false, false, false, true,
+											false });
+							backup();
+						} else if (index == 17) {
+							((TopPanel) top)
+									.setTopToolButtonEnabled(new boolean[] {
+											false, false, false, false, false,
+											true });
+							restore();
 						}
 					}
 
 				}
 			});
 			this.add(leftList);
+		}
+
+		public void backup() {
+			final JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setDialogTitle("数据备份");
+
+			int result = fileChooser.showSaveDialog(mainFrame);
+
+			if (JFileChooser.APPROVE_OPTION == result) {
+				Thread t = new Thread(new Runnable() {
+
+					public void run() {
+						mainFrame.setStatusText("正在保存备份...");
+
+						File file = fileChooser.getSelectedFile();
+						String path = file.getAbsolutePath();
+						// JOptionPane.showMessageDialog(null,
+						// path);
+
+						FileUtils fileUtils = new FileUtils();
+						ZipOutputStream zos = fileUtils.getZipOputStream(file);
+						ZipEntry zipEntry = new ZipEntry("fcms.db");
+						try {
+							zos.putNextEntry(zipEntry);
+						} catch (IOException e2) {
+							e2.printStackTrace();
+						}
+
+						DataInputStream ds = fileUtils
+								.getDataInpuStream(new File("db/fcms.db"));
+
+						byte[] data = new byte[512];
+						int size = 0;
+						try {
+							while ((size = ds.read(data)) != -1) {
+								zos.write(data, 0, size);
+							}
+
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} finally {
+
+							try {
+								zos.finish();
+								zos.closeEntry();
+								zos.close();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+
+						}
+						mainFrame.setStatusText("备份成功");
+
+					}
+				});
+
+				new ProgressBarUI("正在备份数据，请耐心等待...", t, mainFrame);
+
+			}
+		}
+
+		public void restore() {
+			final JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setDialogTitle("数据还原");
+			int result = fileChooser.showOpenDialog(mainFrame);
+			if (JFileChooser.APPROVE_OPTION == result) {
+				Thread t = new Thread(new Runnable() {
+
+					public void run() {
+
+						File file = fileChooser.getSelectedFile();
+						FileUtils fileUtils = new FileUtils();
+						DataInputStream ds = fileUtils.getDataInpuStream(file);
+						DataOutputStream dos = fileUtils
+								.getDataOutputStream(new File("db/fcms.db"));
+						byte[] b = new byte[512];
+						int size = -1;
+						try {
+							while ((size = ds.read(b)) != -1) {
+								dos.write(b, 0, size);
+							}
+							dos.flush();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} finally {
+							try {
+								ds.close();
+								dos.close();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+				});
+
+				new ProgressBarUI("正在还原数据，请耐心等待...", t, mainFrame);
+			}
 		}
 
 		/**
@@ -845,20 +944,24 @@ public class MainUI {
 					if (index == -1) {
 
 						((TopPanel) top).setTopToolButtonEnabled(new boolean[] {
-								false, false, false, false });
+								false, false, false, false, false, false });
 					} else {
 						String title = tab.getTitleAt(index);
-						if (title.trim().equals("收入管理")
+						System.out.println(title + "1");
+						if (title.trim().equals("收入记录管理")
 								|| title.trim().equals("收入类别管理")
-								|| title.trim().equals("支出管理")
+								|| title.trim().equals("支出记录管理")
 								|| title.trim().equals("支出类别管理")) {
+							System.out.println(title + "2");
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											true, true, true, true });
+											true, true, true, true, false,
+											false });
 						} else {
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
-											false, false, false, true });
+											false, false, false, true, false,
+											false });
 						}
 					}
 				}

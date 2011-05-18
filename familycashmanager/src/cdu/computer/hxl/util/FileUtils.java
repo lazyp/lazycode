@@ -2,6 +2,7 @@ package cdu.computer.hxl.util;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -59,6 +60,16 @@ public class FileUtils {
 			e.printStackTrace();
 		}
 		return ds;
+	}
+
+	public DataOutputStream getDataOutputStream(File file) {
+		DataOutputStream dos = null;
+		try {
+			dos = new DataOutputStream(new FileOutputStream(file));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return dos;
 	}
 
 	public static void main(String[] args) {

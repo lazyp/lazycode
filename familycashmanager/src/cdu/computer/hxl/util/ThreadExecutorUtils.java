@@ -1,6 +1,7 @@
 package cdu.computer.hxl.util;
 
 public abstract class ThreadExecutorUtils {
+
 	protected abstract void task();
 
 	public void exec() {
@@ -11,5 +12,9 @@ public abstract class ThreadExecutorUtils {
 			}
 		});
 		t.start();
+	}
+
+	public void joinThread() {
+
 	}
 }
