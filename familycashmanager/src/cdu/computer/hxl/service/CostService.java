@@ -55,11 +55,7 @@ public class CostService {
 
 	public List<Map<String, Object>> loadCostForList(
 			Map<String, Object> whereDataMap) {
-		/*
-		 * select cost.rowid , amount , categoryname, bankname , cost.remark ,
-		 * cost.date from cost left join cost_category on cost.useid =
-		 * cost_category.rowid left join bank on cost.bankid=bank.rowid
-		 */
+
 		List<Map<String, Object>> result = dbHandler
 				.search(new String[] { "c.rowid", "amount", "cc.categoryname",
 						"b.bankname", "c.remark", "c.date" },
@@ -106,8 +102,6 @@ public class CostService {
 			sumList = dbHandler.search(new String[] { "count(rowid) as sum" },
 					whereDataMap, "cost");
 			if (sumList != null && sumList.size() == 1)
-				// System.out.println(((Integer) sumList.get(0).get("sum"))
-				// .intValue() * 0.1 / count);
 				statistData.put(catename,
 						((Integer) sumList.get(0).get("sum")).intValue() * 1.0
 								/ count * 100);

@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 
@@ -166,6 +165,16 @@ public class NewCostRecordUI extends BaseJDialog {
 
 		JButton resetbnt = new JButton("\u6E05\u7A7A");
 		resetbnt.setBounds(216, 285, 84, 23);
+
+		resetbnt.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				moneyTextField.setText("");
+				timeTextField.setText("");
+				remarkTextArea.setText("");
+			}
+		});
+
 		panel.add(resetbnt);
 
 		useComboBox = new BaseJComboBox();

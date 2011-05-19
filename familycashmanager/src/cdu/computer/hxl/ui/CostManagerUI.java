@@ -6,15 +6,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
 
 import java.awt.Color;
-import java.util.Vector;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.swing.JButton;
-import javax.swing.UIManager;
 
 import cdu.computer.hxl.factory.ObjectFactory;
 import cdu.computer.hxl.service.CostService;
@@ -30,9 +31,12 @@ public class CostManagerUI extends BaseJPanel {
 	private static final long serialVersionUID = -9039061244691608492L;
 	private final CostService cService = (CostService) ObjectFactory
 			.getInstance("costService");
-	private JTextField textField = null;
-	private JTextField textField_1 = null;
+
+	private JTextField amountTextField = null;
+	private JTextField timeTextField = null;
 	private JTable costDataTable = null;
+	private JTextField useTextField = null;
+
 	private Object[][] data = null;
 
 	public CostManagerUI() {
@@ -42,27 +46,71 @@ public class CostManagerUI extends BaseJPanel {
 		searchPanel.setBackground(Color.BLACK);
 		add(searchPanel, BorderLayout.NORTH);
 
+		JLabel label_2 = new JLabel("”√¥¶:");
+		searchPanel.add(label_2);
+
+		useTextField = new JTextField();
+		searchPanel.add(useTextField);
+		useTextField.setColumns(10);
+
 		JLabel label = new JLabel("\u91D1\u989D\uFF1A");
 		searchPanel.add(label);
 
-		textField = new JTextField();
-		searchPanel.add(textField);
-		textField.setColumns(10);
+		amountTextField = new JTextField();
+		searchPanel.add(amountTextField);
+		amountTextField.setColumns(10);
 
 		JLabel label_1 = new JLabel("\u65F6\u95F4\uFF1A");
 		searchPanel.add(label_1);
 
-		textField_1 = new JTextField();
-		searchPanel.add(textField_1);
-		textField_1.setColumns(10);
+		timeTextField = new JTextField();
+		searchPanel.add(timeTextField);
+		timeTextField.setColumns(10);
 
-		JButton searchButton = new JButton("\u67E5\u8BE2");
+		JButton searchButton = new JButton("≤È—Ø");
+
+		searchButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				String amount = amountTextField.getText();
+				String use = useTextField.getText();
+				String time = timeTextField.getText();
+
+				Map<String, Object> whereMap = new HashMap<String, Object>();
+
+				if (amount != null && !amount.trim().equals("")) {
+					whereMap.put("amount", Integer.parseInt(amount));
+				}
+				if (time != null && !time.trim().equals("")) {
+					whereMap.put("date", time);
+				}
+				if (use != null && !use.trim().equals("")) {
+					Map<String, Object> whereDataMap = new HashMap<String, Object>();
+					whereDataMap.put("categoryname like ", use);
+
+					List<Map<String, Object>> result = cService
+							.loadCostCategoryForList(whereDataMap);
+					String useids = "";
+
+					for (int i = 0; i < result.size(); i++) {
+						useids += result.get(i).get("rowid") + " , ";
+					}
+
+					whereMap.put("useid in ",
+							useids.substring(0, useids.trim().length() - 1));
+				}
+				reloadData(whereMap);
+				costDataTable.setForeground(Color.RED);
+			}
+		});
+
 		searchPanel.add(searchButton);
 
 		JPanel tablePanel = new JPanel();
 		tablePanel.setLayout(new BorderLayout(0, 0));
 
 		costDataTable = new JTable() {
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -90,31 +138,20 @@ public class CostManagerUI extends BaseJPanel {
 
 	}
 
-	public void loadData() {
+	public void loadData(Map<String, Object> whereMap) {
 		DefaultTableModel dtm = (DefaultTableModel) costDataTable.getModel();
-		data = cService.loadCostForObject(null);
+		data = cService.loadCostForObject(whereMap);
 		int len = data.length;
 		for (int i = 0; i < len; i++) {
 			dtm.addRow(data[i]);
 		}
 	}
 
-	public void reloadData() {
+	public void reloadData(Map<String, Object> whereMap) {
 
 		DefaultTableModel dtm = (DefaultTableModel) costDataTable.getModel();
-
-		// int count = dtm.getRowCount();
-		// // System.out.println(count+"@");
-		// for (int i = 0; i < count; i++) {
-		// dtm.removeRow(0);
-		// }
 		dtm.getDataVector().removeAllElements();
-
-		data = cService.loadCostForObject(null);
-		int len = data.length;
-		for (int i = 0; i < len; i++) {
-			dtm.addRow(data[i]);
-		}
+		loadData(whereMap);
 	}
 
 	public void removeRow(int rowid) {
@@ -123,7 +160,6 @@ public class CostManagerUI extends BaseJPanel {
 
 	public Object[] getSelectedRowData() {
 		int rownum = costDataTable.getSelectedRow();
-		// System.out.println(rownum);
 		if (rownum == -1)
 			return null;
 		return data[rownum];

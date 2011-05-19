@@ -463,7 +463,7 @@ public class MainUI {
 
 								@Override
 								protected void task() {
-									cmg.reloadData();
+									cmg.reloadData(null);
 								}
 							}.exec();
 						} else if (title.trim().equals("支出类别管理")) {
@@ -483,7 +483,7 @@ public class MainUI {
 
 								@Override
 								protected void task() {
-									imu.reloadData();
+									imu.reloadData(null);
 								}
 							}.exec();
 						} else if (title.trim().equals("收入类别管理")) {
@@ -710,7 +710,7 @@ public class MainUI {
 								@Override
 								protected void task() {
 									mainFrame.setStatusText("正在加载数据...");
-									cmu.loadData();
+									cmu.loadData(null);
 									mainFrame.setStatusText("加载完毕");
 								}
 							}.exec();
@@ -747,7 +747,7 @@ public class MainUI {
 								@Override
 								protected void task() {
 									mainFrame.setStatusText("正在加载数据，请等待...");
-									in.loadData();
+									in.loadData(null);
 									mainFrame.setStatusText("加载完毕");
 								}
 							}.exec();
@@ -947,12 +947,12 @@ public class MainUI {
 								false, false, false, false, false, false });
 					} else {
 						String title = tab.getTitleAt(index);
-						//System.out.println(title + "1");
+						// System.out.println(title + "1");
 						if (title.trim().equals("收入记录管理")
 								|| title.trim().equals("收入类别管理")
 								|| title.trim().equals("支出记录管理")
 								|| title.trim().equals("支出类别管理")) {
-						//	System.out.println(title + "2");
+							// System.out.println(title + "2");
 							((TopPanel) top)
 									.setTopToolButtonEnabled(new boolean[] {
 											true, true, true, true, false,

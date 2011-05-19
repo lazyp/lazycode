@@ -1,29 +1,21 @@
 package cdu.computer.hxl.ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
 
-import cdu.computer.hxl.db.DBCRUDHandler;
-import cdu.computer.hxl.db.impl.DefaultDBCRUDHandler;
 import cdu.computer.hxl.factory.ObjectFactory;
 import cdu.computer.hxl.service.BankService;
 import cdu.computer.hxl.service.IncomeService;
@@ -179,6 +171,16 @@ public class NewIncomeRecordUI extends BaseJDialog {
 
 		clearbtn = new JButton("\u6E05\u7A7A");
 		clearbtn.setBounds(219, 266, 66, 23);
+
+		clearbtn.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				amountTextField.setText("");
+				timeTextField.setText("");
+				remarkTextArea.setText("");
+			}
+		});
+
 		getContentPane().add(clearbtn);
 
 		new ThreadExecutorUtils() {

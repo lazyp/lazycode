@@ -1,17 +1,11 @@
 package cdu.computer.hxl.ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -113,6 +107,15 @@ public class NewIncomeCategoryUI extends BaseJDialog {
 
 		JButton resetbnt = new JButton("\u6E05\u7A7A");
 		resetbnt.setBounds(202, 145, 60, 23);
+
+		resetbnt.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				categoryNameTextField.setText("");
+				remarkTextArea.setText("");
+			}
+		});
+
 		getContentPane().add(resetbnt);
 
 		super.initUI();
