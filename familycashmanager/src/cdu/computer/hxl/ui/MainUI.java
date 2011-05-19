@@ -31,7 +31,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -201,8 +200,9 @@ public class MainUI {
 	 */
 	private class TopPanel extends BaseJPanel {
 
+		private static final long serialVersionUID = 2469742777806648489L;
 		private BaseJButton newCreateBtn = null;
-		private BaseJButton saveBtn = null;
+		// private BaseJButton saveBtn = null;
 		private BaseJButton modifyBtn = null;
 		private BaseJButton delBtn = null;
 
@@ -496,6 +496,15 @@ public class MainUI {
 									icmu.reloadData();
 								}
 							}.exec();
+						} else if (title.trim().equals("支出分布图")) {
+							center.addTabComponent("支出分布图",
+									new CostAllocationChartUI());
+						} else if (title.trim().equals("收入分布图")) {
+							center.addTabComponent("收入分布图",
+									new IncomeAllocationChartUI());
+						} else if (title.trim().equals("平衡分布图")) {
+							center.addTabComponent("平衡分布图",
+									new BalanceChartUI());
 						}
 					}
 				}
@@ -599,9 +608,9 @@ public class MainUI {
 				});
 			}
 
-			private void setBackgroundColor(Color c) {
-				this.setBackground(c);
-			}
+			// private void setBackgroundColor(Color c) {
+			// this.setBackground(c);
+			// }
 		}
 
 	}
