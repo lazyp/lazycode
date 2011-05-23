@@ -125,4 +125,11 @@ public class CostCategoryManagerUI extends BaseJPanel {
 			return;
 		cService.deleteCostcategory((Integer) dataObj[rownum][0]);
 	}
+
+	/**
+	 * @return the table
+	 */
+	public JTable getTable() {
+		return table;
+	}
 }

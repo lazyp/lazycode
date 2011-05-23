@@ -165,4 +165,11 @@ public class CostManagerUI extends BaseJPanel {
 		return data[rownum];
 
 	}
+
+	/**
+	 * @return the costDataTable
+	 */
+	public JTable getCostDataTable() {
+		return costDataTable;
+	}
 }

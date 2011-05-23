@@ -79,8 +79,8 @@ public class IncomeManagerUI extends BaseJPanel {
 								(Integer) result.get(0).get("rowid"));
 					}
 				}
-				reloadData(whereMap);
 				table.setForeground(Color.RED);
+				reloadData(whereMap);
 			}
 		});
 

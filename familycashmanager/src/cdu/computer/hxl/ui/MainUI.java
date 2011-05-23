@@ -463,6 +463,8 @@ public class MainUI {
 
 								@Override
 								protected void task() {
+									cmg.getCostDataTable().setForeground(
+											Color.WHITE);
 									cmg.reloadData(null);
 								}
 							}.exec();
@@ -473,6 +475,7 @@ public class MainUI {
 
 								@Override
 								protected void task() {
+								//	ccmg.getTable().setForeground(Color.WHITE);
 									ccmg.reloadData();
 								}
 							}.exec();
@@ -483,6 +486,7 @@ public class MainUI {
 
 								@Override
 								protected void task() {
+									imu.getTable().setForeground(Color.WHITE);
 									imu.reloadData(null);
 								}
 							}.exec();
@@ -493,6 +497,7 @@ public class MainUI {
 
 								@Override
 								protected void task() {
+								//	icmu.getTable().setForeground(Color.WHITE);
 									icmu.reloadData();
 								}
 							}.exec();
