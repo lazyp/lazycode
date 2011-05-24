@@ -645,7 +645,7 @@ public class MainUI {
 					{ "收入类别管理", "images/listselect.png" },
 					{ "收入分布图", "images/listselect.png" }, { "//资金收支统计", "/" },
 					{ "收支平衡图表", "images/listselect.png" },
-					{ "//系统设置         ", "/" },
+					{ "//系统             ", "/" },
 					{ "密码更改 ", "images/listselect.png" },
 					{ "数据备份 ", "images/listselect.png" },
 					{ "数据还原", "images/listselect.png" } };
