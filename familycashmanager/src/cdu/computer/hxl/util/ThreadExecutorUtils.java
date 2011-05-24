@@ -1,5 +1,11 @@
 package cdu.computer.hxl.util;
 
+/**
+ * 封装线程的建立过程
+ * 
+ * @author Administrator
+ * 
+ */
 public abstract class ThreadExecutorUtils {
 
 	protected abstract void task();
