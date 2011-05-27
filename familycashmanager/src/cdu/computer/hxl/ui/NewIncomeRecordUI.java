@@ -1,7 +1,10 @@
 package cdu.computer.hxl.ui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -19,11 +23,15 @@ import javax.swing.JTextArea;
 import cdu.computer.hxl.factory.ObjectFactory;
 import cdu.computer.hxl.service.BankService;
 import cdu.computer.hxl.service.IncomeService;
+import cdu.computer.hxl.util.Accessor;
 import cdu.computer.hxl.util.ThreadExecutorUtils;
 
 public class NewIncomeRecordUI extends BaseJDialog {
 
 	private static final long serialVersionUID = 6375647562062306231L;
+
+	private static final Color color = new Color(52, 55, 59);// 默认的颜色
+
 	private static final IncomeService incomeService = (IncomeService) ObjectFactory
 			.getInstance("incomeService");
 	private JPanel contentPanel = null;
@@ -37,6 +45,9 @@ public class NewIncomeRecordUI extends BaseJDialog {
 
 	private String title = "";
 	private int rowid = -1;
+
+	private boolean isLegal1 = false;
+	private boolean isLegal2 = false;
 
 	public NewIncomeRecordUI(String title, BaseJFrame owner) {
 		super(owner, title, true);
@@ -67,6 +78,21 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		amountTextField.setHorizontalAlignment(SwingConstants.LEFT);
 		amountTextField.setBounds(145, 44, 83, 21);
 		getContentPane().add(amountTextField);
+
+		amountTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				String amount = amountTextField.getText();
+				if (!Accessor.isNumber(amount)) {
+					amountTextField.setBackground(Color.RED);
+					isLegal1 = false;
+				} else {
+					amountTextField.setBackground(color);
+					isLegal1 = true;
+				}
+			}
+
+		});
 		// amountTextField.setColumns(10);
 
 		JLabel sourceLabel = new JLabel("\u6765\u6E90\uFF1A");
@@ -105,6 +131,22 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		getContentPane().add(timeTextField);
 		timeTextField.setColumns(10);
 
+		timeTextField.addFocusListener(new FocusAdapter() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				String time = timeTextField.getText();
+				if (!Accessor.isLegalTime(time)) {
+					timeTextField.setBackground(Color.RED);
+					isLegal2 = false;
+				} else {
+					timeTextField.setBackground(color);
+					isLegal2 = true;
+				}
+			}
+
+		});
+
 		JLabel remarkLabel = new JLabel("\u5907\u6CE8\uFF1A");
 		remarkLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		remarkLabel.setBounds(51, 223, 54, 15);
@@ -130,40 +172,45 @@ public class NewIncomeRecordUI extends BaseJDialog {
 
 			public void actionPerformed(ActionEvent e) {
 
-				final double money = Double.parseDouble(amountTextField
-						.getText());
-				final String time = timeTextField.getText();
+				if (isLegal1 && isLegal2) {
+					final double money = Double.parseDouble(amountTextField
+							.getText());
+					final String time = timeTextField.getText();
 
-				@SuppressWarnings("unchecked")
-				final Integer saveid = (Integer) ((Map<String, Object>) saveComboBox
-						.getSelectedItem()).get("rowid");
+					@SuppressWarnings("unchecked")
+					final Integer saveid = (Integer) ((Map<String, Object>) saveComboBox
+							.getSelectedItem()).get("rowid");
 
-				@SuppressWarnings("unchecked")
-				final Integer sourceid = (Integer) ((Map<String, Object>) sourceComboBox
-						.getSelectedItem()).get("rowid");
+					@SuppressWarnings("unchecked")
+					final Integer sourceid = (Integer) ((Map<String, Object>) sourceComboBox
+							.getSelectedItem()).get("rowid");
 
-				final String remark = remarkTextArea.getText();
-				new ThreadExecutorUtils() {
+					final String remark = remarkTextArea.getText();
+					new ThreadExecutorUtils() {
 
-					@Override
-					protected void task() {
-						getOwner().setStatusText("正在保存收入记录...");
+						@Override
+						protected void task() {
+							getOwner().setStatusText("正在保存收入记录...");
 
-						Map<String, Object> data = new HashMap<String, Object>();
+							Map<String, Object> data = new HashMap<String, Object>();
 
-						data.put("rowid", rowid);
-						data.put("amount", money);
-						data.put("remark", remark);
-						data.put("bankid", saveid);
-						data.put("sourceid", sourceid);
-						data.put("date", time);
+							data.put("rowid", rowid);
+							data.put("amount", money);
+							data.put("remark", remark);
+							data.put("bankid", saveid);
+							data.put("sourceid", sourceid);
+							data.put("date", time);
 
-						incomeService.addIncomeItem(data);
+							incomeService.addIncomeItem(data);
 
-						getOwner().setStatusText("保存成功");
-					}
-				}.exec();
-				setVisible(false);
+							getOwner().setStatusText("保存成功");
+						}
+					}.exec();
+					setVisible(false);
+				} else {
+					JOptionPane.showMessageDialog(getOwner(), "有不合法输入，请检查...",
+							"警告", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 

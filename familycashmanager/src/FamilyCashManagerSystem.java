@@ -73,7 +73,7 @@ public class FamilyCashManagerSystem {
 				.getResourceURL("images/trayIcon.jpg"));
 
 		final BaseJFrame mainFrame = new BaseJFrame()
-				.setFrameTitle("懒人家庭财务管理系统")
+				.setFrameTitle("家庭财务管理系统")
 				.setFrameSize(Constants.LOGIN_WIDTH, Constants.LOGIN_HEIGHT)
 				.setFrameIconImage(image).setFrameResizable(false)
 				.setFrameCenter();

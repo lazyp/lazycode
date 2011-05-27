@@ -3,6 +3,7 @@ package cdu.computer.hxl.ui;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -14,11 +15,14 @@ import javax.swing.SwingConstants;
 import cdu.computer.hxl.factory.ObjectFactory;
 import cdu.computer.hxl.service.BankService;
 import cdu.computer.hxl.service.CostService;
+import cdu.computer.hxl.util.Accessor;
 import cdu.computer.hxl.util.ThreadExecutorUtils;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
@@ -34,10 +38,13 @@ import java.util.Map;
 public class NewCostRecordUI extends BaseJDialog {
 
 	private static final long serialVersionUID = -2303701219177219958L;
+
 	private final CostService cService = (CostService) ObjectFactory
 			.getInstance("costService");
 	private final BankService bService = (BankService) ObjectFactory
 			.getInstance("bankService");
+
+	private static final Color color = new Color(52, 55, 59);// 默认的颜色
 
 	private JPanel panel = null;
 	private JTextField moneyTextField = null;
@@ -47,6 +54,9 @@ public class NewCostRecordUI extends BaseJDialog {
 	private BaseJComboBox useComboBox = null;
 	private int rowid = -1;
 	private String title = "";
+
+	private boolean isLegal1 = false;
+	private boolean isLegal2 = false;
 
 	public NewCostRecordUI(String title, BaseJFrame owner) {
 		super(owner, title, true);
@@ -85,6 +95,23 @@ public class NewCostRecordUI extends BaseJDialog {
 		moneyTextField = new JTextField();
 		moneyTextField.setBounds(122, 44, 116, 21);
 		panel.add(moneyTextField);
+
+		moneyTextField.addFocusListener(new FocusAdapter() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				String money = moneyTextField.getText();
+				if (!Accessor.isNumber(money)) {
+					moneyTextField.setBackground(Color.RED);
+					isLegal1 = false;
+				} else {
+					moneyTextField.setBackground(color);
+					isLegal1 = true;
+				}
+			}
+
+		});
+
 		moneyTextField.setColumns(10);
 
 		JLabel tipLabel = new JLabel("\u4EE5\u5143\u4E3A\u5355\u4F4D(2.30)");
@@ -99,7 +126,27 @@ public class NewCostRecordUI extends BaseJDialog {
 
 		timeTextField = new JTextField();
 		timeTextField.setBounds(122, 159, 183, 21);
+		// timeTextField.setBackground(Color.red);
 		panel.add(timeTextField);
+
+		timeTextField.addFocusListener(new FocusAdapter() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				String text = timeTextField.getText();
+
+				if (!Accessor.isLegalTime(text)) {
+					timeTextField.setBackground(Color.RED);
+					isLegal2 = false;
+				} else {
+					timeTextField.setBackground(color);
+					isLegal2 = true;
+				}
+
+			}
+
+		});
+
 		timeTextField.setColumns(10);
 
 		JLabel useLabel = new JLabel("\u7528\u9014\uFF1A");
@@ -129,37 +176,41 @@ public class NewCostRecordUI extends BaseJDialog {
 		submit.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				new ThreadExecutorUtils() {
+				if (isLegal1 && isLegal2) {
+					setVisible(false);
+					new ThreadExecutorUtils() {
 
-					@SuppressWarnings("unchecked")
-					@Override
-					protected void task() {
+						@SuppressWarnings("unchecked")
+						@Override
+						protected void task() {
 
-						double money = Double.parseDouble(moneyTextField
-								.getText());
+							double money = Double.parseDouble(moneyTextField
+									.getText());
 
-						int useid = (Integer) ((Map<String, Object>) useComboBox
-								.getSelectedItem()).get("rowid");
-						int sourceid = (Integer) ((Map<String, Object>) sourceComboBox
-								.getSelectedItem()).get("rowid");
-						String remark = remarkTextArea.getText();
-						String datetime = timeTextField.getText();
+							int useid = (Integer) ((Map<String, Object>) useComboBox
+									.getSelectedItem()).get("rowid");
+							int sourceid = (Integer) ((Map<String, Object>) sourceComboBox
+									.getSelectedItem()).get("rowid");
+							String remark = remarkTextArea.getText();
+							String datetime = timeTextField.getText();
 
-						Map<String, Object> dataMap = new HashMap<String, Object>();
-						dataMap.put("amount", money);
-						dataMap.put("bankid", sourceid);
-						dataMap.put("useid", useid);
-						dataMap.put("remark", remark);
-						dataMap.put("date", datetime);
-						dataMap.put("rowid", rowid);
+							Map<String, Object> dataMap = new HashMap<String, Object>();
+							dataMap.put("amount", money);
+							dataMap.put("bankid", sourceid);
+							dataMap.put("useid", useid);
+							dataMap.put("remark", remark);
+							dataMap.put("date", datetime);
+							dataMap.put("rowid", rowid);
 
-						getOwner().setStatusText("正在保存数据...");
-						cService.addCost(dataMap);
-						getOwner().setStatusText("保存成功");
-					}
-				}.exec();
-
+							getOwner().setStatusText("正在保存数据...");
+							cService.addCost(dataMap);
+							getOwner().setStatusText("保存成功");
+						}
+					}.exec();
+				} else {
+					JOptionPane.showMessageDialog(getOwner(), "有不合法输入，请检查...",
+							"警告", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
