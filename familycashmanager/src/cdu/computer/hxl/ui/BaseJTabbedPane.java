@@ -191,32 +191,32 @@ public class BaseJTabbedPane extends JTabbedPane {
 	}
 
 	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		JFrame frame = new JFrame("≤‚ ‘");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		BaseJTabbedPane bjp = new BaseJTabbedPane(frame);
-		JLabel label = new JLabel("ddddddd");
-		bjp.addTabComponent("tab1", new JLabel(
-				"testeststestestsetststeststeststest"));
-		bjp.addTabComponent("tab2", new JLabel(
-				"testeststestestsetststeststeststes2sst"));
-		bjp.addTabComponent("tab3", new JLabel(
-				"testeststestestsetststeststeststes2sst"));
-		bjp.addTabComponent("tab4", label);
-
-		bjp.addTabComponent("tab5", label);
-		frame.setSize(200, 150);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+//		try {
+//			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (InstantiationException e) {
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			e.printStackTrace();
+//		} catch (UnsupportedLookAndFeelException e) {
+//			e.printStackTrace();
+//		}
+//		JFrame frame = new JFrame("≤‚ ‘");
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		BaseJTabbedPane bjp = new BaseJTabbedPane(frame);
+//		JLabel label = new JLabel("ddddddd");
+//		bjp.addTabComponent("tab1", new JLabel(
+//				"testeststestestsetststeststeststest"));
+//		bjp.addTabComponent("tab2", new JLabel(
+//				"testeststestestsetststeststeststes2sst"));
+//		bjp.addTabComponent("tab3", new JLabel(
+//				"testeststestestsetststeststeststes2sst"));
+//		bjp.addTabComponent("tab4", label);
+//
+//		bjp.addTabComponent("tab5", label);
+//		frame.setSize(200, 150);
+//		frame.setLocationRelativeTo(null);
+//		frame.setVisible(true);
 	}
 }

@@ -13,6 +13,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.DataInputStream;
@@ -451,6 +453,10 @@ public class MainUI {
 
 			refresh = new ToolButton("Ë¢ÐÂ", new ImageIcon(
 					Resource.getResourceURL("images/tbudpate.png")), this);
+			refresh.setToolTipText("¿ì½Ý¼üAlt+F5");
+			refresh.setMnemonic(KeyEvent.VK_F5);
+	
+
 			refresh.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
@@ -475,7 +481,7 @@ public class MainUI {
 
 								@Override
 								protected void task() {
-								//	ccmg.getTable().setForeground(Color.WHITE);
+									// ccmg.getTable().setForeground(Color.WHITE);
 									ccmg.reloadData();
 								}
 							}.exec();
@@ -497,7 +503,7 @@ public class MainUI {
 
 								@Override
 								protected void task() {
-								//	icmu.getTable().setForeground(Color.WHITE);
+									// icmu.getTable().setForeground(Color.WHITE);
 									icmu.reloadData();
 								}
 							}.exec();
