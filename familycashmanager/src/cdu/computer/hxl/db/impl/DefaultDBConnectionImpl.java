@@ -39,7 +39,7 @@ public class DefaultDBConnectionImpl implements DBConnection {
 	 * 
 	 * @return Connection
 	 */
-	public Connection connection() throws DBConnectionException {
+	public synchronized Connection connection() throws DBConnectionException {
 		Connection con = null;
 		try {
 			con = DriverManager.getConnection(defaultConfig.getConnectionURL());

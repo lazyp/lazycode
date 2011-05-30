@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -65,8 +64,8 @@ public class BalanceChartUI extends BaseJPanel {
 				.iterator();
 		while (iter.hasNext()) {
 			Map.Entry<Integer, Double> entry = iter.next();
-
 			calendar.set(Calendar.MONTH, entry.getKey());
+			calendar.set(Calendar.DATE, 1);
 			series1.add(new Month(calendar.getTime()), entry.getValue());
 		}
 
@@ -78,8 +77,8 @@ public class BalanceChartUI extends BaseJPanel {
 		iter = costMap.entrySet().iterator();
 		while (iter.hasNext()) {
 			Map.Entry<Integer, Double> entry = iter.next();
-
 			calendar.set(Calendar.MONTH, entry.getKey());
+			calendar.set(Calendar.DATE, 1);
 			series2.add(new Month(calendar.getTime()), entry.getValue());
 		}
 

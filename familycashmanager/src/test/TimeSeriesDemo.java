@@ -56,8 +56,9 @@ public class TimeSeriesDemo extends ApplicationFrame {
 	}
 
 	private static XYDataset createDataset() {
-		TimeSeries timeseries = new TimeSeries("L&G European Index Trust",
-				org.jfree.data.time.Month.class);
+		TimeSeries timeseries = new TimeSeries("L&G European Index Trust");
+	
+		timeseries.add(new Month(1, 2001), 171.80000000000001D);
 		timeseries.add(new Month(2, 2001), 181.80000000000001D);
 		timeseries.add(new Month(3, 2001), 167.30000000000001D);
 		timeseries.add(new Month(4, 2001), 153.80000000000001D);
@@ -76,8 +77,7 @@ public class TimeSeriesDemo extends ApplicationFrame {
 		timeseries.add(new Month(5, 2002), 139.80000000000001D);
 		timeseries.add(new Month(6, 2002), 137D);
 		timeseries.add(new Month(7, 2002), 132.80000000000001D);
-		TimeSeries timeseries1 = new TimeSeries("L&G UK Index Trust",
-				org.jfree.data.time.Month.class);
+		TimeSeries timeseries1 = new TimeSeries("L&G UK Index Trust");
 		timeseries1.add(new Month(2, 2001), 129.59999999999999D);
 		timeseries1.add(new Month(3, 2001), 123.2D);
 		timeseries1.add(new Month(4, 2001), 117.2D);

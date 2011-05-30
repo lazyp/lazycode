@@ -202,6 +202,7 @@ public class DefaultDBCRUDHandler implements DBCRUDHandler {
 			if (conn != null)
 				conn.close();
 		} catch (SQLException e) {
+			System.err.println("#Exception info:数据库关闭异常");
 			e.printStackTrace();
 		}
 	}
