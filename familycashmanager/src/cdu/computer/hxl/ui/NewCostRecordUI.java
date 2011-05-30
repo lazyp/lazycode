@@ -242,6 +242,11 @@ public class NewCostRecordUI extends BaseJDialog {
 		sourceComboBox.setModel(new DefaultComboBoxModel());
 		sourceComboBox.setBounds(122, 117, 116, 21);
 		panel.add(sourceComboBox);
+		
+		JLabel timeTipLabel = new JLabel("\u683C\u5F0F(2011-5-30)");
+		timeTipLabel.setForeground(Color.RED);
+		timeTipLabel.setBounds(315, 162, 103, 15);
+		panel.add(timeTipLabel);
 
 		/*
 		 * 加载用途列表

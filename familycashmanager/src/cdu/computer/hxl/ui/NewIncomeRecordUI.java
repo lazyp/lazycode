@@ -51,6 +51,7 @@ public class NewIncomeRecordUI extends BaseJDialog {
 
 	public NewIncomeRecordUI(String title, BaseJFrame owner) {
 		super(owner, title, true);
+		getContentPane().setForeground(Color.RED);
 		this.title = title;
 		initUI();
 	}
@@ -110,24 +111,24 @@ public class NewIncomeRecordUI extends BaseJDialog {
 
 		JLabel saveLabel = new JLabel("\u5B58\u5165\uFF1A");
 		saveLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		saveLabel.setBounds(51, 167, 54, 15);
+		saveLabel.setBounds(51, 123, 54, 15);
 		getContentPane().add(saveLabel);
 
 		saveComboBox = new BaseJComboBox();
 		// saveComboBox.setModel(new DefaultComboBoxModel(
 		// new String[] { "\u5DE5\u5546\u94F6\u884C" }));
-		saveComboBox.setBounds(145, 164, 83, 21);
+		saveComboBox.setBounds(145, 120, 83, 21);
 		final DefaultComboBoxModel savemodel = new DefaultComboBoxModel();
 		saveComboBox.setModel(savemodel);
 		getContentPane().add(saveComboBox);
 
 		JLabel timeLabel = new JLabel("\u65F6\u95F4\uFF1A");
 		timeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		timeLabel.setBounds(51, 120, 54, 15);
+		timeLabel.setBounds(51, 166, 54, 15);
 		getContentPane().add(timeLabel);
 
 		timeTextField = new JTextField();
-		timeTextField.setBounds(145, 117, 140, 21);
+		timeTextField.setBounds(145, 163, 125, 21);
 		getContentPane().add(timeTextField);
 		timeTextField.setColumns(10);
 
@@ -229,6 +230,16 @@ public class NewIncomeRecordUI extends BaseJDialog {
 		});
 
 		getContentPane().add(clearbtn);
+		
+		JLabel label = new JLabel("\u683C\u5F0F(25.0)");
+		label.setForeground(Color.RED);
+		label.setBounds(238, 47, 83, 15);
+		getContentPane().add(label);
+		
+		JLabel label_1 = new JLabel("\u683C\u5F0F(2011-5-30)");
+		label_1.setForeground(Color.RED);
+		label_1.setBounds(276, 166, 108, 15);
+		getContentPane().add(label_1);
 
 		new ThreadExecutorUtils() {
 
