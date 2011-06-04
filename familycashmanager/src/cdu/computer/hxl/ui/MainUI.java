@@ -250,7 +250,10 @@ public class MainUI {
 
 			newCreateBtn = new ToolButton("ÐÂ½¨", new ImageIcon(
 					Resource.getResourceURL("images/tbnew.png")), this);
-
+			
+			newCreateBtn.setMnemonic(KeyEvent.VK_F3);
+			newCreateBtn.setToolTipText("¿ì½Ý¼üAlt+F3");
+			
 			newCreateBtn.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {

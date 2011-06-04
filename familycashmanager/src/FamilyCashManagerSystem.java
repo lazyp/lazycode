@@ -37,7 +37,9 @@ public class FamilyCashManagerSystem {
 
 	public static void main(String[] args) throws IOException,
 			URISyntaxException {
-
+		// System.setProperty("java.class.path", "/");
+		// JOptionPane.showMessageDialog(null,
+		// System.getProperty("java.class.path"));
 		Properties props = new Properties();
 		props.put("logoString", "");// 菜单栏左边的文字
 		// props.put("menuSelectionBackgroundColor", "150 160 160");// 菜单栏左边的背景色
@@ -72,8 +74,7 @@ public class FamilyCashManagerSystem {
 		Image image = ImageIO.read(Resource
 				.getResourceURL("images/trayIcon.jpg"));
 
-		final BaseJFrame mainFrame = new BaseJFrame()
-				.setFrameTitle("家庭财务管理系统")
+		final BaseJFrame mainFrame = new BaseJFrame().setFrameTitle("家庭财务管理系统")
 				.setFrameSize(Constants.LOGIN_WIDTH, Constants.LOGIN_HEIGHT)
 				.setFrameIconImage(image).setFrameResizable(false)
 				.setFrameCenter();

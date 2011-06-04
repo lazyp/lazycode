@@ -1,14 +1,14 @@
 #Fat Jar Configuration File
-#Wed May 18 15:16:05 CST 2011
-onejar.license.required=true
+#Thu Jun 02 16:49:03 CST 2011
+onejar.license.required=false
 manifest.classpath=
 manifest.removesigners=true
 onejar.checkbox=false
-jarname=familycashmanager_fat.jar
+jarname=fcms7.jar
 manifest.mergeall=true
 manifest.mainclass=FamilyCashManagerSystem
 manifest.file=<createnew>
 jarname.isextern=false
 onejar.expand=
 excludes=
-includes=<inc|familycashmanager/db>
+includes=

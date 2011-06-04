@@ -5,10 +5,10 @@
 	<bean name="tabDemo" class="test.TabComponentsDemo">
 		<constructor-arg value="test"></constructor-arg>
 	</bean>
-	<bean name="dbConnection" class="cdu.computer.hxl.db.impl.DefaultDBConnectionImpl">
-	</bean>
-	<bean name="dbCURDHandler" class="cdu.computer.hxl.db.impl.DefaultDBCRUDHandler">
-	</bean>
+	<bean name="dbConnection" class="cdu.computer.hxl.db.impl.DefaultDBConnectionImpl" />
+
+	<bean name="dbCURDHandler" class="cdu.computer.hxl.db.impl.DefaultDBCRUDHandler" />
+
 	<bean name="memberService" class="cdu.computer.hxl.service.MemberService">
 		<property name="dbHandler" ref="dbCURDHandler"></property>
 	</bean>
@@ -22,5 +22,4 @@
 	<bean name="costService" class="cdu.computer.hxl.service.CostService">
 		<property name="dbHandler" ref="dbCURDHandler"></property>
 	</bean>
-
 </beans>
