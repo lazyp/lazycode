@@ -31,43 +31,8 @@ public class IncomeAllocationChartUI extends BaseJPanel {
 
 			@Override
 			protected void task() {
-
-				// DefaultPieDataset dataset = new DefaultPieDataset();
-				//
-				// Map<String, Object> data = inService.statistiIncome();
-				//
-				// Set<Map.Entry<String, Object>> dataSet = data.entrySet();
-				// Iterator<Map.Entry<String, Object>> iter =
-				// dataSet.iterator();
-				//
-				// while (iter.hasNext()) {
-				// Map.Entry<String, Object> entry = iter.next();
-				// dataset.setValue(entry.getKey(), (Double) entry.getValue());
-				// }
-				//
-				// JFreeChart chart = ChartFactory.createPieChart("收入分布图", //
-				// chart
-				// // title
-				// dataset, // data
-				// true, // include legend
-				// true, false);
-				//
-				// Font font = new Font("宋体", Font.PLAIN, 12);
-				//
-				// chart.getTitle().setFont(new Font("宋体", Font.PLAIN, 18));
-				// chart.getLegend().setItemFont(font);
-				//
-				// PiePlot plot = (PiePlot) chart.getPlot();
-				// plot.setLabelFont(font);
-				// plot.setNoDataMessage("没有数据");
-				// plot.setCircular(false);
-				// plot.setLabelGap(0.02);
-				//
-				// JPanel panel = new ChartPanel(chart);
-				// panel.setPreferredSize(new Dimension(400, 280));
 				contentPanel.removeAll();
 				addComponent(createAllocationPanel());
-
 				addComponent(createIncomeMoneyAllocationPanel());
 			}
 		}.exec();

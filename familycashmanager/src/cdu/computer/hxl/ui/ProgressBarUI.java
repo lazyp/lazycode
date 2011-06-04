@@ -9,12 +9,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import cdu.computer.hxl.util.ThreadExecutorUtils;
-
 /**
  * 进度条
  * 
- * @author Administrator
+ * @author hxl
  * 
  */
 public class ProgressBarUI {
@@ -44,7 +42,7 @@ public class ProgressBarUI {
 		progressBar = new JProgressBar();
 		lbStatus = new JLabel("" + statusInfo);
 
-		progressBar.setIndeterminate(true);
+		progressBar.setIndeterminate(true);// 设置进度条为不确定模式
 		mainPane.add(progressBar);
 		mainPane.add(lbStatus);
 

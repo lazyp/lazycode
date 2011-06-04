@@ -6,6 +6,12 @@ import java.util.Map;
 
 import cdu.computer.hxl.db.DBCRUDHandler;
 
+/**
+ * 用户操作服务类
+ * 
+ * @author hxl
+ * 
+ */
 public class MemberService {
 	private DBCRUDHandler dbHandler = null;
 
@@ -17,6 +23,7 @@ public class MemberService {
 	}
 
 	/**
+	 * 检查登录用户名和密码是否正确
 	 * 
 	 * @param uname
 	 * @param upass
