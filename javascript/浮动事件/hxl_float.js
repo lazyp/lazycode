@@ -3,6 +3,7 @@
 		*@date 2011-03-11
 		*sample：
 		*HXL.drag("id" , [[0 , 10] , [0 , 50]] , true or false)();
+		*注意：存在bug（边界未检测，当托出当前显示窗口的边界，然后拖动游览器的滚动条存在bug）
 	    */
 	   if (typeof window['HXL'] == 'undefined') 
             HXL = {};
