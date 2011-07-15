@@ -82,9 +82,10 @@
                     var reply = xhr.responseText;
                     var replyar = [];
                     replyar = eval(reply);//解析json字符串为数组对象
-                    argar.unshift(replyar);
+                  //  argar.unshift(replyar);//IE下面无法正常工作
                     if (typeof callback == 'function') {
-                        eval(callback.apply(window, argar));
+                     //   eval(callback.apply(window, argar));
+                    	eval(callback.apply(window, replyar));
                     }
                 }
             }
